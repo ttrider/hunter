@@ -26,7 +26,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Build VUE
+      - name: NPM Install
+        run: npm install
+
+      - name: NPM Build
         run: npm run build
       
       - name: S3 Deploy
