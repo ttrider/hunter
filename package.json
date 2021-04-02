@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "localforage": "^1.9.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -49,15 +50,24 @@
     },
     "extends": [
       "plugin:vue/essential",
+      "plugin:prettier/recommended",
       "eslint:recommended",
       "@vue/typescript/recommended",
       "@vue/prettier",
       "@vue/prettier/@typescript-eslint"
     ],
+    "plugins": [
+      "prettier"
+    ],
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {},
+    "rules": {
+      "prettier/prettier": "error",
+      "typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@vue/prettier/@typescript-eslint/explicit-module-boundary-types": "off"
+    },
     "overrides": [
       {
         "files": [
