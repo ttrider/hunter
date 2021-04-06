@@ -7,10 +7,28 @@
     <header class="header">
       <div class="header-menu">&#x2261;</div>
       <div class="header-title">Hunter</div>
+      <div class="header-spacer flex-spacer"></div>
+      <div class="tabs flex-spacer">
+        <div class="in-border"></div>
+        <div class="tab">home</div>
+        <div class="tab">actions</div>
+        <div class="tab">contacts</div>
+        <div class="tab">profile</div>
+        <div class="tab">other</div>
+        <div class="flex-spacer"></div>
+        <div class="out-border"></div>
+      </div>
 
-      <div class="flex-spacer"></div>
       <div>me</div>
     </header>
+
+    <footer class="footer">
+      <div class="tab">home</div>
+      <div class="tab">actions</div>
+      <div class="tab">contacts</div>
+      <div class="tab">profile</div>
+      <div class="tab">other</div>
+    </footer>
 
     <button @click="(e) => savefile()">save file</button>
     <div id="nav">
