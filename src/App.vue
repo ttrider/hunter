@@ -4,6 +4,15 @@
     @drop.prevent.stop="(e) => dropHandler(e)"
     @dragover.prevent.stop="(e) => {}"
   >
+    <header class="header">
+      <div class="header-menu">&#x2261;</div>
+      <div class="header-title">Hunter</div>
+
+      <div class="flex-spacer"></div>
+      <div>me</div>
+    </header>
+
+    <button @click="(e) => savefile()">save file</button>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -19,13 +28,16 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, Vue } from "vue-property-decorator";
-import { loadDropedFile } from "@/store/app";
+import { loadDropedFile, saveLocalFile } from "@/store/app";
 
 @Component({
   name: "App",
   components: {},
 })
 export default class App extends Vue {
+  savefile() {
+    saveLocalFile();
+  }
   async dropHandler(ev: DragEvent) {
     if (ev.dataTransfer) {
       const files: File[] = [];

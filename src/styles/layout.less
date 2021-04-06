@@ -1,0 +1,50 @@
+.header {
+  background-color: @color-primary-5;
+  color: @color-primary-1;
+  font-size: 1.8em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  box-shadow: white 0 0 1em;
+  margin-bottom: 0.5em;
+
+  .header-menu {
+    font-size: 1.1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-right: 0.25em;
+    user-select: none;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background-color: @color-primary-3;
+    }
+  }
+
+  .header-title {
+    font-weight: bold;
+  }
+}
+
+@import "./defs.less";
+
+@media (min-width: 300px) {
+  .header {
+    .header-menu {
+      background-color: red;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  .header {
+    .header-menu {
+      background-color: @color-primary-5;
+    }
+  }
+}

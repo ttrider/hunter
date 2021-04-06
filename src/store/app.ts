@@ -3,6 +3,7 @@ import { Action, getModule, Module, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
 import { Project } from "./model";
 import localforage from "localforage";
+import fileDownload from "js-file-download";
 
 const localStorage = localforage.createInstance({ name: "localFile" });
 
@@ -32,6 +33,14 @@ export async function loadDropedFile(files: File[]) {
   const data = JSON.parse(text) as Project;
 
   await store.dispatch("app/load", data);
+}
+
+export async function saveLocalFile() {
+  const data = (await localStorage.getItem("input")) as Project;
+  if (data) {
+    const text = JSON.stringify(data, null, 2);
+    fileDownload(text, "input.json");
+  }
 }
 
 @Module({ dynamic: true, store, name: "app", namespaced: true })
