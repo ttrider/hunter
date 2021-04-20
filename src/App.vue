@@ -62,19 +62,19 @@ export default class App extends Vue {
   gSuccess(googleUser: any) {
     console.log(googleUser);
     console.log(googleUser.getBasicProfile());
-    console.log(googleUser.id_token);
+    console.log(googleUser.getAuthResponse(true));
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: "us-east-1:0799a107-61fb-46be-8d7b-e3ef74f644a5",
-      Logins: {
-        "accounts.google.com": googleUser["id_token"],
-      },
-    });
+    // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    //   IdentityPoolId: "us-east-1:0799a107-61fb-46be-8d7b-e3ef74f644a5",
+    //   Logins: {
+    //     "accounts.google.com": googleUser["id_token"],
+    //   },
+    // });
 
-    // Obtain AWS credentials
-    console.info(AWS.config.credentials.accessKeyId);
-    console.info(AWS.config.credentials.secretAccessKey);
-    console.info(AWS.config.credentials.sessionToken);
+    // // Obtain AWS credentials
+    // console.info(AWS.config.credentials.accessKeyId);
+    // console.info(AWS.config.credentials.secretAccessKey);
+    // console.info(AWS.config.credentials.sessionToken);
 
     // Amplify.configure({})
 
