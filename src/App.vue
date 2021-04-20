@@ -28,6 +28,7 @@
         >Login</GoogleLogin
       >
       <GoogleLogin :params="gParams" :logoutButton="true">Logout</GoogleLogin>
+      <div>{{ userName }}</div>
     </header>
 
     <footer class="footer">
@@ -59,22 +60,34 @@ import AWS from "aws-sdk";
   components: { GoogleLogin },
 })
 export default class App extends Vue {
+  userName = "<none>";
+
   gSuccess(googleUser: any) {
-    console.log(googleUser);
-    console.log(googleUser.getBasicProfile());
-    console.log(googleUser.getAuthResponse(true));
+    const profile = googleUser.getBasicProfile();
 
-    // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    //   IdentityPoolId: "us-east-1:0799a107-61fb-46be-8d7b-e3ef74f644a5",
-    //   Logins: {
-    //     "accounts.google.com": googleUser["id_token"],
-    //   },
-    // });
+    console.info(profile.getId());
+    console.info(profile.getName());
+    console.info(profile.getGivenName());
+    console.info(profile.getFamilyName());
+    console.info(profile.getImageUrl());
+    console.info(profile.getEmail());
 
-    // // Obtain AWS credentials
-    // console.info(AWS.config.credentials.accessKeyId);
-    // console.info(AWS.config.credentials.secretAccessKey);
-    // console.info(AWS.config.credentials.sessionToken);
+    this.userName = profile.getName();
+
+    const auth = googleUser.getAuthResponse(true);
+    const id_token = auth.id_token;
+    console.info(profile.getEmail(id_token));
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: "us-east-1:0799a107-61fb-46be-8d7b-e3ef74f644a5",
+      Logins: {
+        "accounts.google.com": googleUser[id_token],
+      },
+    });
+
+    console.info(AWS.config.credentials.accessKeyId);
+    console.info(AWS.config.credentials.secretAccessKey);
+    console.info(AWS.config.credentials.sessionToken);
 
     // Amplify.configure({})
 
