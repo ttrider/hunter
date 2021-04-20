@@ -32,6 +32,12 @@
     font-weight: bold;
     font-size: 1.8em;
     margin-right: 0.5em;
+
+    text-decoration: none;
+    cursor: pointer;
+    &:visited {
+      color: unset;
+    }
   }
 
   .tabs {
@@ -46,6 +52,23 @@
       margin-right: 0.5em;
       padding-bottom: 1em;
       align-self: flex-end;
+      padding-top: 0.4em;
+      padding-bottom: 0.4em;
+
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+
+      color: @color-light;
+      font-size: 1.2em;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:visited {
+        color: unset;
+      }
     }
 
     .in-border {
@@ -82,6 +105,24 @@
   border-top: 1px solid @color-primary-5;
   box-shadow: @color-light 0 0 1em;
   background-color: @color-light;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+
+  .tab {
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    font-size: 1.1em;
+    color: @color-dark;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:visited {
+      color: unset;
+    }
+  }
 }
 
 @import "./defs.less";

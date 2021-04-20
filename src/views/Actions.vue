@@ -1,5 +1,5 @@
 <template>
-  <div class="home">profile</div>
+  <div class="home">home</div>
 </template>
 
 <script lang="ts">
