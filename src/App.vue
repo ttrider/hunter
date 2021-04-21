@@ -105,16 +105,31 @@ export default class App extends Vue {
       }
     );
 
-    credentials.refresh((err) => {
-      console.info("credentials refresh:");
-      console.info(err);
-    });
+    // credentials.refresh((err) => {
+    //   console.info("credentials refresh:");
+    //   console.info(err);
+    // });
 
     credentials.get((err) => {
       console.info("credentials get:");
       console.info(err);
 
       console.info(JSON.stringify(credentials, null, 2));
+
+      const lambda = new AWS.Lambda(credentials);
+
+      lambda.invoke(
+        {
+          FunctionName: "arn:aws:lambda:us-east-1:648003386938:function:hunter",
+          Payload: {
+            foo: "bar",
+            bar: "foo",
+          },
+        },
+        (err, data) => {
+          console.info(JSON.stringify(data, null, 2));
+        }
+      );
     });
 
     // console.info(AWS.config.credentials.accessKeyId);
