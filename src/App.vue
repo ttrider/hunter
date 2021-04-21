@@ -93,16 +93,33 @@ export default class App extends Vue {
     const id_token = auth.id_token;
     console.info(profile.getEmail(id_token));
 
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: "us-east-1:0799a107-61fb-46be-8d7b-e3ef74f644a5",
-      Logins: {
-        "accounts.google.com": id_token,
+    const credentials = new AWS.CognitoIdentityCredentials(
+      {
+        IdentityPoolId: "us-east-1:0799a107-61fb-46be-8d7b-e3ef74f644a5",
+        Logins: {
+          "accounts.google.com": id_token,
+        },
       },
+      {
+        region: "us-east-1",
+      }
+    );
+
+    credentials.refresh((err) => {
+      console.info("credentials refresh:");
+      console.info(err);
     });
 
-    console.info(AWS.config.credentials.accessKeyId);
-    console.info(AWS.config.credentials.secretAccessKey);
-    console.info(AWS.config.credentials.sessionToken);
+    credentials.get((err) => {
+      console.info("credentials get:");
+      console.info(err);
+
+      console.info(JSON.stringify(credentials, null, 2));
+    });
+
+    // console.info(AWS.config.credentials.accessKeyId);
+    // console.info(AWS.config.credentials.secretAccessKey);
+    // console.info(AWS.config.credentials.sessionToken);
 
     // Amplify.configure({})
 
