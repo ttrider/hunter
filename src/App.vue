@@ -115,7 +115,10 @@ export default class App extends Vue {
       if (err) {
         console.error(err);
       } else {
-        const lambda = new AWS.Lambda(credentials);
+        const lambda = new AWS.Lambda({
+          credentials: credentials,
+          region: "us-east-1",
+        });
 
         lambda.invoke(
           {
