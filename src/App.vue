@@ -121,10 +121,10 @@ export default class App extends Vue {
           {
             FunctionName:
               "arn:aws:lambda:us-east-1:648003386938:function:hunter",
-            Payload: {
+            Payload: JSON.stringify({
               foo: "bar",
               bar: "foo",
-            },
+            }),
           },
           (err, data) => {
             console.info("lambda response");
