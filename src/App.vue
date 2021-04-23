@@ -91,6 +91,7 @@ export default class App extends Vue {
 
     const auth = googleUser.getAuthResponse(true);
     const id_token = auth.id_token;
+    console.info(id_token);
     console.info(profile.getEmail(id_token));
 
     const credentials = new AWS.CognitoIdentityCredentials(
@@ -125,8 +126,8 @@ export default class App extends Vue {
             FunctionName:
               "arn:aws:lambda:us-east-1:648003386938:function:hunter",
             Payload: JSON.stringify({
-              foo: "bar",
-              bar: "foo",
+              auth: { google: id_token },
+              actions: [{ command: "GET" }],
             }),
           },
           (err, data) => {
