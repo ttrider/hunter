@@ -1,12 +1,16 @@
 <template>
   <div
     id="app"
-    @drop.prevent.stop="(e) => dropHandler(e)"
-    @dragover.prevent.stop="(e) => {}"
+    @drop.prevent="(e) => dropHandler(e)"
+    @dragover.prevent="(e) => {}"
   >
-    <header class="header">
+    <header
+      class="header"
+      @drop.prevent="(e) => dropHandler(e)"
+      @dragover.prevent="(e) => {}"
+    >
       <div class="header-menu">&#x2261;</div>
-      <router-link to="/" class="header-title">Hunter</router-link>
+      <router-link to="/" class="header-title">Hunter - 2</router-link>
       <div class="header-spacer flex-spacer"></div>
       <div class="tabs flex-spacer">
         <div to="/" class="in-border"></div>
@@ -48,6 +52,7 @@
 </style>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, Vue } from "vue-property-decorator";
 import { loadDropedFile, saveLocalFile } from "@/store/app";

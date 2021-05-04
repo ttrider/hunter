@@ -1,0 +1,102 @@
+scalar Date
+scalar Duration
+
+scalar ContactID
+
+scalar Url
+
+enum CompanyStatus {
+    bookmarked
+    active
+    declined
+}
+
+enum CommunicationType {
+    phonescreen
+    informational
+
+}
+
+enum ContactRole {
+    recruiter
+}
+
+enum ActionItemType {
+    email
+}
+
+enum ActionItemStatus {
+    scheduled
+    completed
+}
+
+enum PositionStatus {
+    informational
+    applied
+    declined
+    rejected
+}
+
+type ActionItem {       
+    type: ActionItemType
+    description: String!
+    status: ActionItemStatus
+
+}
+
+type Comminication {
+    type: CommunicationType
+    date: Date
+    duration: Duration
+    actualDuration: Duration
+    contacts: [ContactID!]
+    notes: String
+    outcomes: [String!]
+    initiator: String
+    reference: [String!]
+
+}
+
+type Company {
+    name: String!
+    status: CompanyStatus
+    contacts: [Contact]
+    actionItems: [ActionItem!]
+
+    careerSite: WebSite
+
+    comminication: [Comminication!]
+
+
+
+}
+
+type Contact {
+    id: ID
+    firstName: String!
+    lastName: String
+    alias: String
+    email: [String!]
+    phone: [String!]
+    role: ContactRole
+}
+
+type Position {
+    id: ID
+    name: String!
+    url: Url!
+    status: PositionStatus
+}
+
+type WebSite {
+    url: Url!
+    federation: String
+    userName: String
+    hint: String
+}
+
+
+
+
+
+
