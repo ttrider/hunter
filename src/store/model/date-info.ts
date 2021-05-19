@@ -1,14 +1,21 @@
 /* eslint-disable prettier/prettier */
 import { AppModule } from "../app";
+import { Duration } from "./duration";
 
 export class DateInfo {
     date?: Date;
-    constructor(date?: Date | string) {
+    constructor(date?: Date | string | number) {
         if (typeof date === "string") {
+            this.date = new Date(date);
+        } else if (typeof date === "number") {
             this.date = new Date(date);
         } else if (date) {
             this.date = date;
         }
+    }
+
+    get value() {
+        return (this.date?.valueOf()) ?? 0;
     }
 
     get ready() {
@@ -52,7 +59,7 @@ export class DateInfo {
                 }
                 return `${days} days`;
             }
-            return "${hours} hours and ${minutes} minutes"
+            return `${hours} hours and ${minutes} minutes`;
         }
         return "";
     }
@@ -63,6 +70,11 @@ export class DateInfo {
             return Math.floor((this.date.valueOf() - AppModule.currentDate.valueOf()) / 1000 / 60);
         }
         return 0;
+    }
+
+
+    addDuration(duration: Duration) {
+        return new DateInfo(this.value + duration.value);
     }
 }
 

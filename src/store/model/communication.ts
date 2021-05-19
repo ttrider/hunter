@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { CommunicationInfo, CommunicationType, Company } from ".";
+import { CommunicationInfo, CommunicationType, Company, Where } from ".";
 import { DateInfo } from "./date-info";
 import { Duration } from "./duration";
 
@@ -15,6 +15,8 @@ export class Communication {
     contactIds: string[];
     notes?: string;
     positionIds?: string[];
+
+    where: Where<Communication>[];
 
     constructor(company: Company, item: CommunicationInfo) {
         this.company = company;
@@ -31,6 +33,7 @@ export class Communication {
         }
         this.contactIds = [...item.contacts ?? []];
         this.positionIds = [...item.positions ?? []];
+        this.where = Where.initializeArray(this, item.where);
     }
 
     get contacts() {
@@ -44,7 +47,7 @@ export class Communication {
     get id() {
         return [
             this.company.name,
-            (this.date ? this.date.valueOf() : 0),
+            (this.date ? this.date.value : 0),
             (this.duration ? this.duration.minutes : 0)
         ].join("-");
     }

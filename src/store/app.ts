@@ -80,6 +80,29 @@ class App extends VuexModule implements AppState {
     );
   }
 
+  get upcomingInterviews() {
+    const ret = [];
+
+    for (const companyId in this.session.companies) {
+      if (
+        Object.prototype.hasOwnProperty.call(this.session.companies, companyId)
+      ) {
+        const company = this.session.companies[companyId];
+        ret.push(
+          ...company.interviews.filter((item) => !item.dateRange.end.isInPast)
+        );
+      }
+    }
+    //return ret;
+    return ret.sort((a, b) =>
+      a.dateRange.start.diffMinutes < b.dateRange.end.diffMinutes ? -1 : 1
+    );
+  }
+
+  get companies() {
+    return this.session.companies;
+  }
+
   @Mutation updateSession(sessionInfo: SessionInfo) {
     const session = Session.initialize(sessionInfo);
     Vue.set(this, "session", session);

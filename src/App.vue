@@ -15,6 +15,7 @@
       <div class="tabs flex-spacer">
         <div to="/" class="in-border"></div>
         <router-link to="/" class="tab">home</router-link>
+        <router-link to="/companies" class="tab">companies</router-link>
         <router-link to="/actions" class="tab">actions</router-link>
         <router-link to="/contacts" class="tab">contacts</router-link>
         <router-link to="/profile" class="tab">profile</router-link>

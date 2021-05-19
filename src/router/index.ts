@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import Actions from "../views/Actions.vue";
 import Contacts from "../views/Contacts.vue";
 import Profile from "../views/Profile.vue";
+import Companies from "../views/Companies.vue";
+import Company from "../views/Company.vue";
 
 Vue.use(VueRouter);
 
@@ -17,6 +19,16 @@ const routes: Array<RouteConfig> = [
     path: "/actions",
     name: "Actions",
     component: Actions,
+  },
+  {
+    path: "/companies",
+    name: "Companies",
+    component: Companies,
+  },
+  {
+    path: "/companies/:id",
+    name: "Company",
+    component: Company,
   },
   {
     path: "/contacts",

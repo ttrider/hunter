@@ -10,6 +10,8 @@ export class Contact {
     linkedIn?: string;
     alias?: string;
     role: ContactRole;
+    title?: string;
+    notes?: string;
 
     constructor(company: Company, item: ContactInfo) {
         this.company = company;
@@ -20,6 +22,8 @@ export class Contact {
         this.linkedIn = item.linkedIn;
         this.alias = item.alias;
         this.role = item.role ?? "none";
+        this.title = item.title;
+        this.notes = item.notes;
     }
 
     get displayName() {

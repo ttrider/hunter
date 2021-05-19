@@ -3,6 +3,10 @@
 export class Duration {
     constructor(public minutes: number) { }
 
+    get value() {
+        return this.minutes * 60 * 1000;
+    }
+
     static parse(value?: string | number) {
         if (value == undefined) {
             return new Duration(0);

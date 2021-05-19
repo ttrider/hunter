@@ -1,0 +1,55 @@
+.tt-grid {
+  border-radius: @card-corner-radius;
+  display: grid;
+  margin-left: @card-margin;
+  margin-right: @card-margin;
+  box-shadow: 0 0 0.3rem 1px @color-primary-5;
+  margin-top: @card-margin;
+  background-color: @background-toolbar;
+
+  .tt-g-header {
+    display: contents;
+
+    & > div {
+      background-color: @background-toolbar;
+      position: sticky;
+      top: @header-height;
+      font-size: 1.2em;
+      font-weight: bold;
+      padding: @card-corner-radius;
+    }
+
+    & :first-child {
+      border-top-left-radius: @card-corner-radius;
+    }
+    & :last-child {
+      border-top-right-radius: @card-corner-radius;
+    }
+  }
+
+  .tt-g-row {
+    display: contents;
+
+    & > div {
+      background: @color-light;
+      font-size: 1.2rem;
+      padding: @card-corner-radius;
+    }
+
+    & :first-child {
+      font-size: 1.4rem;
+    }
+    & :last-child {
+    }
+  }
+
+  .tt-g-footer {
+    border-bottom-left-radius: @card-corner-radius;
+    border-bottom-right-radius: @card-corner-radius;
+    min-height: @card-corner-radius;
+    height: @card-corner-radius;
+    background: @color-light;
+  }
+}
+
+@import "./defs.less";

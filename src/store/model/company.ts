@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Communication, CompanyInfo, CompanyStatus, Contact, ItemSet, Position, WebSiteInfo } from ".";
 import { ActionItem } from "./action-item";
+import { Interview } from "./interview";
 import { WebSite } from "./website";
 
 export class Company {
@@ -8,6 +9,7 @@ export class Company {
     status: CompanyStatus;
     contacts: ItemSet<Contact>;
     communications: Communication[];
+    interviews: Interview[];
     actionItems: ActionItem[];
     careerSite?: WebSiteInfo;
     positions: ItemSet<Position>;
@@ -24,6 +26,7 @@ export class Company {
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);
         this.communications = Communication.initializeArray(this, item.communications);
         this.positions = Position.initializeSet(this, item.positions);
+        this.interviews = Interview.initializeArray(this, item.interviews);
     }
 
 

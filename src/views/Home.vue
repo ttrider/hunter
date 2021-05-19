@@ -1,23 +1,28 @@
 <template>
   <div class="view">
+    <div>Upcoming Meetings</div>
     <div class="apptList">
       <div v-for="c in upcomingMeetings" :key="c.id" class="apptCard">
-        <div class="apptDates">
-          <div v-if="c.date.ready" style="font-weight: bold; font-size: 1.1em">
-            {{ c.date.displayDate }}
-          </div>
-          <div v-if="c.date.ready">in {{ c.date.displayRemaining }}</div>
-          <div v-if="c.date.ready" style="font-size: 1.1em">
-            {{ c.date.displayTime }}
-          </div>
-          <div v-if="c.duration">duration: {{ c.duration.toString() }}</div>
+        <When :date="c.date" :duration="c.duration" />
+      </div>
+    </div>
+    <div>Upcoming Interviews</div>
+    <div class="apptList">
+      <div v-for="(i, index) in upcomingInterviews" :key="index">
+        <hr />
+        <div>{{ i.company.name }}</div>
+        <div>{{ i.company.status }}</div>
+        <div>{{ i.dateRange.start.displayDate }}</div>
+        <div>positions</div>
+        <div v-for="p in i.positions" :key="p.id">
+          <div>[{{ p.id }}] - {{ p.name }}</div>
         </div>
-        <div class="apptInfo">
+        <div>steps</div>
+        <div v-for="s in i.steps" :key="s.id" class="apptCard">
+          <When :date="s.startDate" :duration="s.duration" />
           <div>
-            {{ c.company.name }}
-          </div>
-          <div v-for="contact in c.contacts" :key="contact.id">
-            {{ contact.displayName }}
+            <div>{{ s.contact.displayName }}</div>
+            <Where v-for="w in s.where" :key="w.id" :item="w" />
           </div>
         </div>
       </div>
@@ -46,13 +51,19 @@
 <script lang="ts">
 import { AppModule } from "@/store/app";
 import { Component, Vue } from "vue-property-decorator";
+import Where from "@/components/Where.vue";
+import When from "@/components/When.vue";
 
 @Component({
-  components: {},
+  components: { Where, When },
 })
 export default class Home extends Vue {
   get upcomingMeetings() {
     return AppModule.upcomingMeetings;
+  }
+
+  get upcomingInterviews() {
+    return AppModule.upcomingInterviews;
   }
 }
 </script>

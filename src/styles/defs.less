@@ -1,9 +1,9 @@
 // Supratimas color scheme
-@color-primary-0: #91C1E6;
-@color-primary-1: #E7F3FD;
-@color-primary-2: #BCDBF3;
-@color-primary-3: #6CA8D6;
-@color-primary-4: #4B8FC3;
+@color-primary-0: #91c1e6;
+@color-primary-1: #e7f3fd;
+@color-primary-2: #bcdbf3;
+@color-primary-3: #6ca8d6;
+@color-primary-4: #4b8fc3;
 
 // Serenity color Scheme
 // @color-primary-0: #FFD39F;	/* Main Primary color */
@@ -31,19 +31,21 @@
 @color-alt2-3: spin(@color-primary-3, 200%);
 @color-alt2-4: spin(@color-primary-4, 200%);
 @color-alt2-5: spin(@color-primary-5, 200%);
+
+
 @color-light: lighten(@color-primary-1, 4.7%);
 @color-gray: #808080;
 @color-dark: darken(@color-primary-4, 30%);
 @color-warning: spin(@color-primary-0, 20%);
 @color-attention: spin(@color-primary-4, 150%);
+
+@body-background: desaturate(@color-primary-2, 50%);
+
 @actionbarColor: desaturate(@color-primary-3, 50%);
 @color-background-light: lighten(@color-primary-1, 4%);
 
 @header-height: 7em;
 @footer-height: 1.6em;
-
-
-
 
 @border-color: @color-primary-5;
 @border-light-color: lighten(desaturate(@color-primary-5, 40%), 50%);
@@ -54,3 +56,11 @@
 @background-even: lighten(@color-primary-1, 4.7%);
 @background-hover: darken(@color-primary-1, 1.5%);
 @background-light: lighten(@color-primary-1, 4%);
+
+// header metrics
+@header-height: 3rem;
+@header-margin-bottom: 0.5rem;
+
+@card-border-width: 0.15rem;
+@card-corner-radius: 0.5rem;
+@card-margin: 0.75rem;
