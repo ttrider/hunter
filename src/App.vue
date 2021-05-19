@@ -10,7 +10,7 @@
       @dragover.prevent="(e) => {}"
     >
       <div class="header-menu">&#x2261;</div>
-      <router-link to="/" class="header-title">Hunter - 2</router-link>
+      <router-link to="/" class="header-title">Hunter - 5/19</router-link>
       <div class="header-spacer flex-spacer"></div>
       <div class="tabs flex-spacer">
         <div to="/" class="in-border"></div>
