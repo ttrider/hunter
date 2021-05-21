@@ -1,46 +1,33 @@
 /* eslint-disable prettier/prettier */
-import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where } from ".";
-import { DateInfo } from "./date-info";
-import { Duration } from "./duration";
+import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, Event } from ".";
+import { When } from "./when";
 
 
-export class InterviewStep {
+export class InterviewStep implements Event<InterviewStep>{
 
     readonly id: string;
     interview: Interview;
     contactInfo: string;
-    startDate: DateInfo;
-    duration: Duration;
     notes?: string;
     where: Where<InterviewStep>[];
-
+    when: When;
 
     constructor(interview: Interview, item: InterviewStepInfo) {
         this.interview = interview;
         this.contactInfo = item.contact;
-
-        this.startDate = new DateInfo(item.date);
-        this.duration = Duration.parse(item.duration);
         this.notes = item.notes;
 
         this.where = Where.initializeArray(this, item.where);
+        this.when = new When(item.date, item.duration);
 
         this.id = [
             this.interview.company.name,
-            (this.startDate ? this.startDate.value : 0),
-            (this.duration ? this.duration.minutes : 0)
+            this.when.id
         ].join("-");
     }
-
-    get endDate() {
-        return this.startDate.addDuration(this.duration);
-    }
-
     get contact() {
         return this.interview.company.getContacts([this.contactInfo])[0];
     }
-
-
 }
 
 export class Interview {
@@ -68,37 +55,27 @@ export class Interview {
         return this.interviewSteps.sort((a, b) => a.id < b.id ? -1 : 1);
     }
 
+    get upcomingSteps() {
+        return this
+            .interviewSteps
+            .filter(s => !s.when.isInPast)
+            .sort((a, b) => a.id < b.id ? -1 : 1);
+    }
+
     get id() {
         return this.steps.map(s => s.id).join("+");
     }
 
-    get dateRange() {
+
+    get when() {
 
         if (this.steps.length === 0) {
-            return {
-                start: new DateInfo(),
-                end: new DateInfo()
-            }
+            return new When();
         }
 
-        let start = this.steps[0].startDate;
-        let end = this.steps[0].endDate;
-
-        for (let index = 1; index < this.steps.length; index++) {
-            const step = this.steps[index];
-
-            if (start.value > step.startDate.value) {
-                start = step.startDate;
-            }
-            if (end.value < step.endDate.value) {
-                end = step.endDate;
-            }
-        }
-
-        return {
-            start, end
-        }
-
+        return When.merge(
+            this.steps.map(s => s.when)
+        );
     }
 
     static initialize(company: Company, info: InterviewInfo) {

@@ -7,6 +7,11 @@ export class Duration {
         return this.minutes * 60 * 1000;
     }
 
+    static fromValue(value: number) {
+        const minutes = value / 1000 / 60;
+        return new Duration(minutes);
+    }
+
     static parse(value?: string | number) {
         if (value == undefined) {
             return new Duration(0);

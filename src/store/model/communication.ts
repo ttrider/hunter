@@ -1,38 +1,26 @@
 /* eslint-disable prettier/prettier */
 
-import { CommunicationInfo, CommunicationType, Company, Where } from ".";
-import { DateInfo } from "./date-info";
-import { Duration } from "./duration";
+import { CommunicationInfo, CommunicationType, Company, Where, Event } from ".";
+import { When } from "./when";
 
-export class Communication {
+export class Communication implements Event<Communication>{
 
     company: Company;
-
     type: CommunicationType;
-    date: DateInfo;
-    duration?: Duration;
-    actualDuraction?: Duration;
     contactIds: string[];
     notes?: string;
     positionIds?: string[];
 
+    when: When;
     where: Where<Communication>[];
 
     constructor(company: Company, item: CommunicationInfo) {
         this.company = company;
         this.type = item.type ?? "none";
         this.notes = item.notes ?? "";
-
-        this.date = new DateInfo(item.date);
-
-        if (item.duration) {
-            this.duration = Duration.parse(item.duration);
-        }
-        if (item.actualDuraction) {
-            this.actualDuraction = Duration.parse(item.actualDuraction);
-        }
         this.contactIds = [...item.contacts ?? []];
         this.positionIds = [...item.positions ?? []];
+        this.when = new When(item.date, item.duration);
         this.where = Where.initializeArray(this, item.where);
     }
 
@@ -47,8 +35,7 @@ export class Communication {
     get id() {
         return [
             this.company.name,
-            (this.date ? this.date.value : 0),
-            (this.duration ? this.duration.minutes : 0)
+            this.when.id
         ].join("-");
     }
 

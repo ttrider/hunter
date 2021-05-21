@@ -6,10 +6,12 @@ import {
   VuexModule,
 } from "vuex-module-decorators";
 import store from "@/store";
-import { Session, SessionInfo } from "./model";
+import { Communication, Session, SessionInfo } from "./model";
 import localforage from "localforage";
 import fileDownload from "js-file-download";
 import Vue from "vue";
+import { Interview } from "./model/interview";
+import { When } from "./model/when";
 
 const localStorage = localforage.createInstance({ name: "localFile" });
 
@@ -61,46 +63,47 @@ class App extends VuexModule implements AppState {
 
   currentDate: Date = new Date();
 
-  get upcomingMeetings() {
-    const ret = [];
-
-    for (const companyId in this.session.companies) {
-      if (
-        Object.prototype.hasOwnProperty.call(this.session.companies, companyId)
-      ) {
-        const company = this.session.companies[companyId];
-        ret.push(
-          //...company.communications
-          ...company.communications.filter((item) => !item.date.isInPast)
-        );
-      }
-    }
-    return ret.sort((a, b) =>
-      a.date.diffMinutes < b.date.diffMinutes ? -1 : 1
-    );
-  }
-
   get upcomingInterviews() {
-    const ret = [];
-
-    for (const companyId in this.session.companies) {
-      if (
-        Object.prototype.hasOwnProperty.call(this.session.companies, companyId)
-      ) {
-        const company = this.session.companies[companyId];
-        ret.push(
-          ...company.interviews.filter((item) => !item.dateRange.end.isInPast)
-        );
-      }
-    }
-    //return ret;
-    return ret.sort((a, b) =>
-      a.dateRange.start.diffMinutes < b.dateRange.end.diffMinutes ? -1 : 1
-    );
+    return this.activeCompanySet
+      .reduce((data, item) => {
+        data.push(...item.interviews.filter((item) => !item.when.isInPast));
+        return data;
+      }, [] as Interview[])
+      .sort((a, b) => When.compare(a.when, b.when));
   }
+
+  get upcomingMeetings() {
+    return this.activeCompanySet
+      .reduce((data, item) => {
+        data.push(...item.communications.filter((item) => !item.when.isInPast));
+        return data;
+      }, [] as Communication[])
+      .sort((a, b) => When.compare(a.when, b.when));
+  }
+
+  // get upcomingEventDates(){
+
+  //   const dates = {};
+
+  //   this.upcomingMeetings.map(m=>{
+
+  //   })
+
+  // }
 
   get companies() {
     return this.session.companies;
+  }
+
+  get activeCompanySet() {
+    return Object.values(this.session.companies)
+      .filter((c) => c.status != "none")
+      .sort((a, b) => (a.name < b.name ? -1 : 1));
+  }
+  get companySet() {
+    return Object.values(this.session.companies).sort((a, b) =>
+      a.name < b.name ? -1 : 1
+    );
   }
 
   @Mutation updateSession(sessionInfo: SessionInfo) {

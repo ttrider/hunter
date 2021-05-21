@@ -1,26 +1,29 @@
 <template>
-  <div v-if="date" class="apptDates">
-    <div v-if="date.ready" style="font-weight: bold; font-size: 1.1em">
-      {{ date.displayDate }}
+  <div v-if="when" class="apptDates">
+    <div
+      v-if="when.startDate.ready"
+      style="font-weight: bold; font-size: 1.1em"
+    >
+      {{ when.startDate.displayDate }}
     </div>
-    <div v-if="date.ready">in {{ date.displayRemaining }}</div>
-    <div v-if="date.ready" style="font-size: 1.1em">
-      {{ date.displayTime }}
+    <div v-if="when.startDate.ready">
+      in {{ when.startDate.displayRemaining }}
     </div>
-    <div v-if="duration">duration: {{ duration.toString() }}</div>
+    <div v-if="when.startDate.ready" style="font-size: 1.1em">
+      {{ when.startDate.displayTime }}
+    </div>
+    <div v-if="when.duration">duration: {{ when.duration.toString() }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { DateInfo } from "@/store/model/date-info";
-import { Duration } from "@/store/model/duration";
+import { When } from "@/store/model/when";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
   components: {},
 })
 export default class WhenComponent extends Vue {
-  @Prop() date!: DateInfo;
-  @Prop() duration?: Duration;
+  @Prop() when?: When;
 }
 </script>

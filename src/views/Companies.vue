@@ -21,8 +21,6 @@
 </template>
 
 <style lang="less">
-@import "../styles/app.less";
-
 .company-grid {
   grid-template-columns: 1fr auto;
 }

@@ -1,0 +1,107 @@
+@tile-min-width: 20rem;
+@tile-max-width: 40rem;
+
+@tile-title-height: 2.25rem;
+
+.cardspace {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  justify-content: center;
+  align-items: stretch;
+
+  .card {
+    color: @color-dark;
+    display: flex;
+    flex-direction: column;
+    min-width: @tile-min-width;
+    max-width: @tile-max-width;
+    //position: relative;
+    background-color: @color-light;
+
+    text-overflow: ellipsis;
+
+    margin: 1rem;
+    border: 1px solid @border-color;
+    border-radius: 0.25rem;
+    box-shadow: @border-color 0 0 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    // padding: 0.5em;
+    // padding: 0.5em;
+    padding-bottom: 0.5rem;
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      height: @tile-title-height;
+      position: sticky;
+      top: @header-height;
+      background-color: @color-light;
+      border-bottom: 1px solid @border-color;
+      box-sizing: border-box;
+    }
+
+    .card-top-shadow {
+      box-shadow: @color-light 0 0.25rem 0.5rem;
+    }
+
+    .card-grid {
+      display: grid;
+
+      .card-grid-header {
+        display: contents;
+
+        & > div {
+          background-color: @background-toolbar;
+          position: sticky;
+          top: @header-height + @tile-title-height;
+          font-weight: bold;
+
+          padding-top: 0.2rem;
+          padding-bottom: 0.2rem;
+          margin-bottom: 0.3rem;
+        }
+
+        & :first-child {
+          padding-left: 0.1rem;
+        }
+        & :last-child {
+          padding-right: 0.1rem;
+        }
+      }
+
+      .card-grid-row {
+        display: contents;
+        font-size: 1.1rem;
+        & > div,
+        a {
+          background: @color-light;
+        }
+
+        & :first-child {
+          padding-left: 0.25rem;
+          border-top-left-radius: 0.25rem;
+          border-bottom-left-radius: 0.25rem;
+        }
+        & :last-child {
+          padding-right: 0.25rem;
+          border-top-right-radius: 0.25rem;
+          border-bottom-right-radius: 0.25rem;
+        }
+      }
+
+      .card-grid-row:hover {
+        & > div,
+        a {
+          background: @background-hover;
+        }
+      }
+    }
+  }
+}
+
+@import "./defs.less";

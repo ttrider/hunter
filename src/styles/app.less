@@ -3,12 +3,18 @@ body {
   font-size: 0.15in;
   margin: 0;
   background-color: @body-background;
+  padding-top: @header-height;
 }
 
 .flex-spacer {
   flex-grow: 100;
 }
 
+.right-text {
+  text-align: right;
+}
+
+@import "./card.less";
 @import "./layout.less";
 @import "./grid.less";
 @import "./defs.less";

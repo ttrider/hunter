@@ -1,3 +1,6 @@
+import { InterviewStep } from "./interview";
+import { Where } from "./where";
+
 /* eslint-disable prettier/prettier */
 export * from "./action-item";
 export * from "./communication";
@@ -7,6 +10,14 @@ export * from "./position";
 export * from "./session";
 export * from "./website";
 export * from "./where";
+
+
+export interface Event<T> {
+    id: string;
+    where: Where<T>[];
+    notes?: string;
+}
+
 
 
 export declare type ItemSet<T> = { [name: string]: T };
