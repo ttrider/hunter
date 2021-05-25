@@ -2,13 +2,14 @@
 @tile-max-width: 40rem;
 
 @tile-title-height: 2.25rem;
+@tile-grid-header-height: 1.15rem;
 
 .cardspace {
   display: flex;
   flex-wrap: wrap;
   padding: 2rem;
   justify-content: center;
-  align-items: stretch;
+  align-items: flex-start;
 
   .card {
     color: @color-dark;
@@ -22,7 +23,7 @@
     text-overflow: ellipsis;
 
     margin: 1rem;
-    border: 1px solid @border-color;
+    //border: 1px solid @border-color;
     border-radius: 0.25rem;
     box-shadow: @border-color 0 0 0.25rem;
     padding-left: 0.5rem;
@@ -52,26 +53,50 @@
     .card-grid {
       display: grid;
 
+      .card-grid-header-bottom {
+        position: sticky;
+        top: 6.6rem;
+        background: #f0e3d3;
+        min-height: 0.4rem;
+        box-shadow: @color-light 0 0.25rem 0.5rem;
+        top: @header-height + @tile-title-height + @tile-grid-header-height +
+          0.2rem;
+      }
+
       .card-grid-header {
         display: contents;
 
         & > div {
-          background-color: @background-toolbar;
+          //background-color: @background-toolbar;
+          background-color: @body-background;
           position: sticky;
           top: @header-height + @tile-title-height;
           font-weight: bold;
 
+          min-height: @tile-grid-header-height;
+          max-height: @tile-grid-header-height;
+          height: @tile-grid-header-height;
+
           padding-top: 0.2rem;
-          padding-bottom: 0.2rem;
-          margin-bottom: 0.3rem;
+          min-height: @tile-grid-header-height;
+          max-height: @tile-grid-header-height;
+          height: @tile-grid-header-height;
         }
 
         & :first-child {
-          padding-left: 0.1rem;
+          padding-left: 0.25rem;
         }
         & :last-child {
-          padding-right: 0.1rem;
+          padding-right: 0.25rem;
         }
+      }
+
+      .card-grid-top-shadow {
+        position: sticky;
+        top: @header-height + @tile-title-height + @tile-grid-header-height +
+          0.4rem;
+        min-height: 0.5rem;
+        background: linear-gradient(0deg, transparent, @color-light);
       }
 
       .card-grid-row {
@@ -82,12 +107,12 @@
           background: @color-light;
         }
 
-        & :first-child {
+        & > :first-child {
           padding-left: 0.25rem;
           border-top-left-radius: 0.25rem;
           border-bottom-left-radius: 0.25rem;
         }
-        & :last-child {
+        & > :last-child {
           padding-right: 0.25rem;
           border-top-right-radius: 0.25rem;
           border-bottom-right-radius: 0.25rem;

@@ -11,6 +11,7 @@ export class Contact {
     alias?: string;
     role: ContactRole;
     title?: string;
+    companyName?: string;
     notes?: string;
 
     constructor(company: Company, item: ContactInfo) {
@@ -23,6 +24,7 @@ export class Contact {
         this.alias = item.alias;
         this.role = item.role ?? "none";
         this.title = item.title;
+        this.companyName = item.company;
         this.notes = item.notes;
     }
 

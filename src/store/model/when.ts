@@ -22,6 +22,10 @@ export class When {
         return this.endDate.isInPast;
     }
 
+    get isNow() {
+        return (!this.startDate.isInPast) && (this.endDate.isInPast);
+    }
+
     static merge(...items: (When | When[])[]) {
 
         const itemSet = items.reduce<When[]>((data, item) => {

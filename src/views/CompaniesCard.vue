@@ -3,13 +3,10 @@
     <div class="card-title">Active Companies</div>
     <div class="card-grid companies-grid">
       <span class="card-grid-header">
-        <div class="card-top-shadow">
-          <div>company</div>
-        </div>
-        <div class="card-top-shadow">
-          <div class="right-text">status</div>
-        </div>
+        <div>company</div>
+        <div class="right-text">status</div>
       </span>
+      <div class="testest-overshadow card-grid-header-bottom"></div>
       <span class="card-grid-row" v-for="c in companies" :key="c.name">
         <PathLink :path="`companies/${c.name}`"> {{ c.name }}</PathLink>
         <PathLink class="right-text" :path="`companies/${c.name}`">
@@ -21,8 +18,14 @@
 </template>
 
 <style lang="less">
+@import "../styles/defs.less";
+
 .companies-grid {
   grid-template-columns: 1fr auto;
+}
+
+.testest-overshadow {
+  grid-column: 1 / span 2;
 }
 </style>
 

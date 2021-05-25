@@ -6,12 +6,13 @@ import {
   VuexModule,
 } from "vuex-module-decorators";
 import store from "@/store";
-import { Communication, Session, SessionInfo } from "./model";
+import { CalendarEvent, Communication, Session, SessionInfo } from "./model";
 import localforage from "localforage";
 import fileDownload from "js-file-download";
 import Vue from "vue";
 import { Interview } from "./model/interview";
 import { When } from "./model/when";
+import { DateInfo } from "./model/date-info";
 
 const localStorage = localforage.createInstance({ name: "localFile" });
 
@@ -81,15 +82,100 @@ class App extends VuexModule implements AppState {
       .sort((a, b) => When.compare(a.when, b.when));
   }
 
-  // get upcomingEventDates(){
+  get eventDates() {
+    const events: CalendarEvent[] = [];
 
-  //   const dates = {};
+    for (const company of this.activeCompanySet) {
+      events.push(...company.communications);
+      for (const interview of company.interviews) {
+        events.push(...interview.steps);
+      }
+    }
 
-  //   this.upcomingMeetings.map(m=>{
+    events.sort((a, b) =>
+      a.when.startDate.value < b.when.startDate.value ? -1 : 1
+    );
 
-  //   })
+    const dates: { [name: string]: CalendarEvent[] } = {};
 
-  // }
+    for (const event of events) {
+      const dateKey = event.when.startDate.displayDate;
+
+      let dateItem = dates[dateKey];
+      if (!dateItem) {
+        dateItem = dates[dateKey] = [];
+      }
+      dateItem.push(event);
+    }
+
+    const ret: {
+      date: DateInfo;
+      events: CalendarEvent[];
+    }[] = [];
+
+    for (const key in dates) {
+      if (Object.prototype.hasOwnProperty.call(dates, key)) {
+        const events = dates[key];
+
+        const hasUpcomingEvent = events.find((e) => !e.when.isInPast);
+
+        if (events.length > 0 && hasUpcomingEvent) {
+          ret.push({
+            date: events[0].when.startDate,
+            events,
+          });
+        }
+      }
+    }
+
+    return ret;
+  }
+
+  get upcomingEventDates() {
+    const dates: { [name: string]: CalendarEvent[] } = {};
+
+    for (const meeting of this.upcomingMeetings) {
+      const dateKey = meeting.when.startDate.displayDate;
+
+      let dateItem = dates[dateKey];
+      if (!dateItem) {
+        dateItem = dates[dateKey] = [];
+      }
+      dateItem.push(meeting);
+    }
+
+    for (const interview of this.upcomingInterviews) {
+      for (const interviewStep of interview.steps) {
+        const dateKey = interviewStep.when.startDate.displayDate;
+
+        let dateItem = dates[dateKey];
+        if (!dateItem) {
+          dateItem = dates[dateKey] = [];
+        }
+        dateItem.push(interviewStep);
+      }
+    }
+
+    const ret: {
+      date: DateInfo;
+      events: CalendarEvent[];
+    }[] = [];
+
+    for (const key in dates) {
+      if (Object.prototype.hasOwnProperty.call(dates, key)) {
+        const events = dates[key];
+
+        ret.push({
+          date: new DateInfo(parseInt(key)),
+          events: events.sort((a, b) =>
+            a.when.startDate.value < b.when.startDate.value ? -1 : 1
+          ),
+        });
+      }
+    }
+
+    return ret.sort((a, b) => (a.date.value < b.date.value ? -1 : 1));
+  }
 
   get companies() {
     return this.session.companies;
@@ -97,7 +183,7 @@ class App extends VuexModule implements AppState {
 
   get activeCompanySet() {
     return Object.values(this.session.companies)
-      .filter((c) => c.status != "none")
+      .filter((c) => c.active)
       .sort((a, b) => (a.name < b.name ? -1 : 1));
   }
   get companySet() {

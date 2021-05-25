@@ -30,7 +30,7 @@ export class DateInfo {
         return (this.date?.toLocaleDateString()) ?? "";
     }
     get displayTime() {
-        return (this.date?.toLocaleTimeString()) ?? "";
+        return ((this.date?.toLocaleTimeString()) ?? "").replace(/:\d\d\s/, "").toLowerCase();
     }
     get displayWeekday() {
         return this.date ? enWeekDayNames[this.date.getDay()] : "";
@@ -40,13 +40,13 @@ export class DateInfo {
         if (this.diffMinutes) {
 
             if (this.diffMinutes < 0) {
-                return "Now";
+                return "now";
             }
 
             let minutes = this.diffMinutes;
 
             if (minutes < 60) {
-                return `${minutes} minutes`;
+                return `in ${minutes} minutes`;
             }
 
             const hours = Math.floor(minutes / 60);
@@ -57,9 +57,9 @@ export class DateInfo {
                 if (days < 2) {
                     return "Tomorrow";
                 }
-                return `${days} days`;
+                return `in ${days} days`;
             }
-            return `${hours} hours and ${minutes} minutes`;
+            return `in ${hours} hours and ${minutes} minutes`;
         }
         return "";
     }

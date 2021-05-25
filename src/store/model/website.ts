@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { ItemSet, WebSiteInfo } from ".";
+import { WebSiteInfo } from ".";
 
 export class WebSite {
 

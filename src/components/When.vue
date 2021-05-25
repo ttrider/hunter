@@ -1,20 +1,27 @@
 <template>
-  <div v-if="when" class="apptDates">
+  <div v-if="when">
     <div
-      v-if="when.startDate.ready"
+      v-if="shouldDisplayDate"
+      class="when-info"
       style="font-weight: bold; font-size: 1.1em"
     >
       {{ when.startDate.displayDate }}
     </div>
-    <div v-if="when.startDate.ready">
-      in {{ when.startDate.displayRemaining }}
-    </div>
-    <div v-if="when.startDate.ready" style="font-size: 1.1em">
+    <div class="when-info" v-html="displayRemaining"></div>
+    <div class="when-info" v-if="when.startDate.ready">
       {{ when.startDate.displayTime }}
     </div>
-    <div v-if="when.duration">duration: {{ when.duration.toString() }}</div>
+    <div class="when-info" v-if="when.duration">
+      duration: {{ when.duration.toString() }}
+    </div>
   </div>
 </template>
+
+<style lang="less">
+.when-info {
+  white-space: nowrap;
+}
+</style>
 
 <script lang="ts">
 import { When } from "@/store/model/when";
@@ -25,5 +32,28 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 })
 export default class WhenComponent extends Vue {
   @Prop() when?: When;
+
+  @Prop({ required: false, default: true }) showDate?: boolean;
+
+  get shouldDisplayDate() {
+    if (this.showDate === undefined) {
+      this.showDate = true;
+    }
+
+    return this.when?.startDate.ready && this.showDate;
+  }
+
+  get displayRemaining() {
+    if (this.when) {
+      if (this.when.isNow) {
+        return "now";
+      }
+      if (this.when?.isInPast) {
+        return "completed";
+      }
+      return this.when?.startDate.displayRemaining;
+    }
+    return "";
+  }
 }
 </script>

@@ -5,7 +5,9 @@ import { Interview } from "./interview";
 import { WebSite } from "./website";
 
 export class Company {
+    id: string;
     name: string;
+    active: boolean;
     status: CompanyStatus;
     contacts: ItemSet<Contact>;
     communications: Communication[];
@@ -15,13 +17,14 @@ export class Company {
     positions: ItemSet<Position>;
 
     constructor(item: CompanyInfo) {
+        this.id = item.name;
         this.name = item.name;
         this.status = item.status ?? "none";
 
         if (this.careerSite) {
             this.careerSite = WebSite.initialize(this.careerSite);
         }
-
+        this.active = item.active ?? false;
         this.contacts = Contact.initializeSet(this, item.contacts);
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);
         this.communications = Communication.initializeArray(this, item.communications);

@@ -1,4 +1,7 @@
-import { InterviewStep } from "./interview";
+import { Company } from "./company";
+import { Contact } from "./contact";
+import { Position } from "./position";
+import { When } from "./when";
 import { Where } from "./where";
 
 /* eslint-disable prettier/prettier */
@@ -12,13 +15,27 @@ export * from "./website";
 export * from "./where";
 
 
-export interface Event<T> {
+export interface CalendarEventWhere {
     id: string;
-    where: Where<T>[];
-    notes?: string;
+    meetingId?: string;
+    meetingPassword?: string;
+    phone: string[];
+    url: string;
+    federation?: string;
+    userName?: string;
+    hint?: string;
 }
 
+export interface CalendarEvent {
 
+    company: Company;
+    id: string
+    notes?: string;
+    when: When;
+    where: CalendarEventWhere;
+    contacts: Contact[];
+    positions: Position[];
+}
 
 export declare type ItemSet<T> = { [name: string]: T };
 
@@ -26,11 +43,21 @@ export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
 }
 
-export declare type CompanyStatus = "active" | "declined" | "interest" | "none";
+export declare type CompanyStatus =
+    "applied" | // applied for position. Waiting to start an engagement
+    "informational" | // pre-interview talks with recruiter/manager/etc
+    "interview" | // interviews
+    "negotiations" | // interview was successful - negotiationg the offer
+    "offer" | // get an offer - concidering
+    "nooffer" | // failed interview
+    "accepted" | // success - end of the engagement
+    "rejected" |  // i rejected an offer - end of the engagement
+    "declined" | // i decided not to continue - end of the engagement
+    "none";
 
 export interface CompanyInfo {
     name: string;
-
+    active?: boolean;
     status?: CompanyStatus;
 
     contacts?: ItemSet<ContactInfo>;
@@ -56,7 +83,7 @@ export interface InterviewInfo {
 
 export interface InterviewStepInfo {
 
-    contact: string;
+    contacts: string[];
     date: string;
     duration: string;
     notes?: string;
@@ -74,6 +101,7 @@ export interface ContactInfo {
     alias?: string;
     role?: ContactRole;
     title?: string;
+    company?: string;
     notes?: string;
 }
 

@@ -1,20 +1,20 @@
 /* eslint-disable prettier/prettier */
-import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, Event } from ".";
+import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, CalendarEvent } from ".";
 import { When } from "./when";
 
 
-export class InterviewStep implements Event<InterviewStep>{
+export class InterviewStep implements CalendarEvent {
 
     readonly id: string;
     interview: Interview;
-    contactInfo: string;
+    contactIds: string[];
     notes?: string;
     where: Where<InterviewStep>[];
     when: When;
 
     constructor(interview: Interview, item: InterviewStepInfo) {
         this.interview = interview;
-        this.contactInfo = item.contact;
+        this.contactIds = [...item.contacts ?? []];
         this.notes = item.notes;
 
         this.where = Where.initializeArray(this, item.where);
@@ -25,8 +25,16 @@ export class InterviewStep implements Event<InterviewStep>{
             this.when.id
         ].join("-");
     }
-    get contact() {
-        return this.interview.company.getContacts([this.contactInfo])[0];
+    get contacts() {
+        return this.interview.company.getContacts(this.contactIds);
+    }
+
+    get positions() {
+        return this.interview.positions;
+    }
+
+    get company() {
+        return this.interview.company;
     }
 }
 

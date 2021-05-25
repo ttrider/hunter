@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 
-import { CommunicationInfo, CommunicationType, Company, Where, Event } from ".";
+import { CommunicationInfo, CommunicationType, Company, Where, CalendarEvent, CalendarEventWhere } from ".";
 import { When } from "./when";
 
-export class Communication implements Event<Communication>{
+export class Communication implements CalendarEvent {
 
+    id: string;
     company: Company;
     type: CommunicationType;
     contactIds: string[];
@@ -12,7 +13,8 @@ export class Communication implements Event<Communication>{
     positionIds?: string[];
 
     when: When;
-    where: Where<Communication>[];
+    //where: Where<Communication>[];
+    where: CalendarEventWhere;
 
     constructor(company: Company, item: CommunicationInfo) {
         this.company = company;
@@ -22,6 +24,10 @@ export class Communication implements Event<Communication>{
         this.positionIds = [...item.positions ?? []];
         this.when = new When(item.date, item.duration);
         this.where = Where.initializeArray(this, item.where);
+        this.id = [
+            this.company.name,
+            this.when.id
+        ].join("-");
     }
 
     get contacts() {
@@ -30,13 +36,6 @@ export class Communication implements Event<Communication>{
 
     get positions() {
         return this.company.getPositions(this.positionIds);
-    }
-
-    get id() {
-        return [
-            this.company.name,
-            this.when.id
-        ].join("-");
     }
 
     static initialize(company: Company, info: CommunicationInfo) {
