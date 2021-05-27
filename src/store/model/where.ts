@@ -2,23 +2,22 @@
 import { CalendarEventWhere, WhereInfo } from ".";
 
 
-export class Where<TParent> implements CalendarEventWhere {
-    readonly id: string;
+export class Where implements CalendarEventWhere {
+    
+    id: string;
     url: string;
     federation?: string;
     userName?: string;
     hint?: string;
-    parent: TParent;
     meetingId?: string;
     meetingPassword?: string;
     phone: string[];
 
-    constructor(parent: TParent, item: WhereInfo) {
+    constructor(item: WhereInfo) {
         this.url = item.url;
         this.federation = item.federation;
         this.userName = item.userName;
         this.hint = item.hint;
-        this.parent = parent;
         this.meetingId = item.meetingId;
         this.meetingPassword = item.meetingPassword;
         this.phone = item.phone ?? [];
@@ -32,8 +31,8 @@ export class Where<TParent> implements CalendarEventWhere {
     //     return item;
     // }
 
-    static initializeArray<TParent>(parent: TParent, items?: WhereInfo[]) {
-        return (items ?? []).map(item => new Where(parent, item));
+    static initializeArray(items?: WhereInfo[]) {
+        return (items ?? []).map(item => new Where(item));
     }
 
     update(item: Partial<WhereInfo>) {

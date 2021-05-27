@@ -2,7 +2,6 @@ import { Company } from "./company";
 import { Contact } from "./contact";
 import { Position } from "./position";
 import { When } from "./when";
-import { Where } from "./where";
 
 /* eslint-disable prettier/prettier */
 export * from "./action-item";
@@ -32,7 +31,7 @@ export interface CalendarEvent {
     id: string
     notes?: string;
     when: When;
-    where: CalendarEventWhere;
+    where: CalendarEventWhere[];
     contacts: Contact[];
     positions: Position[];
 }
@@ -142,7 +141,7 @@ export interface WhereInfo extends WebSiteInfo {
     phone?: string[];
 }
 
-export declare type PositionStatus = "interest" | "informational" | "applied" | "declined" | "rejected";
+export declare type PositionStatus = "applied" | "rejected" | "interview" | "withdraw" | "none";
 
 export interface PositionInfo {
     id: string;

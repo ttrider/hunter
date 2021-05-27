@@ -1,6 +1,7 @@
 <template>
-  <div v-if="item" class="where">
-    <PathLink class="where-url" :path="item.url">{{ item.url }}</PathLink>
+  <div v-if="item" class="where text-light">
+    <div>Link:</div>
+    <PathLink :path="item.url">{{ item.url }}</PathLink>
     <div v-if="item.meetingId">Meeting Id:</div>
     <div v-if="item.meetingId">{{ item.meetingId }}</div>
     <div v-if="item.meetingPassword">Meeting Password:</div>
@@ -21,17 +22,29 @@
 </template>
 
 <style lang="less">
+@import "../styles/defs.less";
+
 .where {
   display: grid;
   grid-template-columns: auto 1fr;
+  padding: 0.75em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  background: white;
+  border: 1px solid @color-border-light;
+  border-radius: 1em;
+  font-size: 0.8em;
 
   & > :nth-child(2n) {
-    padding-right: 1em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 45ch;
+    white-space: nowrap;
   }
 
   & > :nth-child(2n + 1) {
-    text-overflow: ellipsis;
-    overflow: hidden;
+    padding-right: 1em;
+    font-weight: bold;
   }
 
   .where-url {
@@ -49,6 +62,6 @@ import PathLink from "@/vue-tt/PathLink.vue";
   components: { PathLink },
 })
 export default class WhereComponent extends Vue {
-  @Prop() item!: Where<unknown>;
+  @Prop() item!: Where;
 }
 </script>

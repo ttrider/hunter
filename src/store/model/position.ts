@@ -15,7 +15,12 @@ export class Position {
         this.id = item.id;
         this.name = item.name ?? item.id;
         this.url = item.url;
-        this.status = item.status ?? "interest";
+        this.status = item.status ?? "none";
+    }
+
+    get active() {
+        return
+        this.status === "applied" || this.status === "interview";
     }
 
     static initialize(company: Company, info: PositionInfo) {

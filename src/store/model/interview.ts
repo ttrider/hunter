@@ -9,7 +9,7 @@ export class InterviewStep implements CalendarEvent {
     interview: Interview;
     contactIds: string[];
     notes?: string;
-    where: Where<InterviewStep>[];
+    where: Where[];
     when: When;
 
     constructor(interview: Interview, item: InterviewStepInfo) {
@@ -17,7 +17,7 @@ export class InterviewStep implements CalendarEvent {
         this.contactIds = [...item.contacts ?? []];
         this.notes = item.notes;
 
-        this.where = Where.initializeArray(this, item.where);
+        this.where = Where.initializeArray(item.where);
         this.when = new When(item.date, item.duration);
 
         this.id = [

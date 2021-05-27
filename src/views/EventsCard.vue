@@ -1,12 +1,6 @@
 <template>
-  <div class="card">
+  <div class="card" style="0.9em;">
     <div class="card-title">Upcoming Events</div>
-    <!-- <div v-for="di in dates" :key="di.date.value">
-      <div>{{ di.date.displayDate }}</div>
-      <div v-for="de in di.events" :key="de.id">
-        <When :when="de.when" />
-      </div>
-    </div> -->
     <div class="card-grid events-grid">
       <template v-for="di in dates">
         <span class="card-grid-header" :key="di.date.value + 'header'">
@@ -26,36 +20,30 @@
           <When
             :when="de.when"
             :showDate="false"
-            style="font-size: 0.8em; padding-right: 0.5em"
+            style="padding-right: 0.5em; padding-top: 0.15em"
+            class="t3 text-light"
           />
           <div>
-            <PathLink
-              style="font-size: 1.1em"
-              :path="`companies/${de.company.name}`"
-            >
+            <PathLink class="t1" :path="`companies/${de.company.name}`">
               {{ de.company.name }}</PathLink
             >
             <div
               v-for="contact in de.contacts"
               :key="de.id + '|' + contact.displayName"
             >
-              {{ contact.displayName }}
+              <div class="t2">{{ contact.displayName }}</div>
+              <div class="t3 text-light">{{ contact.title }}</div>
             </div>
             <Where
               v-for="w in de.where"
               :key="de.id + '|' + w.id"
               :item="w"
-              style="font-size: 0.8em"
+              class="t3"
             />
-            <div v-if="de.notes" style="font-size: 0.8em; margin-top: 0.5em">
+            <div v-if="de.notes" class="t3">
               {{ de.notes }}
             </div>
           </div>
-          <!-- <PathLink :path="`companies/${c.name}`"> {{ c.name }}</PathLink>
-          <PathLink class="right-text" :path="`companies/${c.name}`">
-            {{ c.status }}</PathLink
-          > -->
-
           <div
             v-if="deindex < di.events.length - 1"
             class="events-date-header events-event-separator"
@@ -70,8 +58,19 @@
 <style lang="less">
 @import "../styles/defs.less";
 
+// .event-where {
+//   color: darken(@color-0-5, 10%);
+//   font-size: 0.8em;
+// }
+
+// .event-notes {
+//   color: darken(@color-0-5, 10%);
+//   font-size: 0.8em;
+//   margin-top: 0.5em;
+// }
+
 .events-grid {
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 16ch auto;
 }
 
 .events-date-header {
@@ -81,7 +80,7 @@
 .events-event-separator {
   margin-top: 0.25rem;
   padding-bottom: 0.25rem;
-  border-top: 1px solid @border-color;
+  border-top: 1px solid @color-border;
   border-radius: 0;
 }
 

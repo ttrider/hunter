@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { CommunicationInfo, CommunicationType, Company, Where, CalendarEvent, CalendarEventWhere } from ".";
+import { CommunicationInfo, CommunicationType, Company, Where, CalendarEvent } from ".";
 import { When } from "./when";
 
 export class Communication implements CalendarEvent {
@@ -13,8 +13,7 @@ export class Communication implements CalendarEvent {
     positionIds?: string[];
 
     when: When;
-    //where: Where<Communication>[];
-    where: CalendarEventWhere;
+    where: Where[];
 
     constructor(company: Company, item: CommunicationInfo) {
         this.company = company;
@@ -23,7 +22,7 @@ export class Communication implements CalendarEvent {
         this.contactIds = [...item.contacts ?? []];
         this.positionIds = [...item.positions ?? []];
         this.when = new When(item.date, item.duration);
-        this.where = Where.initializeArray(this, item.where);
+        this.where = Where.initializeArray(item.where);
         this.id = [
             this.company.name,
             this.when.id

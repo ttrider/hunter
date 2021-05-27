@@ -1,79 +1,74 @@
-// Supratimas color scheme
-// @color-primary-0: #91c1e6;
-// @color-primary-1: #e7f3fd;
-// @color-primary-2: #bcdbf3;
-// @color-primary-3: #6ca8d6;
-// @color-primary-4: #4b8fc3;
+@import "./palette.less";
 
-// Yellow set
-// @color-primary-0: #e6d291;
-// @color-primary-1: #fdf8e7;
-// @color-primary-2: #f3e6bc;
-// @color-primary-3: #d6bd6c;
-// @color-primary-4: #c3a74b;
+@base-color-0: @base-color;
+@base-color-1: lighten(@base-color, 14%);
+@base-color-2: lighten(@base-color, 7%);
+@base-color-3: desaturate(lighten(@base-color, -8%), 20%);
+@base-color-4: desaturate(lighten(@base-color, -24%), 20%);
+@base-color-5: desaturate(lighten(@base-color, -44%), 20%);
 
-// // Green set
-// @color-primary-0: #97e691;
-// @color-primary-1: #e8fde7;
-// @color-primary-2: #c0f3bc;
-// @color-primary-3: #73d66c;
-// @color-primary-4: #53c34b;
+@color-0-0: @base-color-0;
+@color-0-1: @base-color-1;
+@color-0-2: @base-color-2;
+@color-0-3: @base-color-3;
+@color-0-4: @base-color-4;
+@color-0-5: @base-color-5;
 
-// Serenity color Scheme
-@color-primary-0: #FFD39F;	/* Main Primary color */
-@color-primary-1: #FFF3E6;
-@color-primary-2: #FFE4C4;
-@color-primary-3: #FCC17A;
-@color-primary-4: #D6964B;
+@color-1-0: spin(@base-color-0, @base-color-1-spin);
+@color-1-1: spin(@base-color-1, @base-color-1-spin);
+@color-1-2: spin(@base-color-2, @base-color-1-spin);
+@color-1-3: spin(@base-color-3, @base-color-1-spin);
+@color-1-4: spin(@base-color-4, @base-color-1-spin);
+@color-1-5: spin(@base-color-5, @base-color-1-spin);
 
-@color-primary-5: darken(@color-primary-4, 20%);
-@color-alt3-0: spin(@color-primary-0, 150%);
-@color-alt3-1: spin(@color-primary-1, 150%);
-@color-alt3-2: spin(@color-primary-2, 150%);
-@color-alt3-3: spin(@color-primary-3, 150%);
-@color-alt3-4: spin(@color-primary-4, 150%);
-@color-alt3-5: spin(@color-primary-5, 150%);
-@color-alt-0: spin(@color-primary-0, 270%);
-@color-alt-1: spin(@color-primary-1, 270%);
-@color-alt-2: spin(@color-primary-2, 270%);
-@color-alt-3: spin(@color-primary-3, 270%);
-@color-alt-4: spin(@color-primary-4, 270%);
-@color-alt-5: spin(@color-primary-5, 270%);
-@color-alt2-0: spin(@color-primary-0, 200%);
-@color-alt2-1: spin(@color-primary-1, 200%);
-@color-alt2-2: spin(@color-primary-2, 200%);
-@color-alt2-3: spin(@color-primary-3, 200%);
-@color-alt2-4: spin(@color-primary-4, 200%);
-@color-alt2-5: spin(@color-primary-5, 200%);
+@color-2-0: spin(@base-color-0, @base-color-2-spin);
+@color-2-1: spin(@base-color-1, @base-color-2-spin);
+@color-2-2: spin(@base-color-2, @base-color-2-spin);
+@color-2-3: spin(@base-color-3, @base-color-2-spin);
+@color-2-4: spin(@base-color-4, @base-color-2-spin);
+@color-2-5: spin(@base-color-5, @base-color-2-spin);
 
-@color-light: lighten(@color-primary-1, 4.7%);
+@color-3-0: spin(@base-color-0, @base-color-3-spin);
+@color-3-1: spin(@base-color-1, @base-color-3-spin);
+@color-3-2: spin(@base-color-2, @base-color-3-spin);
+@color-3-3: spin(@base-color-3, @base-color-3-spin);
+@color-3-4: spin(@base-color-4, @base-color-3-spin);
+@color-3-5: spin(@base-color-5, @base-color-3-spin);
+
+
+
+@color-light: lighten(@color-0-1, 4.7%);
 @color-gray: #808080;
-@color-dark: darken(@color-primary-4, 30%);
-@color-warning: spin(@color-primary-0, 20%);
-@color-attention: spin(@color-primary-4, 150%);
+@color-dark: darken(@color-0-4, 45%);
 
-@body-background: desaturate(@color-primary-2, 50%);
+@color-text: @color-dark;
+@color-text-light: fade(@color-dark, 80%);
 
-@actionbarColor: desaturate(@color-primary-3, 50%);
-@color-background-light: lighten(@color-primary-1, 4%);
+@color-warning: yellow;
+@color-attention: red;
 
+@color-back-body: desaturate(lighten(@color-0-1, 1%), 50%);
+
+
+@color-border: @color-0-5;
+@color-border-light: lighten(desaturate(@color-0-5, 40%), 50%);
+
+@color-back-toolbar: lighten(@color-0-1, 3%);
+@color-back-header: @color-0-1;
+@color-back-odd: lighten(@color-0-1, 2.5%);
+@color-back-even: lighten(@color-0-1, 4.7%);
+@color-back-hover: lighten(@color-0-1, 3.7%);
+@color-back-light: lighten(@color-0-1, 4%);
+
+// header metrics
 @header-height: 7em;
 @footer-height: 1.6em;
 
-@border-color: @color-primary-5;
-@border-light-color: lighten(desaturate(@color-primary-5, 40%), 50%);
-
-@background-toolbar: lighten(@color-primary-1, 3%);
-@background-header: @color-primary-1;
-@background-odd: lighten(@color-primary-1, 2.5%);
-@background-even: lighten(@color-primary-1, 4.7%);
-@background-hover: darken(@color-primary-1, 1.5%);
-@background-light: lighten(@color-primary-1, 4%);
-
-// header metrics
 @header-height: 3rem;
 @header-margin-bottom: 0.5rem;
 
 @card-border-width: 0.15rem;
 @card-corner-radius: 0.5rem;
 @card-margin: 0.75rem;
+
+@max-content-width: 60rem;

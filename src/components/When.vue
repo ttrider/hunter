@@ -11,8 +11,11 @@
     <div class="when-info" v-if="when.startDate.ready">
       {{ when.startDate.displayTime }}
     </div>
+    <div class="when-info" v-if="when.endDate.ready">
+      {{ when.endDate.displayTime }}
+    </div>
     <div class="when-info" v-if="when.duration">
-      duration: {{ when.duration.toString() }}
+      [{{ when.duration.toString() }}]
     </div>
   </div>
 </template>

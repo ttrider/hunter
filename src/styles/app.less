@@ -2,7 +2,7 @@ body {
   font-family: SourceSansPro, Arial, sans-serif;
   font-size: 0.15in;
   margin: 0;
-  background-color: @body-background;
+  background-color: @color-back-body;
   padding-top: @header-height;
 }
 
@@ -12,6 +12,32 @@ body {
 
 .right-text {
   text-align: right;
+}
+
+.centered-content {
+  max-width: @max-content-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.t1 {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.t2 {
+  font-size: 1.1em;
+  font-weight: normal;
+}
+.t3 {
+  font-size: 0.9em;
+  font-weight: normal;
+}
+
+.text-dark {
+  color: @color-text;
+}
+.text-light {
+  color: @color-text-light;
 }
 
 @import "./card.less";

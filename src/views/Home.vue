@@ -1,7 +1,7 @@
 <template>
   <div class="view cardspace">
-    <EventsCard />
-    <CompaniesCard />
+    <EventsCard class="card-g2" />
+    <CompaniesCard class="card-g1" />
   </div>
 </template>
 

@@ -1,0 +1,300 @@
+body {
+  font-family: SourceSansPro, Arial, sans-serif;
+  font-size: 0.15in;
+  margin: 0;
+  background-color: hsl(32, 50%, 96%);
+  padding-top: 3rem;
+}
+.flex-spacer {
+  flex-grow: 100;
+}
+.right-text {
+  text-align: right;
+}
+.centered-content {
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.t1 {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.t2 {
+  font-size: 1.1em;
+  font-weight: normal;
+}
+.t3 {
+  font-size: 0.9em;
+  font-weight: normal;
+}
+.text-dark {
+  color: hsl(32, 80%, 12%);
+}
+.text-light {
+  color: hsla(32, 80%, 12%, 0.8);
+}
+.cardspace {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cardspace .card-g3 {
+  flex-grow: 3;
+}
+.cardspace .card-g2 {
+  flex-grow: 2;
+}
+.cardspace .card-g1 {
+  flex-grow: 1;
+}
+.cardspace .card {
+  color: hsl(32, 80%, 12%);
+  display: flex;
+  flex-direction: column;
+  min-width: 20rem;
+  max-width: 60rem;
+  background-color: hsl(32, 100%, 99.7%);
+  text-overflow: ellipsis;
+  margin: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: hsl(32, 80%, 37%) 0 0 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.cardspace .card .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  height: 2.25rem;
+  position: sticky;
+  top: 3rem;
+  background-color: hsl(32, 100%, 99.7%);
+  border-bottom: 1px solid hsl(32, 80%, 37%);
+  box-sizing: border-box;
+}
+.cardspace .card .card-top-shadow {
+  box-shadow: hsl(32, 100%, 99.7%) 0 0.25rem 0.5rem;
+}
+.cardspace .card .card-grid {
+  display: grid;
+}
+.cardspace .card .card-grid .card-grid-header-bottom {
+  position: sticky;
+  top: 6.6rem;
+  background: hsl(32, 100%, 95%);
+  min-height: 0.4rem;
+  box-shadow: hsl(32, 100%, 99.7%) 0 0.25rem 0.5rem;
+  top: 6.6rem;
+}
+.cardspace .card .card-grid .card-grid-header {
+  display: contents;
+}
+.cardspace .card .card-grid .card-grid-header > div {
+  background-color: hsl(32, 100%, 95%);
+  position: sticky;
+  top: 5.25rem;
+  font-weight: bold;
+  padding-top: 0.2rem;
+  min-height: 1.15rem;
+  max-height: 1.15rem;
+  height: 1.15rem;
+}
+.cardspace .card .card-grid .card-grid-header :first-child {
+  padding-left: 0.25rem;
+}
+.cardspace .card .card-grid .card-grid-header :last-child {
+  padding-right: 0.25rem;
+}
+.cardspace .card .card-grid .card-grid-top-shadow {
+  position: sticky;
+  top: 6.8rem;
+  min-height: 0.5rem;
+  background: linear-gradient(0deg, transparent, hsl(32, 100%, 99.7%));
+}
+.cardspace .card .card-grid .card-grid-row {
+  display: contents;
+  font-size: 1.1rem;
+}
+.cardspace .card .card-grid .card-grid-row > div,
+.cardspace .card .card-grid .card-grid-row a {
+  background: hsl(32, 100%, 99.7%);
+}
+.cardspace .card .card-grid .card-grid-row > :first-child {
+  padding-left: 0.25rem;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+.cardspace .card .card-grid .card-grid-row > :last-child {
+  padding-right: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+.cardspace .card .card-grid .card-grid-row:hover > div,
+.cardspace .card .card-grid .card-grid-row:hover a {
+  background: hsl(32, 100%, 98.7%);
+}
+.header {
+  background-color: hsl(32, 80%, 37%);
+  color: hsl(32, 100%, 95%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  height: 3rem;
+}
+.header .header-menu {
+  font-size: 1.9em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  margin-right: 0.25em;
+  user-select: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+.header .header-menu:hover {
+  background-color: hsl(32, 80%, 73%);
+}
+.header .header-title {
+  font-weight: bold;
+  font-size: 1.8em;
+  margin-right: 0.5em;
+  text-decoration: none;
+  cursor: pointer;
+}
+.header .header-title:visited {
+  color: unset;
+}
+.header .tabs {
+  display: flex;
+  background-color: hsl(32, 80%, 45%);
+  min-height: 100%;
+}
+.header .tabs .tab {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-bottom: 1em;
+  align-self: flex-end;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  color: hsl(32, 100%, 99.7%);
+  font-size: 1.2em;
+}
+.header .tabs .tab:hover {
+  text-decoration: underline;
+}
+.header .tabs .tab:visited {
+  color: unset;
+}
+.header .tabs .in-border {
+  min-width: 1em;
+  max-width: 1em;
+  width: 1em;
+  background: linear-gradient(to left, hsl(32, 80%, 45%), hsl(32, 80%, 37%));
+}
+.header .tabs .out-border {
+  min-width: 1em;
+  max-width: 1em;
+  width: 1em;
+  background: linear-gradient(to left, hsl(32, 80%, 37%), hsl(32, 80%, 45%));
+}
+.footer {
+  display: none;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid hsl(32, 80%, 37%);
+  box-shadow: hsl(32, 100%, 99.7%) 0 0 1em;
+  background-color: hsl(32, 100%, 99.7%);
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+}
+.footer .tab {
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  font-size: 1.1em;
+  color: hsl(32, 80%, 12%);
+}
+.footer .tab:hover {
+  text-decoration: underline;
+}
+.footer .tab:visited {
+  color: unset;
+}
+@media (min-width: 300px) {
+  .header .header-menu {
+    background-color: red;
+  }
+  .header .tabs {
+    display: none;
+  }
+  .header .header-spacer {
+    display: block;
+    flex-grow: 10;
+  }
+  .footer {
+    display: flex;
+  }
+}
+@media (min-width: 600px) {
+  .header .header-menu {
+    background-color: hsl(32, 80%, 37%);
+  }
+  .header .tabs {
+    display: flex;
+  }
+  .header .header-spacer {
+    display: none;
+  }
+  .footer {
+    display: none;
+  }
+}
+.tt-grid {
+  display: grid;
+  background-color: hsl(32, 100%, 98%);
+}
+.tt-grid .tt-g-header {
+  display: contents;
+}
+.tt-grid .tt-g-header > div {
+  background-color: hsl(32, 100%, 98%);
+  position: sticky;
+  top: 3rem;
+  font-weight: bold;
+}
+.tt-grid .tt-g-row {
+  display: contents;
+}
+.tt-grid .tt-g-row > div {
+  background: hsl(32, 100%, 99.7%);
+}
+.tt-grid .tt-g-row :first-child {
+  font-size: 1.4rem;
+}
+.tt-grid .tt-g-footer {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  min-height: 0.5rem;
+  height: 0.5rem;
+  background: hsl(32, 100%, 99.7%);
+}
