@@ -92,6 +92,7 @@ export interface InterviewStepInfo {
 export declare type ContactRole = "recruiter" | "none";
 
 export interface ContactInfo {
+    id?: string;
     firstName?: string;
     lastName?: string;
     email?: string[];

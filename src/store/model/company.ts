@@ -17,7 +17,7 @@ export class Company {
     positions: ItemSet<Position>;
 
     constructor(item: CompanyInfo) {
-        this.id = item.name;
+        this.id = item.name.toLowerCase();
         this.name = item.name;
         this.status = item.status ?? "none";
 

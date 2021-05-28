@@ -1,5 +1,6 @@
 <template>
   <div class="view cardspace">
+    <RecordCard class="card-g3" />
     <EventsCard class="card-g2" />
     <CompaniesCard class="card-g1" />
   </div>
@@ -14,9 +15,10 @@ import Where from "@/components/Where.vue";
 import When from "@/components/When.vue";
 import CompaniesCard from "@/views/CompaniesCard.vue";
 import EventsCard from "@/views/EventsCard.vue";
+import RecordCard from "@/views/RecordCard.vue";
 
 @Component({
-  components: { Where, When, CompaniesCard, EventsCard },
+  components: { Where, When, CompaniesCard, EventsCard, RecordCard },
 })
 export default class Home extends Vue {
   get upcomingMeetings() {
