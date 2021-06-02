@@ -12,6 +12,22 @@ export class Duration {
         return new Duration(minutes);
     }
 
+    static fromDateRange(start: Date | number, end?: Date | number) {
+
+        if (!end) {
+            end = new Date();
+        }
+        if (typeof start !== "number") {
+            start = start.valueOf();
+        }
+        if (typeof end !== "number") {
+            end = end.valueOf();
+        }
+        const value = Math.abs(end - start);
+        const minutes = value / 1000 / 60;
+        return new Duration(minutes);
+    }
+
     static parse(value?: string | number) {
         if (value == undefined) {
             return new Duration(0);

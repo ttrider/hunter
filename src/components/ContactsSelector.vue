@@ -1,12 +1,15 @@
 <template>
   <Selector
+    class="selector"
+    multiple
     label="name"
     :options="options"
     :value="current"
     @input="(e) => updateValue(e)"
-    :placeholder="'Select a contact'"
+    :placeholder="'Select contacts'"
+    v-if="company"
   >
-    <template #header><div class="selector-header">Contact:</div></template>
+    <template #header><div class="selector-header">Contacts:</div></template>
     <template #option="{ name, contact }">
       {{ name }}
       <br />
@@ -26,14 +29,14 @@ import { Company, Contact } from "@/store/model";
 })
 export default class ContactSelector extends Vue {
   @ModelSync("value", "input", {
-    type: String,
+    type: Array,
     required: false,
   })
-  valueObject!: string;
+  valueObject!: string[];
 
   @Prop({ required: false }) companyId?: "";
   @Watch("companyId") companyPropChanged(newVal?: Company) {
-    this.valueObject = "";
+    this.valueObject = [];
   }
   get company() {
     if (!this.companyId) {
@@ -46,9 +49,11 @@ export default class ContactSelector extends Vue {
     if (!this.company) {
       return null;
     }
-    const val = this.company.contacts[this.valueObject ?? ""] ?? null;
 
-    return this.adapter(val);
+    const vvv = this.valueObject
+      .map((v) => this.company?.contacts[v] ?? null)
+      .map((v) => this.adapter(v));
+    return vvv;
   }
 
   get options() {
@@ -59,9 +64,12 @@ export default class ContactSelector extends Vue {
     return values.map((i) => this.adapter(i));
   }
 
-  updateValue(newVal?: { id: string }) {
+  updateValue(newVal?: { id: string }[]) {
     console.info(newVal);
-    this.valueObject = newVal ? newVal.id : "";
+
+    this.valueObject = newVal?.map((v) => v.id) ?? [];
+
+    //this.valueObject = newVal ? newVal.id : "";
   }
 
   adapter(contact?: Contact | null) {

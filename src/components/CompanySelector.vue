@@ -1,18 +1,20 @@
 <template>
   <Selector
+    class="selector"
     label="name"
     :options="options"
     :value="current"
-    @input="(e) => updateCurrent(e)"
+    @input="(e) => (valueObject = e ? (e.id ? e.id : null) : null)"
     :placeholder="'Select a company'"
-  />
+  >
+    <template #header><div class="selector-header">Company:</div></template>
+  </Selector>
 </template>
 <script lang="ts">
-import { Component, ModelSync, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, ModelSync, Vue } from "vue-property-decorator";
 import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { AppModule } from "@/store/app";
-import { Company } from "@/store/model";
 
 @Component({
   components: { Selector },
@@ -30,10 +32,6 @@ export default class CompanySelector extends Vue {
 
   get current() {
     return AppModule.companies[this.valueObject] ?? null;
-  }
-  updateCurrent(newVal?: Company) {
-    console.info(newVal);
-    this.valueObject = newVal ? newVal.id : "";
   }
 }
 </script>

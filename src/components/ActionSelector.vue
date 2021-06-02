@@ -1,5 +1,6 @@
 <template>
   <Selector
+    class="selector action-selector"
     label="name"
     :options="options"
     :value="current"
@@ -8,6 +9,9 @@
     :placeholder="'What do you want to do?'"
   />
 </template>
+
+<style lang="less"></style>
+
 <script lang="ts">
 import { Component, ModelSync, Vue } from "vue-property-decorator";
 import Selector from "vue-select";

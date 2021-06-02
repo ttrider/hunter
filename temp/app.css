@@ -298,3 +298,175 @@ body {
   height: 0.5rem;
   background: hsl(32, 100%, 99.7%);
 }
+.form-actions {
+  padding-top: 0.5rem;
+  width: 30em;
+  font-size: 1.1rem;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: auto 2fr;
+}
+.form-grid :nth-child(2n + 1) {
+  align-self: center;
+  font-size: 0.9em;
+  padding-right: 0.5em;
+  font-weight: bold;
+}
+.form-grid :nth-child(2n) {
+  align-self: center;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+.form-section {
+  display: flex;
+  flex-direction: column;
+}
+.form-section :nth-child(2n + 1) {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.form-section :nth-child(2n) {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+.form-section > hr {
+  border-bottom: 1px solid hsl(32, 80%, 37%);
+}
+.form-input {
+  border: 1px solid #3c3c3c42;
+  padding: 0.4em;
+  border-radius: 0.25em;
+  font-family: SourceSansPro, Arial, sans-serif;
+  appearance: none;
+  font-size: 1em;
+  outline: none;
+  background: none;
+  box-shadow: none;
+  max-width: 100%;
+  flex-grow: 1;
+  z-index: 1;
+}
+.action-selector {
+  font-size: 1.1em;
+}
+.action-selector .vs__selected {
+  font-weight: bold;
+}
+.selector .vs__search::placeholder {
+  color: gray;
+}
+.selector-dateinput {
+  font-size: 0.9em;
+  border: 1px solid #3c3c3c42;
+  padding: 0.5em;
+  border-radius: 0.25em;
+}
+.selector-datepart {
+  width: 10ch;
+}
+.selector-footer {
+  padding-top: 0.25em;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.selector-datetime {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.selector-datetime .selector-range {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.selector-datetime .when-selector-ampm {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8em;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+.selector-datetime .when-selector-ampm div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 0.25em;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+.selector-datetime .when-selector-ampm div input {
+  margin: 0;
+  padding: 0;
+}
+.selector-datetime .when-selector-ampm div label {
+  line-height: 0.9;
+  padding-bottom: 0.1em;
+  padding-left: 0.15em;
+}
+.selector-datetime .selector-timeinput {
+  display: flex;
+  margin-left: 1em;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.selector-datetime .selector-timeinput > div:first-child {
+  padding-right: 0.5em;
+  font-weight: bold;
+  font-size: 0.9em;
+  min-width: 5ch;
+  text-align: right;
+}
+.selector-datetime .selector-timeinput > span {
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: 0 0.25em;
+}
+.entry-box {
+  padding-left: 1em;
+}
+.entry-box .selector {
+  margin-top: 0.5em;
+}
+.entry-box .selector .selector-header {
+  font-weight: bold;
+}
+.form-buttons-panel {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+}
+.form-buttons-panel .button {
+  font-size: 0.9em;
+  padding: 0.5em;
+  cursor: pointer;
+  margin-left: 0.5em;
+  min-width: 10ch;
+  background: hsl(32, 100%, 99.7%);
+  color: hsl(32, 80%, 37%);
+  border: 1px solid hsl(32, 80%, 37%);
+  border-radius: 1em;
+  box-sizing: border-box;
+}
+.form-buttons-panel .button:focus-visible {
+  border: 2px solid hsl(32, 80%, 12%);
+  outline: none;
+}
+.form-buttons-panel .button:disabled {
+  border: 1px solid #808080;
+  color: #808080;
+  cursor: auto;
+}
+.form-buttons-panel .button:disabled:hover {
+  border: 1px solid #808080;
+  color: #808080;
+  cursor: auto;
+  background: hsl(32, 100%, 99.7%);
+}
+.form-buttons-panel .button:hover {
+  background: hsl(32, 100%, 95%);
+  color: hsl(32, 80%, 37%);
+}

@@ -4,6 +4,9 @@
       <div class="card-title">
         {{ instance.name }}
       </div>
+      <div class="form-actions">
+        <CompanyEditor :value="instance" />
+      </div>
     </div>
 
     <div class="card card-g3">
@@ -84,9 +87,10 @@ import { Contact, Position, PositionStatus } from "@/store/model";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
 import PathLink from "../vue-tt/PathLink.vue";
+import CompanyEditor from "@/components/CompanyEditor.vue";
 
 @Component({
-  components: { PathLink },
+  components: { PathLink, CompanyEditor },
 })
 export default class CompanyView extends Vue {
   id = "";

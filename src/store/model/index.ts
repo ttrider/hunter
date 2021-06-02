@@ -55,6 +55,7 @@ export declare type CompanyStatus =
     "none";
 
 export interface CompanyInfo {
+    id?: string;
     name: string;
     active?: boolean;
     status?: CompanyStatus;

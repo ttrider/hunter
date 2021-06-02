@@ -1,18 +1,20 @@
 <template>
-  <div class="card record-card">
+  <div class="card form-actions">
     <ActionSelector v-model="mode" />
-    <div v-if="mode === 'add-company'" class="entry-form-grid">
-      <div><span>company name:</span><input /></div>
-    </div>
+    <AddCompanyActivity
+      v-if="mode === 'add-company'"
+      @form-close="(e) => (mode = '')"
+    />
     <div v-else-if="mode === 'add-contact'" class="entry-form-grid">
       <div>company:</div>
       <CompanySelector v-model="company" />
     </div>
-    <div v-else-if="mode === 'record-call'" class="entry-form-grid">
-      <div>company:</div>
+    <div v-else-if="mode === 'record-call'" class="entry-box">
       <CompanySelector :value="companyId" @input="(c) => (companyId = c)" />
-      <div>contact:</div>
-      <ContactSelector v-model="contactId" :companyId="companyId" />
+      <ContactsSelector v-model="contacts" :companyId="companyId" />
+      <WhenSelector v-model="when" />
+      <hr />
+      <CompanyEditor :value="company" />
     </div>
     <div v-else-if="mode === 'schedule-call'" class="entry-form-grid">
       <div>company:</div>
@@ -26,11 +28,11 @@
       <div>when:</div>
       <input />
     </div>
-
-    <div v-if="mode !== 'none'" @click="(e) => updateActionMode(undefined)">
-      Cancel
+    <div>{{ when }}</div>
+    <div v-if="mode && mode !== 'none'" class="form-buttons-panel">
+      <button class="button">Save</button>
+      <button class="button" @click="(e) => (mode = '')">Cancel</button>
     </div>
-    <div>company: {{ companyId }}</div>
   </div>
 </template>
 
@@ -39,6 +41,8 @@
 
 .record-card {
   padding-top: 0.5rem;
+  width: 30em;
+  font-size: 1.4rem;
 }
 
 .entry-form-grid {
@@ -77,9 +81,19 @@ import Selector from "vue-select";
 import ActionSelector from "@/components/ActionSelector.vue";
 import CompanySelector from "@/components/CompanySelector.vue";
 import ContactSelector from "@/components/ContactSelector.vue";
+import ContactsSelector from "@/components/ContactsSelector.vue";
+import WhenSelector from "@/components/WhenSelector.vue";
+import AddCompanyActivity from "@/components/AddCompanyActivity.vue";
+
+import Calendar from "v-calendar/lib/components/calendar.umd";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 
 import "vue-select/dist/vue-select.css";
 import { Company, Contact } from "@/store/model";
+import { Duration } from "@/store/model/duration";
+import { DateInfo } from "@/store/model/date-info";
+
+import WhenData from "@/store/model/when";
 
 @Component({
   components: {
@@ -90,6 +104,11 @@ import { Company, Contact } from "@/store/model";
     ActionSelector,
     CompanySelector,
     ContactSelector,
+    ContactsSelector,
+    Calendar,
+    DatePicker,
+    WhenSelector,
+    AddCompanyActivity,
   },
   data: () => {
     return {
@@ -105,6 +124,12 @@ export default class Record extends Vue {
   companyId = "";
   contactId = "";
 
+  contacts: string[] = [];
+
+  when: WhenData = new WhenData(new Date(), 60);
+
+  datePickerModel: DatePickerModel = new DatePickerModel();
+
   get company() {
     console.info("get " + this.companyId);
 
@@ -119,6 +144,41 @@ export default class Record extends Vue {
       return this.company.contacts[this.contactId];
     }
     return undefined;
+  }
+}
+
+class DatePickerModel {
+  dateInfo: DateInfo;
+  duration: Duration;
+
+  constructor(date: Date = new Date()) {
+    this.dateInfo = new DateInfo(date);
+    this.duration = new Duration(30);
+  }
+
+  get date() {
+    return this.dateInfo.date ?? new Date();
+  }
+  set date(value: Date) {
+    console.info("set date: " + value.toString());
+    // retain time
+    this.dateInfo.updateDate(value);
+  }
+
+  get start() {
+    return this.date;
+  }
+  set start(value: Date) {
+    console.info("set start: " + value.toString());
+    this.dateInfo.date = value;
+  }
+
+  get end() {
+    return this.dateInfo.addDuration(this.duration).date ?? new Date();
+  }
+  set end(value: Date) {
+    console.info("set end: " + value.toString());
+    this.duration = Duration.fromDateRange(this.start, value);
   }
 }
 </script>

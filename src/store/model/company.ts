@@ -17,12 +17,12 @@ export class Company {
     positions: ItemSet<Position>;
 
     constructor(item: CompanyInfo) {
-        this.id = item.name.toLowerCase();
+        this.id = item.id ?? (item.name.toLowerCase());
         this.name = item.name;
         this.status = item.status ?? "none";
 
-        if (this.careerSite) {
-            this.careerSite = WebSite.initialize(this.careerSite);
+        if (item.careerSite) {
+            this.careerSite = WebSite.initialize(item.careerSite);
         }
         this.active = item.active ?? false;
         this.contacts = Contact.initializeSet(this, item.contacts);
