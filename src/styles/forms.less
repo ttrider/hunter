@@ -166,8 +166,15 @@
 
 .form-buttons-panel {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-evenly;
+  align-items: center;
   margin-top: 0.5em;
+
+  .form-errors {
+    font-size: 0.8em;
+    color: @color-attention;
+    font-weight: bold;
+  }
 
   .button {
     font-size: 0.9em;

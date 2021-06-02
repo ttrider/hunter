@@ -1,16 +1,15 @@
 <template>
   <div>
-    <CompanyEditor
-      :value="company"
-      @input="(e) => createCompany(e)"
-      @form-errors="(e) => (errors = e)"
-    />
+    <CompanyEditor v-model="company" @form-errors="(e) => (errors = e)" />
     <div class="form-buttons-panel">
-      <div>
+      <div class="form-errors">
         <div v-for="e in errors" :key="e">{{ e }}</div>
       </div>
-      <button class="button" :disabled="errors.length !== 0">Save</button>
-      <button class="button" @click="emitClose">Cancel</button>
+      <div class="flex-spacer"></div>
+      <button class="button" @click="onSave" :disabled="errors.length !== 0">
+        Save
+      </button>
+      <button class="button" @click="onClose">Cancel</button>
     </div>
   </div>
 </template>
@@ -18,25 +17,49 @@
 <style lang="less"></style>
 
 <script lang="ts">
-import { Company } from "@/store/model";
+import { Company, CompanyStatus } from "@/store/model";
 import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 import Selector from "vue-select";
-import CompanyEditor from "@/components/CompanyEditor.vue";
+import CompanyEditor, {
+  CompanyEditorData,
+} from "@/components/CompanyEditor.vue";
 import "vue-select/dist/vue-select.css";
+import { getProperties } from "@/store/model/utils";
+import { AppModule } from "@/store/app";
 @Component({
   components: { CompanyEditor },
 })
 export default class AddCompanyActivity extends Vue {
-  company = new Company({ name: "" });
+  company = getProperties<CompanyEditorData>(
+    new Company({ name: "" }),
+    "id",
+    "name",
+    "status",
+    "active",
+    "url",
+    "hint"
+  );
 
-  errors: string[] = [];
+  errors: string[] = [""];
 
-  emitClose() {
-    this.company = new Company({ name: "" });
+  onClose() {
     this.$emit("form-close");
   }
-  createCompany(company: Company) {
-    console.info(company);
+  onSave() {
+    const newCompany = new Company({
+      name: this.company.name,
+      status: this.company.status as CompanyStatus,
+      active: this.company.active,
+      careerSite: {
+        url: this.company.url,
+        hint: this.company.hint,
+      },
+    });
+
+    AppModule.companies[newCompany.id] = newCompany;
+    this.onClose();
+
+    this.$router.push("companies/" + newCompany.id);
   }
 }
 </script>

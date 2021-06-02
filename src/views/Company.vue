@@ -4,9 +4,9 @@
       <div class="card-title">
         {{ instance.name }}
       </div>
-      <div class="form-actions">
+      <!-- <div class="form-actions">
         <CompanyEditor :value="instance" />
-      </div>
+      </div> -->
     </div>
 
     <div class="card card-g3">

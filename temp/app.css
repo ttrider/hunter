@@ -436,8 +436,14 @@ body {
 }
 .form-buttons-panel {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-evenly;
+  align-items: center;
   margin-top: 0.5em;
+}
+.form-buttons-panel .form-errors {
+  font-size: 0.8em;
+  color: red;
+  font-weight: bold;
 }
 .form-buttons-panel .button {
   font-size: 0.9em;

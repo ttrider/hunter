@@ -28,11 +28,6 @@
       <div>when:</div>
       <input />
     </div>
-    <div>{{ when }}</div>
-    <div v-if="mode && mode !== 'none'" class="form-buttons-panel">
-      <button class="button">Save</button>
-      <button class="button" @click="(e) => (mode = '')">Cancel</button>
-    </div>
   </div>
 </template>
 
