@@ -1,6 +1,9 @@
 <template>
   <div class="card" style="0.9em;">
-    <div class="card-title">Upcoming Events</div>
+    <div class="card-title">
+      <div>Upcoming Events</div>
+      <button @click="getICal">iCAL</button>
+    </div>
     <div class="card-grid events-grid">
       <template v-for="di in dates">
         <span class="card-grid-header" :key="di.date.value + 'header'">
@@ -98,6 +101,10 @@ import PathLink from "../vue-tt/PathLink.vue";
 import When from "@/components/When.vue";
 import Where from "@/components/Where.vue";
 
+import { createEvent, createEvents, EventAttributes } from "ics";
+import fileDownload from "js-file-download";
+import { createICalEvent } from "@/store/model/utils";
+
 @Component({
   components: { PathLink, When, Where },
 })
@@ -109,6 +116,28 @@ export default class Companies extends Vue {
 
   get dates() {
     return AppModule.eventDates;
+  }
+
+  getICal() {
+    const icsEvents: EventAttributes[] = [];
+
+    for (const date of this.dates) {
+      for (const event of date.events) {
+        icsEvents.push(createICalEvent(event));
+      }
+    }
+
+    createEvents(icsEvents, (err, val) => {
+      if (err) {
+        console.error(err);
+      } else {
+        fileDownload(
+          val.replaceAll("BEGIN:VEVENT", "BEGIN:VEVENT\nCLASS:PRIVATE"),
+          "hunter.events.ics",
+          "text/calendar"
+        );
+      }
+    });
   }
 }
 </script>

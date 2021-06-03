@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { DateArray } from "ics";
 import { AppModule } from "../app";
 import { Duration } from "./duration";
 
@@ -72,6 +73,12 @@ export class DateInfo {
         return 0;
     }
 
+    get dateArray() {
+
+        const values = this.dateValues;
+        const ret: DateArray = [values.year, values.month + 1, values.day, values.hours + (values.ampm ? 0 : 12), values.minutes];
+        return ret;
+    }
 
     get dateValues() {
         if (!this.date) {

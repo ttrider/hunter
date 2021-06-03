@@ -58,6 +58,7 @@
       background-color: @color-light;
       border-bottom: 1px solid @color-border;
       box-sizing: border-box;
+      display: flex;
     }
 
     .card-top-shadow {
@@ -140,6 +141,12 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .cardspace {
+    padding: 0;
   }
 }
 

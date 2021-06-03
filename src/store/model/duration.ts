@@ -1,10 +1,26 @@
 /* eslint-disable prettier/prettier */
 
+import { DurationObject } from "ics";
+
 export class Duration {
     constructor(public minutes: number) { }
 
     get value() {
         return this.minutes * 60 * 1000;
+    }
+
+    get durationObject() {
+
+        let hours = Math.floor(this.minutes / 60);
+        const minutes = this.minutes % 60;
+        const days = Math.floor(hours / 24);
+        hours = hours % 24;
+
+        const ret: DurationObject = {
+            days, hours, minutes
+        };
+
+        return ret;
     }
 
     static fromValue(value: number) {

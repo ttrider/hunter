@@ -49,6 +49,10 @@ export class When {
         return value;
     }
 
+    get dateArray() {
+        return this.startDate.dateArray;
+    }
+
     static fromDateValues(date: Date, start: { hours: number | string, minutes: number | string, ampm: boolean }, end: { hours: number | string, minutes: number | string, ampm: boolean }) {
 
         if (typeof start.hours === "string") {
