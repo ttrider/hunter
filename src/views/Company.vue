@@ -1,12 +1,21 @@
 <template>
   <div v-if="!!instance" class="cardspace">
+    <CompanyCard :value="instance" />
     <div class="card company-card">
       <div class="card-title">
-        {{ instance.name }}
+        <div class="card-title-main">{{ instance.name }}</div>
+        <div class="flex-spacer"></div>
+        <!-- <button class="card-title-button">&#x2731;</button> -->
+        <button class="card-title-button">&#x25C9;</button>
+        <!-- <button class="card-title-button">&#x2716;</button>
+        <button class="card-title-button">&#x2713;</button>
+        <button class="card-title-button">&#x25CE;</button>
+        <button class="card-title-button">&#x25CF;</button>
+        <button class="card-title-button">&#x25E6;</button> -->
       </div>
-      <!-- <div class="form-actions">
+      <div class="form-actions">
         <CompanyEditor :value="instance" />
-      </div> -->
+      </div>
     </div>
 
     <div class="card card-g3">
@@ -88,9 +97,10 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
 import PathLink from "../vue-tt/PathLink.vue";
 import CompanyEditor from "@/components/CompanyEditor.vue";
+import CompanyCard from "@/components/CompanyCard.vue";
 
 @Component({
-  components: { PathLink, CompanyEditor },
+  components: { PathLink, CompanyEditor, CompanyCard },
 })
 export default class CompanyView extends Vue {
   id = "";

@@ -21,13 +21,13 @@
     <input
       class="form-input"
       placeholder="career site url"
-      v-model="currentValue.url"
+      v-model="currentValue.careerPageUrl"
     />
     <div>Login hint:</div>
     <input
       class="form-input"
       placeholder="login hint"
-      v-model="currentValue.hint"
+      v-model="currentValue.careerPageHint"
     />
   </div>
 </template>
@@ -45,8 +45,8 @@ export interface CompanyEditorData {
   name: string;
   status: string;
   active: boolean;
-  url: string;
-  hint: string;
+  careerPageUrl: string;
+  careerPageHint: string;
 }
 
 @Component({

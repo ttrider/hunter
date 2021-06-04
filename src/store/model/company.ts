@@ -13,7 +13,8 @@ export class Company {
     communications: Communication[];
     interviews: Interview[];
     actionItems: ActionItem[];
-    careerSite?: WebSiteInfo;
+    careerPageUrl?: string;
+    careerPageHint?: string;
     positions: ItemSet<Position>;
 
     constructor(item: CompanyInfo) {
@@ -22,8 +23,11 @@ export class Company {
         this.status = item.status ?? "none";
 
         if (item.careerSite) {
-            this.careerSite = WebSite.initialize(item.careerSite);
+            const careerSite = WebSite.initialize(item.careerSite);
+            this.careerPageUrl = careerSite.url;
+            this.careerPageHint = careerSite.hint;
         }
+
         this.active = item.active ?? false;
         this.contacts = Contact.initializeSet(this, item.contacts);
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);

@@ -81,6 +81,43 @@ body {
   box-sizing: border-box;
   display: flex;
 }
+.cardspace .card .card-title .card-title-main {
+  flex-grow: 2;
+}
+.cardspace .card .card-title .card-title-button {
+  color: hsl(32, 80%, 37%);
+  font-weight: bold;
+  cursor: pointer;
+  font-family: SourceSansPro, Arial, sans-serif;
+  padding: 0;
+  padding-right: 0.1rem;
+  padding-left: 0.1rem;
+  margin-left: 0.25em;
+  font-size: 1.2rem;
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  border-radius: 1em;
+  opacity: 0.8;
+}
+.cardspace .card .card-title .card-title-button:hover {
+  opacity: 1;
+  color: hsl(212, 80%, 37%);
+}
+.cardspace .card .card-title .card-title-button:focus {
+  opacity: 1;
+  color: hsl(212, 80%, 37%);
+}
+.cardspace .card .card-title .card-title-button:active {
+  opacity: 1;
+  color: hsl(212, 80%, 57%);
+}
+.cardspace .card .card-title .card-title-button:disabled {
+  color: #808080;
+  opacity: 0.8;
+  cursor: default;
+}
 .cardspace .card .card-top-shadow {
   box-shadow: hsl(32, 100%, 99.7%) 0 0.25rem 0.5rem;
 }

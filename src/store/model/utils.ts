@@ -120,7 +120,7 @@ export function createICalEvent(event: CalendarEvent) {
             .map((w) => w.url ?? w.phone.join(", "))
             .filter((w) => !!w)
             .join(", "),
-        url: event.where.map((w) => w.url).filter((w) => !!w)[0],
+        //url: event.where.map((w) => w.url).filter((w) => !!w)[0],
         uid: event.id,
         attendees: event.contacts.map((c) => {
             return { name: c.displayName };

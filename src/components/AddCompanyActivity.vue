@@ -36,8 +36,8 @@ export default class AddCompanyActivity extends Vue {
     "name",
     "status",
     "active",
-    "url",
-    "hint"
+    "careerPageUrl",
+    "careerPageHint"
   );
 
   errors: string[] = [""];
@@ -51,8 +51,8 @@ export default class AddCompanyActivity extends Vue {
       status: this.company.status as CompanyStatus,
       active: this.company.active,
       careerSite: {
-        url: this.company.url,
-        hint: this.company.hint,
+        url: this.company.careerPageUrl,
+        hint: this.company.careerPageHint,
       },
     });
 
