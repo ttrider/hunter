@@ -4,6 +4,8 @@
     @drop.prevent="(e) => dropHandler(e)"
     @dragover.prevent="(e) => {}"
   >
+    <Sidebar />
+
     <header
       class="header"
       @drop.prevent="(e) => dropHandler(e)"
@@ -60,6 +62,7 @@ import { loadDropedFile, saveLocalFile } from "@/store/app";
 import GoogleLogin from "vue-google-login";
 import { LoaderPlugin } from "vue-google-login";
 import AWS from "aws-sdk";
+import Sidebar from "@/components/Sidebar.vue";
 // import Amplify, { Auth } from "aws-amplify";
 
 Vue.use(LoaderPlugin, {
@@ -69,7 +72,7 @@ Vue.use(LoaderPlugin, {
 
 @Component({
   name: "App",
-  components: { GoogleLogin },
+  components: { GoogleLogin, Sidebar },
 })
 export default class App extends Vue {
   created() {

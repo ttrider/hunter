@@ -77,22 +77,14 @@
       min-width: 1em;
       max-width: 1em;
       width: 1em;
-      background: linear-gradient(
-        to left,
-        @header-tabs-background,
-        @color-0-5
-      );
+      background: linear-gradient(to left, @header-tabs-background, @color-0-5);
     }
 
     .out-border {
       min-width: 1em;
       max-width: 1em;
       width: 1em;
-      background: linear-gradient(
-        to left,
-        @color-0-5,
-        @header-tabs-background
-      );
+      background: linear-gradient(to left, @color-0-5, @header-tabs-background);
     }
   }
 }
@@ -129,7 +121,7 @@
 
 @import "./defs.less";
 
-@media (min-width: 300px) {
+@media (min-width: @small-size-limit) {
   .header {
     .header-menu {
       background-color: red;
@@ -149,7 +141,7 @@
   }
 }
 
-@media (min-width: 600px) {
+@media (min-width: @large-size-limit) {
   .header {
     .header-menu {
       background-color: @color-0-5;
@@ -164,5 +156,41 @@
   }
   .footer {
     display: none;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: @header-height;
+  bottom: 0;
+  left: 0;
+  width: @sidebar-full-width;
+  background: @color-1-5;
+  z-index: 2;
+  box-sizing: border-box;
+
+  &:hover {
+    width: @sidebar-full-width;
+    box-shadow: 0.1rem 0 0.5rem gray;
+  }
+}
+
+@media (max-width: @large-size-limit) {
+  .sidebar {
+    width: @sidebar-compact-width;
+  }
+  .cardspace {
+    padding: 0;
+    margin-left: @sidebar-compact-width;
+  }
+}
+
+@media (max-width: @small-size-limit) {
+  .sidebar {
+    visibility: collapse;
+  }
+  .cardspace {
+    padding: 0;
+    margin-left: 0;
   }
 }

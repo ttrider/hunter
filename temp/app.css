@@ -179,11 +179,6 @@ body {
 .cardspace .card .card-grid .card-grid-row:hover a {
   background: hsl(32, 100%, 98.7%);
 }
-@media (max-width: 600px) {
-  .cardspace {
-    padding: 0;
-  }
-}
 .header {
   background-color: hsl(32, 80%, 37%);
   color: hsl(32, 100%, 95%);
@@ -283,7 +278,7 @@ body {
 .footer .tab:visited {
   color: unset;
 }
-@media (min-width: 300px) {
+@media (min-width: 600px) {
   .header .header-menu {
     background-color: red;
   }
@@ -298,7 +293,7 @@ body {
     display: flex;
   }
 }
-@media (min-width: 600px) {
+@media (min-width: 1200px) {
   .header .header-menu {
     background-color: hsl(32, 80%, 37%);
   }
@@ -310,6 +305,38 @@ body {
   }
   .footer {
     display: none;
+  }
+}
+.sidebar {
+  position: fixed;
+  top: 3rem;
+  bottom: 0;
+  left: 0;
+  width: 12rem;
+  background: hsl(352, 80%, 37%);
+  z-index: 2;
+  box-sizing: border-box;
+}
+.sidebar:hover {
+  width: 12rem;
+  box-shadow: 0.1rem 0 0.5rem gray;
+}
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 3rem;
+  }
+  .cardspace {
+    padding: 0;
+    margin-left: 3rem;
+  }
+}
+@media (max-width: 600px) {
+  .sidebar {
+    visibility: collapse;
+  }
+  .cardspace {
+    padding: 0;
+    margin-left: 0;
   }
 }
 .tt-grid {
