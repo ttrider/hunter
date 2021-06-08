@@ -3,13 +3,17 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
+import { client_id, initializeAuth } from "./store/auth";
 import { initializeApp } from "./store/app";
-
-// ClientID: 138993422227-h19aliqjhes1rmqcvnkkufsaiq7r9gv5.apps.googleusercontent.com
-// Client Secret: jCaNUxKkXBZPHFJEBkX-UcvR
+import { LoaderPlugin } from "vue-google-login";
 
 Vue.config.productionTip = false;
 
+Vue.use(LoaderPlugin, {
+  client_id: client_id,
+});
+
+initializeAuth();
 initializeApp();
 
 new Vue({

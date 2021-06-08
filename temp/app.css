@@ -36,24 +36,32 @@ body {
 }
 .cardspace {
   display: flex;
-  flex-wrap: wrap;
-  padding: 2rem;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.cardspace .csc-sidebar {
+  width: 12rem;
+  min-width: 12rem;
+  max-width: 12rem;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.cardspace .csc-content {
+  flex-grow: 10;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+}
+.cardspace .csc-content .csc-main {
   max-width: 60rem;
-  margin-left: auto;
-  margin-right: auto;
+  flex-grow: 10;
+  padding: 1rem;
 }
-.cardspace .card-g3 {
-  flex-grow: 3;
+.cardspace .csc-content .csc-side {
+  min-width: 20rem;
+  padding: 1rem;
 }
-.cardspace .card-g2 {
-  flex-grow: 2;
-}
-.cardspace .card-g1 {
-  flex-grow: 1;
-}
-.cardspace .card {
+.card {
   color: hsl(32, 80%, 12%);
   display: flex;
   flex-direction: column;
@@ -61,14 +69,14 @@ body {
   max-width: 60rem;
   background-color: hsl(32, 100%, 99.7%);
   text-overflow: ellipsis;
-  margin: 1rem;
+  margin-bottom: 1rem;
   border-radius: 0.25rem;
   box-shadow: hsl(32, 80%, 37%) 0 0 0.25rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-bottom: 0.5rem;
 }
-.cardspace .card .card-title {
+.card .card-title {
   font-size: 1.2rem;
   font-weight: bold;
   padding-top: 0.5rem;
@@ -81,10 +89,10 @@ body {
   box-sizing: border-box;
   display: flex;
 }
-.cardspace .card .card-title .card-title-main {
+.card .card-title .card-title-main {
   flex-grow: 2;
 }
-.cardspace .card .card-title .card-title-button {
+.card .card-title .card-title-button {
   color: hsl(32, 80%, 37%);
   font-weight: bold;
   cursor: pointer;
@@ -101,30 +109,30 @@ body {
   border-radius: 1em;
   opacity: 0.8;
 }
-.cardspace .card .card-title .card-title-button:hover {
+.card .card-title .card-title-button:hover {
   opacity: 1;
   color: hsl(212, 80%, 37%);
 }
-.cardspace .card .card-title .card-title-button:focus {
+.card .card-title .card-title-button:focus {
   opacity: 1;
   color: hsl(212, 80%, 37%);
 }
-.cardspace .card .card-title .card-title-button:active {
+.card .card-title .card-title-button:active {
   opacity: 1;
   color: hsl(212, 80%, 57%);
 }
-.cardspace .card .card-title .card-title-button:disabled {
+.card .card-title .card-title-button:disabled {
   color: #808080;
   opacity: 0.8;
   cursor: default;
 }
-.cardspace .card .card-top-shadow {
+.card .card-top-shadow {
   box-shadow: hsl(32, 100%, 99.7%) 0 0.25rem 0.5rem;
 }
-.cardspace .card .card-grid {
+.card .card-grid {
   display: grid;
 }
-.cardspace .card .card-grid .card-grid-header-bottom {
+.card .card-grid .card-grid-header-bottom {
   position: sticky;
   top: 6.6rem;
   background: hsl(32, 100%, 95%);
@@ -132,10 +140,10 @@ body {
   box-shadow: hsl(32, 100%, 99.7%) 0 0.25rem 0.5rem;
   top: 6.6rem;
 }
-.cardspace .card .card-grid .card-grid-header {
+.card .card-grid .card-grid-header {
   display: contents;
 }
-.cardspace .card .card-grid .card-grid-header > div {
+.card .card-grid .card-grid-header > div {
   background-color: hsl(32, 100%, 95%);
   position: sticky;
   top: 5.25rem;
@@ -145,38 +153,38 @@ body {
   max-height: 1.15rem;
   height: 1.15rem;
 }
-.cardspace .card .card-grid .card-grid-header :first-child {
+.card .card-grid .card-grid-header :first-child {
   padding-left: 0.25rem;
 }
-.cardspace .card .card-grid .card-grid-header :last-child {
+.card .card-grid .card-grid-header :last-child {
   padding-right: 0.25rem;
 }
-.cardspace .card .card-grid .card-grid-top-shadow {
+.card .card-grid .card-grid-top-shadow {
   position: sticky;
   top: 6.8rem;
   min-height: 0.5rem;
   background: linear-gradient(0deg, transparent, hsl(32, 100%, 99.7%));
 }
-.cardspace .card .card-grid .card-grid-row {
+.card .card-grid .card-grid-row {
   display: contents;
   font-size: 1.1rem;
 }
-.cardspace .card .card-grid .card-grid-row > div,
-.cardspace .card .card-grid .card-grid-row a {
+.card .card-grid .card-grid-row > div,
+.card .card-grid .card-grid-row a {
   background: hsl(32, 100%, 99.7%);
 }
-.cardspace .card .card-grid .card-grid-row > :first-child {
+.card .card-grid .card-grid-row > :first-child {
   padding-left: 0.25rem;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
-.cardspace .card .card-grid .card-grid-row > :last-child {
+.card .card-grid .card-grid-row > :last-child {
   padding-right: 0.25rem;
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
 }
-.cardspace .card .card-grid .card-grid-row:hover > div,
-.cardspace .card .card-grid .card-grid-row:hover a {
+.card .card-grid .card-grid-row:hover > div,
+.card .card-grid .card-grid-row:hover a {
   background: hsl(32, 100%, 98.7%);
 }
 .header {
@@ -278,35 +286,6 @@ body {
 .footer .tab:visited {
   color: unset;
 }
-@media (min-width: 600px) {
-  .header .header-menu {
-    background-color: red;
-  }
-  .header .tabs {
-    display: none;
-  }
-  .header .header-spacer {
-    display: block;
-    flex-grow: 10;
-  }
-  .footer {
-    display: flex;
-  }
-}
-@media (min-width: 1200px) {
-  .header .header-menu {
-    background-color: hsl(32, 80%, 37%);
-  }
-  .header .tabs {
-    display: flex;
-  }
-  .header .header-spacer {
-    display: none;
-  }
-  .footer {
-    display: none;
-  }
-}
 .sidebar {
   position: fixed;
   top: 3rem;
@@ -322,21 +301,45 @@ body {
   box-shadow: 0.1rem 0 0.5rem gray;
 }
 @media (max-width: 1200px) {
+  .cardspace .csc-sidebar {
+    width: 3rem;
+    min-width: 3rem;
+    max-width: 3rem;
+  }
   .sidebar {
     width: 3rem;
   }
-  .cardspace {
-    padding: 0;
-    margin-left: 3rem;
+  .footer {
+    display: none;
+  }
+}
+@media (max-width: 950px) {
+  .cardspace .csc-side {
+    display: none;
+  }
+  .footer {
+    display: none;
   }
 }
 @media (max-width: 600px) {
-  .sidebar {
-    visibility: collapse;
+  .cardspace .csc-sidebar {
+    display: none;
   }
-  .cardspace {
-    padding: 0;
-    margin-left: 0;
+  .sidebar {
+    display: none;
+  }
+  .footer {
+    display: flex;
+  }
+  .header .header-menu {
+    background-color: red;
+  }
+  .header .tabs {
+    display: none;
+  }
+  .header .header-spacer {
+    display: block;
+    flex-grow: 10;
   }
 }
 .tt-grid {
@@ -370,7 +373,6 @@ body {
 }
 .form-actions {
   padding-top: 0.5rem;
-  width: 30em;
   font-size: 1.1rem;
 }
 .form-grid {

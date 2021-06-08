@@ -1,8 +1,15 @@
 <template>
   <div class="view cardspace">
-    <RecordCard class="card-g3" />
-    <EventsCard class="card-g2" />
-    <CompaniesCard class="card-g1" />
+    <div class="csc-sidebar"></div>
+    <div class="csc-content">
+      <div class="csc-main">
+        <RecordCard />
+        <EventsCard />
+      </div>
+      <div class="csc-side">
+        <CompaniesCard />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,7 +21,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Where from "@/components/Where.vue";
 import When from "@/components/When.vue";
 import CompaniesCard from "@/views/CompaniesCard.vue";
-import EventsCard from "@/views/EventsCard.vue";
+import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
 
 @Component({

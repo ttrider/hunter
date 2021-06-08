@@ -1,190 +1,193 @@
 @color-back-card: @color-light;
 @color-back-card-grid-header: @color-0-1;
 
-@tile-min-width: 20rem;
-@tile-max-width: 60rem;
-
-@tile-title-height: 2.25rem;
-@tile-grid-header-height: 1.15rem;
-
 .cardspace {
   display: flex;
-  flex-wrap: wrap;
-  padding: 2rem;
-  justify-content: center;
-  align-items: flex-start;
-  max-width: @max-content-width;
-  margin-left: auto;
-  margin-right: auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
 
-  .card-g3 {
-    flex-grow: 3;
-  }
-  .card-g2 {
-    flex-grow: 2;
-  }
-  .card-g1 {
-    flex-grow: 1;
+  .csc-sidebar {
+    width: @sidebar-full-width;
+    min-width: @sidebar-full-width;
+    max-width: @sidebar-full-width;
+    justify-content: space-between;
+    align-items: stretch;
   }
 
-  .card {
-    color: @color-dark;
+  .csc-content {
+    flex-grow: 10;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
 
-    min-width: @tile-min-width;
-    max-width: @tile-max-width;
-
-    background-color: @color-back-card;
-
-    text-overflow: ellipsis;
-
-    margin: 1rem;
-    border-radius: 0.25rem;
-    box-shadow: @color-border 0 0 0.25rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-bottom: 0.5rem;
-
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      height: @tile-title-height;
-      position: sticky;
-      top: @header-height;
-      background-color: @color-light;
-      border-bottom: 1px solid @color-border;
-      box-sizing: border-box;
-      display: flex;
-
-      .card-title-main {
-        flex-grow: 2;
-      }
-
-      .card-title-button {
-        color: @color-0-5;
-        font-weight: bold;
-        cursor: pointer;
-        font-family: SourceSansPro, Arial, sans-serif;
-        padding: 0;
-        padding-right: 0.1rem;
-        padding-left: 0.1rem;
-        margin-left: 0.25em;
-        font-size: 1.2rem;
-        background: none;
-        outline: none;
-        border: none;
-        line-height: 1;
-        border-radius: 1em;
-        opacity: 0.8;
-
-        &:hover {
-          opacity: 1;
-          color: @color-2-5;
-        }
-        &:focus {
-          //outline: 2px dotted @color-2-5;
-          opacity: 1;
-          color: @color-2-5;
-        }
-        &:active {
-          opacity: 1;
-          color: @color-2-4;
-        }
-        &:disabled {
-          color: @color-gray;
-          opacity: 0.8;
-          cursor: default;
-        }
-      }
+    .csc-main {
+      max-width: @tile-max-width;
+      flex-grow: 10;
+      padding: 1rem;
     }
 
-    .card-top-shadow {
-      box-shadow: @color-light 0 0.25rem 0.5rem;
-    }
-
-    .card-grid {
-      display: grid;
-
-      .card-grid-header-bottom {
-        position: sticky;
-        top: 6.6rem;
-        background: @color-back-card-grid-header;
-        min-height: 0.4rem;
-        box-shadow: @color-light 0 0.25rem 0.5rem;
-        top: @header-height + @tile-title-height + @tile-grid-header-height +
-          0.2rem;
-      }
-
-      .card-grid-header {
-        display: contents;
-
-        & > div {
-          //background-color: @color-back-toolbar;
-          background-color: @color-back-card-grid-header;
-          position: sticky;
-          top: @header-height + @tile-title-height;
-          font-weight: bold;
-
-          min-height: @tile-grid-header-height;
-          max-height: @tile-grid-header-height;
-          height: @tile-grid-header-height;
-
-          padding-top: 0.2rem;
-          min-height: @tile-grid-header-height;
-          max-height: @tile-grid-header-height;
-          height: @tile-grid-header-height;
-        }
-
-        & :first-child {
-          padding-left: 0.25rem;
-        }
-        & :last-child {
-          padding-right: 0.25rem;
-        }
-      }
-
-      .card-grid-top-shadow {
-        position: sticky;
-        top: @header-height + @tile-title-height + @tile-grid-header-height +
-          0.4rem;
-        min-height: 0.5rem;
-        background: linear-gradient(0deg, transparent, @color-back-card);
-      }
-
-      .card-grid-row {
-        display: contents;
-        font-size: 1.1rem;
-        & > div,
-        a {
-          background: @color-back-card;
-        }
-
-        & > :first-child {
-          padding-left: 0.25rem;
-          border-top-left-radius: 0.25rem;
-          border-bottom-left-radius: 0.25rem;
-        }
-        & > :last-child {
-          padding-right: 0.25rem;
-          border-top-right-radius: 0.25rem;
-          border-bottom-right-radius: 0.25rem;
-        }
-      }
-
-      .card-grid-row:hover {
-        & > div,
-        a {
-          background: @color-back-hover;
-        }
-      }
+    .csc-side {
+      min-width: @tile-min-width;
+      padding: 1rem;
     }
   }
 }
 
+.card {
+  color: @color-dark;
+  display: flex;
+  flex-direction: column;
 
+  min-width: @tile-min-width;
+  max-width: @tile-max-width;
+
+  background-color: @color-back-card;
+
+  text-overflow: ellipsis;
+
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: @color-border 0 0 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    height: @tile-title-height;
+    position: sticky;
+    top: @header-height;
+    background-color: @color-light;
+    border-bottom: 1px solid @color-border;
+    box-sizing: border-box;
+    display: flex;
+
+    .card-title-main {
+      flex-grow: 2;
+    }
+
+    .card-title-button {
+      color: @color-0-5;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: SourceSansPro, Arial, sans-serif;
+      padding: 0;
+      padding-right: 0.1rem;
+      padding-left: 0.1rem;
+      margin-left: 0.25em;
+      font-size: 1.2rem;
+      background: none;
+      outline: none;
+      border: none;
+      line-height: 1;
+      border-radius: 1em;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+        color: @color-2-5;
+      }
+      &:focus {
+        //outline: 2px dotted @color-2-5;
+        opacity: 1;
+        color: @color-2-5;
+      }
+      &:active {
+        opacity: 1;
+        color: @color-2-4;
+      }
+      &:disabled {
+        color: @color-gray;
+        opacity: 0.8;
+        cursor: default;
+      }
+    }
+  }
+
+  .card-top-shadow {
+    box-shadow: @color-light 0 0.25rem 0.5rem;
+  }
+
+  .card-grid {
+    display: grid;
+
+    .card-grid-header-bottom {
+      position: sticky;
+      top: 6.6rem;
+      background: @color-back-card-grid-header;
+      min-height: 0.4rem;
+      box-shadow: @color-light 0 0.25rem 0.5rem;
+      top: @header-height + @tile-title-height + @tile-grid-header-height +
+        0.2rem;
+    }
+
+    .card-grid-header {
+      display: contents;
+
+      & > div {
+        //background-color: @color-back-toolbar;
+        background-color: @color-back-card-grid-header;
+        position: sticky;
+        top: @header-height + @tile-title-height;
+        font-weight: bold;
+
+        min-height: @tile-grid-header-height;
+        max-height: @tile-grid-header-height;
+        height: @tile-grid-header-height;
+
+        padding-top: 0.2rem;
+        min-height: @tile-grid-header-height;
+        max-height: @tile-grid-header-height;
+        height: @tile-grid-header-height;
+      }
+
+      & :first-child {
+        padding-left: 0.25rem;
+      }
+      & :last-child {
+        padding-right: 0.25rem;
+      }
+    }
+
+    .card-grid-top-shadow {
+      position: sticky;
+      top: @header-height + @tile-title-height + @tile-grid-header-height +
+        0.4rem;
+      min-height: 0.5rem;
+      background: linear-gradient(0deg, transparent, @color-back-card);
+    }
+
+    .card-grid-row {
+      display: contents;
+      font-size: 1.1rem;
+      & > div,
+      a {
+        background: @color-back-card;
+      }
+
+      & > :first-child {
+        padding-left: 0.25rem;
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+      }
+      & > :last-child {
+        padding-right: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+      }
+    }
+
+    .card-grid-row:hover {
+      & > div,
+      a {
+        background: @color-back-hover;
+      }
+    }
+  }
+}
 
 @import "./defs.less";

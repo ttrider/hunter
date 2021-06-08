@@ -1,70 +1,14 @@
 <template>
   <div v-if="!!instance" class="cardspace">
-    <CompanyCard :value="instance" />
-    <div class="card company-card">
-      <div class="card-title">
-        <div class="card-title-main">{{ instance.name }}</div>
-        <div class="flex-spacer"></div>
-        <!-- <button class="card-title-button">&#x2731;</button> -->
-        <button class="card-title-button">&#x25C9;</button>
-        <!-- <button class="card-title-button">&#x2716;</button>
-        <button class="card-title-button">&#x2713;</button>
-        <button class="card-title-button">&#x25CE;</button>
-        <button class="card-title-button">&#x25CF;</button>
-        <button class="card-title-button">&#x25E6;</button> -->
+    <div class="csc-sidebar">sidebar</div>
+    <div class="csc-content">
+      <div class="csc-main">
+        <RecordCard />
+        <EventsCard />
       </div>
-      <div class="form-actions">
-        <CompanyEditor :value="instance" />
-      </div>
-    </div>
-
-    <div class="card card-g3">
-      <div class="card-title">Interviews</div>
-
-      <div v-if="contacts.length === 0">no contacts</div>
-      <div v-else v-for="p in contacts" :key="p.id"></div>
-    </div>
-
-    <div class="card card-g1">
-      <div class="card-title">Contacts</div>
-      <div v-if="contacts.length === 0">no contacts</div>
-      <div v-else v-for="p in contacts" :key="p.id">
-        <div class="t1 company-card-item-top">{{ p.displayName }}</div>
-        <div v-if="p.title" class="t2">{{ p.title }}</div>
-        <div v-if="p.role" class="t2">{{ p.role }}</div>
-        <div class="t3 company-card-item-bottom">
-          <PathLink v-if="p.linkedIn" :path="p.linkedIn" class="t3"
-            >&nbsp;LinkedIn&nbsp;</PathLink
-          >
-          <span v-for="e in p.email" :key="e">&nbsp;{{ e }}&nbsp;</span>
-          <span v-for="p in p.phone" :key="p">&nbsp;{{ p }}&nbsp;</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card card-g3">
-      <div class="card-title">Communications</div>
-      <div>a</div>
-      <div>b</div>
-      <div>c</div>
-      <div>d</div>
-      <div>e</div>
-    </div>
-
-    <div class="card card-g1">
-      <div class="card-title">Positions</div>
-      <div v-if="positions.length === 0">no positions</div>
-      <div
-        class="company-card-item-top company-card-item-bottom"
-        v-else
-        v-for="p in positions"
-        :key="p.id"
-      >
-        <PathLink class="t1" :path="p.url">{{ p.name }}</PathLink>
-        <div class="t2">
-          <span>{{ p.id }}</span>
-          <span>&nbsp;-&nbsp;{{ p.status }}</span>
-        </div>
+      <div class="csc-side">
+        <ContactsCard :value="instance" />
+        <PositionsCard :value="instance" />
       </div>
     </div>
   </div>
@@ -72,6 +16,7 @@
 
 <style lang="less">
 @import "../styles/defs.less";
+
 .company-grid {
   grid-template-columns: 1fr auto;
 }
@@ -98,9 +43,21 @@ import { Route } from "vue-router";
 import PathLink from "../vue-tt/PathLink.vue";
 import CompanyEditor from "@/components/CompanyEditor.vue";
 import CompanyCard from "@/components/CompanyCard.vue";
+import PositionsCard from "@/components/PositionsCard.vue";
+import ContactsCard from "@/components/ContactsCard.vue";
+import EventsCard from "@/components/EventsCard.vue";
+import RecordCard from "@/views/RecordCard.vue";
 
 @Component({
-  components: { PathLink, CompanyEditor, CompanyCard },
+  components: {
+    PathLink,
+    CompanyEditor,
+    CompanyCard,
+    PositionsCard,
+    ContactsCard,
+    EventsCard,
+    RecordCard,
+  },
 })
 export default class CompanyView extends Vue {
   id = "";
@@ -139,20 +96,6 @@ export default class CompanyView extends Vue {
     return AppModule.companies;
   }
 
-  get contacts() {
-    const ret: Contact[] = [];
-    if (this.instance) {
-      const pset = this.instance.contacts;
-      for (const key in pset) {
-        if (Object.prototype.hasOwnProperty.call(pset, key)) {
-          const contact = pset[key];
-          ret.push(contact);
-        }
-      }
-    }
-    return ret.sort((a, b) => (a.displayName < b.displayName ? -1 : 1));
-  }
-
   get interviews() {
     if (this.instance) {
       return this.instance.interviews.sort(
@@ -160,39 +103,6 @@ export default class CompanyView extends Vue {
       );
     }
     return [];
-  }
-
-  get positions() {
-    const ret: Position[] = [];
-    if (this.instance) {
-      const groups: { [name: string]: Position[] } = {
-        interview: [],
-        applied: [],
-        withdraw: [],
-        rejected: [],
-        none: [],
-      };
-
-      const pset = this.instance.positions;
-      for (const key in pset) {
-        if (Object.prototype.hasOwnProperty.call(pset, key)) {
-          const position = pset[key];
-          const group = groups[position.status];
-          if (group) {
-            group.push(position);
-          }
-        }
-      }
-
-      ret.push(
-        ...groups.interview,
-        ...groups.applied,
-        ...groups.withdraw,
-        ...groups.rejected,
-        ...groups.none
-      );
-    }
-    return ret;
   }
 }
 </script>
