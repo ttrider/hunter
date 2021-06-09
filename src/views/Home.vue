@@ -4,10 +4,10 @@
     <div class="csc-content">
       <div class="csc-main">
         <RecordCard />
-        <EventsCard />
       </div>
       <div class="csc-side">
         <CompaniesCard />
+        <EventsCard />
       </div>
     </div>
   </div>
