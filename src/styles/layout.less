@@ -42,6 +42,14 @@
     }
   }
 
+  .header-login {
+    display: none;
+  }
+
+  .header-icon {
+    max-height: @header-height;
+  }
+
   .tabs {
     display: flex;
 
@@ -127,9 +135,18 @@
   bottom: 0;
   left: 0;
   width: @sidebar-full-width;
-  background: @color-1-5;
+  background: @color-0-5;
   z-index: 2;
   box-sizing: border-box;
+
+  padding-bottom: 1rem;
+  padding-left: 0.25rem;
+  padding-top: 1rem;
+  padding-right: 0.25rem;
+
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
 
   &:hover {
     width: @sidebar-full-width;
@@ -155,8 +172,8 @@
 
 @media (max-width: @medium-size-limit) {
   .cardspace {
-    .csc-side {
-      display: none;
+    .csc-content {
+      flex-direction: column;
     }
   }
   .footer {
@@ -188,6 +205,10 @@
     .header-spacer {
       display: block;
       flex-grow: 10;
+    }
+
+    .header-login {
+      display: block;
     }
   }
 }

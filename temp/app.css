@@ -224,6 +224,12 @@ body {
 .header .header-title:visited {
   color: unset;
 }
+.header .header-login {
+  display: none;
+}
+.header .header-icon {
+  max-height: 3rem;
+}
 .header .tabs {
   display: flex;
   background-color: hsl(32, 80%, 45%);
@@ -292,9 +298,16 @@ body {
   bottom: 0;
   left: 0;
   width: 12rem;
-  background: hsl(352, 80%, 37%);
+  background: hsl(32, 80%, 37%);
   z-index: 2;
   box-sizing: border-box;
+  padding-bottom: 1rem;
+  padding-left: 0.25rem;
+  padding-top: 1rem;
+  padding-right: 0.25rem;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
 }
 .sidebar:hover {
   width: 12rem;
@@ -314,8 +327,8 @@ body {
   }
 }
 @media (max-width: 950px) {
-  .cardspace .csc-side {
-    display: none;
+  .cardspace .csc-content {
+    flex-direction: column;
   }
   .footer {
     display: none;
@@ -340,6 +353,9 @@ body {
   .header .header-spacer {
     display: block;
     flex-grow: 10;
+  }
+  .header .header-login {
+    display: block;
   }
 }
 .tt-grid {

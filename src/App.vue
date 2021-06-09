@@ -12,7 +12,7 @@
       @dragover.prevent="(e) => {}"
     >
       <div class="header-menu">&#x2261;</div>
-      <router-link to="/" class="header-title">Hunter - 5/19</router-link>
+      <router-link to="/" class="header-title">Hunter</router-link>
       <div class="header-spacer flex-spacer"></div>
       <div class="tabs flex-spacer">
         <div to="/" class="in-border"></div>
@@ -27,11 +27,13 @@
         <button @click="(e) => savefile()">save file</button>
         <div class="out-border"></div>
       </div>
-
-      <GoogleLogin :params="gParams">Login</GoogleLogin>
-      <GoogleLogin :params="gParams" :logoutButton="true">Logout</GoogleLogin>
-      <div>{{ userName }}</div>
-      <img :src="userImage" />
+      <div class="header-login">
+        <GoogleLogin :params="gParams" v-if="!isLoggedIn">Login</GoogleLogin>
+        <GoogleLogin :params="gParams" v-if="isLoggedIn" :logoutButton="true"
+          >Logout</GoogleLogin
+        >
+      </div>
+      <img :src="userImage" class="header-icon" />
     </header>
 
     <footer class="footer">
@@ -68,6 +70,9 @@ import fileDownload from "js-file-download";
   components: { GoogleLogin, Sidebar },
 })
 export default class App extends Vue {
+  get isLoggedIn() {
+    return !!AuthModule.credentials;
+  }
   // created() {
   //   (Vue as any).GoogleAuth.then((auth2: any) => {
   //     console.log("signed-in:");
