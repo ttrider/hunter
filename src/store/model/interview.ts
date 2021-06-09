@@ -4,7 +4,6 @@ import { When } from "./when";
 
 
 export class InterviewStep implements CalendarEvent {
-
     readonly id: string;
     interview: Interview;
     contactIds: string[];
@@ -36,13 +35,25 @@ export class InterviewStep implements CalendarEvent {
     get company() {
         return this.interview.company;
     }
+
+    serialize() {
+        const ret: InterviewStepInfo = {
+            date: (this.when.startDate.date ?? (new Date())).toISOString(),
+            duration: this.when.duration?.toString(),
+            contacts: [...this.contactIds],
+            notes: this.notes,
+            where: this.where.map(w => w.serialize())
+        };
+
+        return ret;
+    }
+
 }
 
 export class Interview {
-
     company: Company;
     status: InterviewStatus;
-    positionIds?: string[];
+    positionIds: string[];
     interviewSteps: InterviewStep[];
 
     constructor(company: Company, item: InterviewInfo) {
@@ -94,4 +105,16 @@ export class Interview {
     static initializeArray(company: Company, items?: InterviewInfo[]) {
         return (items ?? []).map(item => Interview.initialize(company, item));
     }
+
+    serialize() {
+        const ret: InterviewInfo = {
+            status: this.status,
+            positions: [...this.positionIds],
+            steps: this.interviewSteps.map(s => s.serialize()),
+        };
+
+        return ret;
+    }
+
+
 }

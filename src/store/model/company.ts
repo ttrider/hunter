@@ -1,9 +1,19 @@
 /* eslint-disable prettier/prettier */
-import { Communication, CompanyInfo, CompanyStatus, Contact, ItemSet, Position, WebSiteInfo } from ".";
+import { Communication, CompanyInfo, CompanyStatus, Contact, ItemSet, mapItemSet, Position } from ".";
+import store from "..";
+import { update } from "../client";
 import { ActionItem } from "./action-item";
 import { Interview } from "./interview";
 import { WebSite } from "./website";
 
+export interface CompanyEditorData {
+    id: string;
+    name: string;
+    status: string;
+    active: boolean;
+    careerPageUrl: string;
+    careerPageHint: string;
+}
 export class Company {
     id: string;
     name: string;
@@ -69,5 +79,40 @@ export class Company {
         }
 
         return ret;
+    }
+
+
+    serialize() {
+
+        const ret: CompanyInfo = {
+            id: this.id,
+            name: this.name,
+            active: this.active,
+            status: this.status,
+            contacts: mapItemSet(this.contacts, i => i.serialize()),
+            communications: this.communications.map(i => i.serialize()),
+            interviews: this.interviews.map(i => i.serialize()),
+            actionItems: this.actionItems.map(i => i.serialize()),
+            careerSite: this.careerPageUrl ? {
+                url: this.careerPageUrl,
+                hint: this.careerPageHint
+            } : undefined,
+            positions: mapItemSet(this.positions, i => i.serialize()),
+        }
+
+
+
+        return ret;
+    }
+
+
+    update(value: CompanyEditorData) {
+        this.active = value.active;
+        this.name = value.name;
+        this.status = value.status as CompanyStatus;
+        this.careerPageHint = value.careerPageHint;
+        this.careerPageUrl = value.careerPageUrl;
+
+        update();
     }
 }

@@ -13,8 +13,8 @@ import Vue from "vue";
 import { Interview } from "./model/interview";
 import { When } from "./model/when";
 import { DateInfo } from "./model/date-info";
-
-const localStorage = localforage.createInstance({ name: "localFile" });
+import { AuthModule } from "./auth";
+import { get, update } from "./client";
 
 export declare type AppStatus =
   | "Initializing"
@@ -43,13 +43,14 @@ export async function loadDropedFile(files: File[]) {
   }
   const text = await files[0].text();
 
-  const data = JSON.parse(text) as SessionInfo;
-
-  await store.dispatch("app/load", data);
+  const data = JSON.parse(text) as { session: SessionInfo };
+  if (data && data.session) {
+    await update(data.session);
+  }
 }
 
 export async function saveLocalFile() {
-  const data = (await localStorage.getItem("input")) as SessionInfo;
+  const data = AppModule.session.serialize();
   if (data) {
     const text = JSON.stringify(data, null, 2);
     fileDownload(text, "input.json");
@@ -193,8 +194,10 @@ class App extends VuexModule implements AppState {
   }
 
   @Mutation updateSession(sessionInfo: SessionInfo) {
-    const session = Session.initialize(sessionInfo);
-    Vue.set(this, "session", session);
+    if (sessionInfo) {
+      const session = Session.initialize(sessionInfo);
+      Vue.set(this, "session", session);
+    }
   }
 
   @Mutation updateCurrentDate() {
@@ -209,19 +212,9 @@ class App extends VuexModule implements AppState {
       store.commit("app/updateCurrentDate");
     }, 500);
 
-    // load data from the local storage
-    const data = (await localStorage.getItem("input")) as {
-      session: SessionInfo;
-    };
-    return data.session;
-  }
-
-  @Action
-  async load(data: SessionInfo) {
-    console.info(data);
-
-    // validate here
-    await localStorage.setItem("input", data);
+    console.info("getting data from lambda");
+    const data = await get();
+    return data;
   }
 }
 

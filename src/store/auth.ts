@@ -8,6 +8,7 @@ import {
 import store from "@/store";
 import Vue from "vue";
 import AWS from "aws-sdk";
+import { get } from "./client";
 
 export const client_id =
   "138993422227-h19aliqjhes1rmqcvnkkufsaiq7r9gv5.apps.googleusercontent.com";
@@ -86,6 +87,10 @@ class Auth extends VuexModule implements AuthState {
       this.credentials = userAuth.credentials;
     } else {
       this.id = this.displayName = this.imageUrl = this.email = this.id_token = this.credentials = null;
+    }
+
+    if (this.credentials) {
+      get("app/updateSession");
     }
   }
 

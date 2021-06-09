@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Company, ItemSet, SessionInfo } from ".";
+import { Company, ItemSet, mapItemSet, SessionInfo } from ".";
 
 export class Session {
     companies: ItemSet<Company>;
@@ -11,5 +11,13 @@ export class Session {
     static initialize(info: SessionInfo) {
         const item = new Session(info);
         return item;
+    }
+
+    serialize() {
+
+        const ret: SessionInfo = {
+            engagements: mapItemSet(this.companies, (c => c.serialize()))
+        }
+        return ret;
     }
 }

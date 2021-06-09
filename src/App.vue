@@ -23,6 +23,7 @@
         <router-link to="/profile" class="tab">profile</router-link>
         <router-link to="/" class="tab">other</router-link>
         <div class="flex-spacer"></div>
+        <button @click="(e) => serialize()">serialize</button>
         <button @click="(e) => savefile()">save file</button>
         <div class="out-border"></div>
       </div>
@@ -53,12 +54,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, Vue } from "vue-property-decorator";
-import { loadDropedFile, saveLocalFile } from "@/store/app";
+import { AppModule, loadDropedFile, saveLocalFile } from "@/store/app";
 import GoogleLogin from "vue-google-login";
 
 import AWS from "aws-sdk";
 import Sidebar from "@/components/Sidebar.vue";
 import { AuthModule } from "./store/auth";
+import fileDownload from "js-file-download";
 // import Amplify, { Auth } from "aws-amplify";
 
 @Component({
@@ -186,6 +188,12 @@ export default class App extends Vue {
 
   savefile() {
     saveLocalFile();
+  }
+
+  serialize() {
+    const data = AppModule.session.serialize();
+    const dataJ = JSON.stringify(data, null, 2);
+    fileDownload(dataJ, "input_serialized.json");
   }
   async dropHandler(ev: DragEvent) {
     if (ev.dataTransfer) {

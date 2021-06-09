@@ -2,6 +2,7 @@
 import { Company, ContactInfo, ContactRole, ItemSet } from ".";
 
 export class Contact {
+
     id: string;
     company: Company;
     firstName?: string;
@@ -91,6 +92,24 @@ export class Contact {
                 }
             }
         }
+
+        return ret;
+    }
+
+    serialize() {
+        const ret: ContactInfo = {
+            id: this.id,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: [...this.email],
+            phone: [...this.phone],
+            linkedIn: this.linkedIn,
+            alias: this.alias,
+            role: this.role,
+            title: this.title,
+            company: this.companyName,
+            notes: this.notes
+        };
 
         return ret;
     }

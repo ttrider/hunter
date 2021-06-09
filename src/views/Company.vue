@@ -4,7 +4,8 @@
     <div class="csc-content">
       <div class="csc-main">
         <RecordCard />
-        <EventsCard />
+        <CompanyCard :value="instance" />
+        <!-- <EventsCard /> -->
       </div>
       <div class="csc-side">
         <ContactsCard :value="instance" />
@@ -19,10 +20,6 @@
 
 .company-grid {
   grid-template-columns: 1fr auto;
-}
-
-.company-card {
-  width: @max-content-width;
 }
 
 .company-card-item-top {

@@ -3,7 +3,7 @@ import { CalendarEventWhere, WhereInfo } from ".";
 
 
 export class Where implements CalendarEventWhere {
-    
+
     id: string;
     url: string;
     federation?: string;
@@ -57,5 +57,18 @@ export class Where implements CalendarEventWhere {
         if (item.phone != undefined) {
             this.phone = item.phone;
         }
+    }
+
+
+    serialize() {
+        const ret: WhereInfo = {
+            url: this.url,
+            hint: this.hint,
+            phone: [...this.phone],
+            meetingPassword: this.meetingPassword,
+            meetingId: this.meetingId
+        };
+
+        return ret;
     }
 }

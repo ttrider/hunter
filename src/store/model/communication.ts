@@ -4,13 +4,12 @@ import { CommunicationInfo, CommunicationType, Company, Where, CalendarEvent } f
 import { When } from "./when";
 
 export class Communication implements CalendarEvent {
-
     id: string;
     company: Company;
     type: CommunicationType;
     contactIds: string[];
     notes?: string;
-    positionIds?: string[];
+    positionIds: string[];
 
     when: When;
     where: Where[];
@@ -46,18 +45,19 @@ export class Communication implements CalendarEvent {
         return (items ?? []).map(item => Communication.initialize(company, item));
     }
 
-    // update(item: Partial<ActionItemInfo & { addContacts: Partial<ContactInfo>[] }>) {
-    //     if (item.type != undefined) {
-    //         this.type = item.type;
-    //     }
-    //     if (item.description != undefined) {
-    //         this.description = item.description;
-    //     }
-    //     if (item.contacts != undefined) {
-    //         this.contacts = [...item.contacts];
-    //     }
-    //     if (item.addContacts != undefined) {
-    //         this.contacts.push(...item.addContacts);
-    //     }
-    // }
+    serialize() {
+        const ret: CommunicationInfo = {
+            type: this.type,
+            date: this.when.startDate.date?.toISOString(),
+            duration: this.when.duration?.toString(),
+            contacts: [...this.contactIds],
+            notes: this.notes,
+            positions: [...this.positionIds],
+            where: this.where.map(w => w.serialize())
+        };
+
+        return ret;
+    }
+
+
 }

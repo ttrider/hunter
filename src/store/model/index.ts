@@ -38,6 +38,23 @@ export interface CalendarEvent {
 
 export declare type ItemSet<T> = { [name: string]: T };
 
+export function mapItemSet<T1, T2>(set: ItemSet<T1>, handler: (item: T1) => T2 | undefined) {
+
+    const ret: ItemSet<T2> = {};
+    for (const key in set) {
+        if (Object.prototype.hasOwnProperty.call(set, key)) {
+            const input = set[key];
+            if (input) {
+                const output = handler(input);
+                if (output) {
+                    ret[key] = output;
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
 }

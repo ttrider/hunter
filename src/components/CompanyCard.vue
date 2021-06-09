@@ -34,12 +34,10 @@
 
 <script lang="ts">
 import { AppModule } from "@/store/app";
-import { Company } from "@/store/model";
+import { Company, CompanyEditorData } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
-import CompanyEditor, {
-  CompanyEditorData,
-} from "@/components/CompanyEditor.vue";
+import CompanyEditor from "@/components/CompanyEditor.vue";
 import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
 import { getProperties } from "@/store/model/utils";
 
@@ -80,6 +78,7 @@ export default class CompanyCard extends Vue {
   }
 
   onSave() {
+    this.value.update(this.company);
     this.editing = false;
   }
 }

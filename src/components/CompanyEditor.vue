@@ -39,15 +39,7 @@ import { Component, ModelSync, Vue, Watch } from "vue-property-decorator";
 import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { AppModule } from "@/store/app";
-
-export interface CompanyEditorData {
-  id: string;
-  name: string;
-  status: string;
-  active: boolean;
-  careerPageUrl: string;
-  careerPageHint: string;
-}
+import { CompanyEditorData } from "@/store/model/company";
 
 @Component({
   components: { Selector },

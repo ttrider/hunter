@@ -57,6 +57,17 @@ export class Position {
         return ret;
     }
 
+    serialize() {
+        const ret: PositionInfo = {
+            id: this.id,
+            name: this.name,
+            url: this.url,
+            status: this.status,
+        };
+
+        return ret;
+    }
+
 }
 
 export class PositionSet implements ItemSet<Position> {

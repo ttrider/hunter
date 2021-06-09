@@ -3,9 +3,7 @@
 import { ActionItemInfo, ActionItemType, ActionItemStatus, Company } from ".";
 
 export class ActionItem {
-
     company: Company;
-
     type: ActionItemType;
     description: string;
     contactIds: string[];
@@ -32,18 +30,16 @@ export class ActionItem {
         return (items ?? []).map(item => ActionItem.initialize(company, item));
     }
 
-    // update(item: Partial<ActionItemInfo & { addContacts: Partial<ContactInfo>[] }>) {
-    //     if (item.type != undefined) {
-    //         this.type = item.type;
-    //     }
-    //     if (item.description != undefined) {
-    //         this.description = item.description;
-    //     }
-    //     if (item.contacts != undefined) {
-    //         this.contacts = [...item.contacts];
-    //     }
-    //     if (item.addContacts != undefined) {
-    //         this.contacts.push(...item.addContacts);
-    //     }
-    // }
+    serialize() {
+        const ret: ActionItemInfo = {
+            type: this.type,
+            description: this.description,
+            contacts: [...this.contactIds],
+            status: this.status,
+        };
+
+        return ret;
+    }
+
+
 }
