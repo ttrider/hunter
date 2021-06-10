@@ -4,44 +4,27 @@
     @drop.prevent="(e) => dropHandler(e)"
     @dragover.prevent="(e) => {}"
   >
-    <Sidebar />
-
     <header
       class="header"
       @drop.prevent="(e) => dropHandler(e)"
       @dragover.prevent="(e) => {}"
     >
-      <div class="header-menu">&#x2261;</div>
-      <router-link to="/" class="header-title">Hunter</router-link>
-      <div class="header-spacer flex-spacer"></div>
-      <div class="tabs flex-spacer">
-        <div to="/" class="in-border"></div>
-        <router-link to="/" class="tab">home</router-link>
+      <!-- <div class="header-menu">&#x2261;</div> -->
+      <router-link to="/" class="header-title">JobHunter</router-link>
+      <div class="flex-spacer"></div>
+      <div class="tabs">
         <router-link to="/companies" class="tab">companies</router-link>
-        <router-link to="/actions" class="tab">actions</router-link>
-        <router-link to="/contacts" class="tab">contacts</router-link>
-        <router-link to="/profile" class="tab">profile</router-link>
-        <router-link to="/" class="tab">other</router-link>
-        <div class="flex-spacer"></div>
-        <button @click="(e) => serialize()">serialize</button>
-        <button @click="(e) => savefile()">save file</button>
-        <div class="out-border"></div>
+        <router-link to="/schedule" class="tab">schedule</router-link>
+        <router-link to="/log" class="tab">log</router-link>
       </div>
-      <div class="header-login">
-        <GoogleLogin :params="gParams" v-if="!isLoggedIn">Login</GoogleLogin>
-        <GoogleLogin :params="gParams" v-if="isLoggedIn" :logoutButton="true"
-          >Logout</GoogleLogin
-        >
-      </div>
-      <img :src="userImage" class="header-icon" />
+      <AuthButton />
     </header>
 
     <footer class="footer">
-      <router-link to="/" class="tab">home</router-link>
-      <router-link to="/actions" class="tab">actions</router-link>
-      <router-link to="/contacts" class="tab">contacts</router-link>
+      <router-link to="/companies" class="tab">companies</router-link>
+      <router-link to="/schedule" class="tab">schedule</router-link>
+      <router-link to="/log" class="tab">log</router-link>
       <router-link to="/profile" class="tab">profile</router-link>
-      <router-link to="/" class="tab">other</router-link>
     </footer>
 
     <router-view />
@@ -58,16 +41,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import { AppModule, loadDropedFile, saveLocalFile } from "@/store/app";
 import GoogleLogin from "vue-google-login";
-
-import AWS from "aws-sdk";
-import Sidebar from "@/components/Sidebar.vue";
+import AuthButton from "@/components/AuthButton.vue";
 import { AuthModule } from "./store/auth";
 import fileDownload from "js-file-download";
 // import Amplify, { Auth } from "aws-amplify";
 
 @Component({
   name: "App",
-  components: { GoogleLogin, Sidebar },
+  components: { GoogleLogin, AuthButton },
 })
 export default class App extends Vue {
   get isLoggedIn() {

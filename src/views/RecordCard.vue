@@ -74,11 +74,11 @@ import When from "@/components/When.vue";
 import Where from "@/components/Where.vue";
 import Selector from "vue-select";
 import ActionSelector from "@/components/ActionSelector.vue";
-import CompanySelector from "@/components/CompanySelector.vue";
-import ContactSelector from "@/components/ContactSelector.vue";
-import ContactsSelector from "@/components/ContactsSelector.vue";
+import CompanySelector from "@/components/company/CompanySelector.vue";
+import ContactSelector from "@/components/contact/ContactSelector.vue";
+import ContactsSelector from "@/components/contact/ContactsSelector.vue";
 import WhenSelector from "@/components/WhenSelector.vue";
-import AddCompanyActivity from "@/components/AddCompanyActivity.vue";
+import AddCompanyActivity from "@/components/company/AddCompanyActivity.vue";
 
 import Calendar from "v-calendar/lib/components/calendar.umd";
 import DatePicker from "v-calendar/lib/components/date-picker.umd";

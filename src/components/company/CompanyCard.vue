@@ -28,16 +28,12 @@
   </div>
 </template>
 
-<style lang="less">
-@import "../styles/defs.less";
-</style>
-
 <script lang="ts">
 import { AppModule } from "@/store/app";
 import { Company, CompanyEditorData } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import PathLink from "../vue-tt/PathLink.vue";
-import CompanyEditor from "@/components/CompanyEditor.vue";
+import PathLink from "../../vue-tt/PathLink.vue";
+import CompanyEditor from "@/components/company/CompanyEditor.vue";
 import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
 import { getProperties } from "@/store/model/utils";
 

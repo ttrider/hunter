@@ -32,8 +32,6 @@
   </div>
 </template>
 
-<style lang="less"></style>
-
 <script lang="ts">
 import { Component, ModelSync, Vue, Watch } from "vue-property-decorator";
 import Selector from "vue-select";

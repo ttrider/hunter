@@ -1,22 +1,16 @@
 <template>
-  <div class="tt-grid company-grid">
-    <span class="tt-g-header">
-      <div class="tt-g-h-col">
-        <div>company</div>
+  <div class="cardspace">
+    <div class="csc-content">
+      <div class="csc-main">
+        <RecordCard />
+        <CompanyListCard />
+        <!-- <EventsCard /> -->
       </div>
-      <div class="tt-g-h-col">
-        <div>status</div>
-      </div>
-    </span>
-    <span class="tt-g-row" v-for="c in companies" :key="c.id">
-      <div class="tt-g-h-col">
-        <PathLink :path="`companies/${c.name}`"> {{ c.name }}</PathLink>
-      </div>
-      <div class="tt-g-h-col">
-        {{ c.status }}
-      </div>
-    </span>
-    <div class="tt-g-footer"></div>
+      <!-- <div class="csc-side">
+        <ContactsCard :value="instance" />
+        <PositionsCard :value="instance" />
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -27,17 +21,14 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Component, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
+import CompaniesCard from "@/views/CompaniesCard.vue";
+import RecordCard from "@/views/RecordCard.vue";
+import CompanyListCard from "@/components/company/CompanyListCard.vue";
 
 @Component({
-  components: { PathLink },
+  components: { PathLink, CompaniesCard, RecordCard, CompanyListCard },
 })
-export default class Companies extends Vue {
-  get companies() {
-    // do sorting here
-    return AppModule.companies;
-  }
-}
+export default class Companies extends Vue {}
 </script>

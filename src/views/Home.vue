@@ -1,13 +1,12 @@
 <template>
   <div class="view cardspace">
-    <div class="csc-sidebar"></div>
     <div class="csc-content">
       <div class="csc-main">
         <RecordCard />
+        <EventsCard />
       </div>
       <div class="csc-side">
-        <CompaniesCard />
-        <EventsCard />
+        <CompanyListCard title="Companies" titleLinkPath="/companies" />
       </div>
     </div>
   </div>
@@ -23,9 +22,17 @@ import When from "@/components/When.vue";
 import CompaniesCard from "@/views/CompaniesCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
+import CompanyListCard from "@/components/company/CompanyListCard.vue";
 
 @Component({
-  components: { Where, When, CompaniesCard, EventsCard, RecordCard },
+  components: {
+    Where,
+    When,
+    CompaniesCard,
+    EventsCard,
+    RecordCard,
+    CompanyListCard,
+  },
 })
 export default class Home extends Vue {
   get upcomingMeetings() {

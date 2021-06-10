@@ -1,6 +1,5 @@
 <template>
   <div v-if="!!instance" class="cardspace">
-    <div class="csc-sidebar">sidebar</div>
     <div class="csc-content">
       <div class="csc-main">
         <RecordCard />
@@ -34,14 +33,13 @@
 
 <script lang="ts">
 import { AppModule } from "@/store/app";
-import { Contact, Position, PositionStatus } from "@/store/model";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
 import PathLink from "../vue-tt/PathLink.vue";
-import CompanyEditor from "@/components/CompanyEditor.vue";
-import CompanyCard from "@/components/CompanyCard.vue";
+import CompanyEditor from "@/components/company/CompanyEditor.vue";
+import CompanyCard from "@/components/company/CompanyCard.vue";
 import PositionsCard from "@/components/PositionsCard.vue";
-import ContactsCard from "@/components/ContactsCard.vue";
+import ContactsCard from "@/components/contact/ContactsCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
 

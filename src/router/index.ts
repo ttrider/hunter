@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
-import Actions from "../views/Actions.vue";
-import Contacts from "../views/Contacts.vue";
+import Schedule from "../views/Schedule.vue";
+import Log from "../views/Log.vue";
 import Profile from "../views/Profile.vue";
 import Companies from "../views/Companies.vue";
 import Company from "../views/Company.vue";
@@ -16,9 +16,9 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: "/actions",
-    name: "Actions",
-    component: Actions,
+    path: "/schedule",
+    name: "Schedule",
+    component: Schedule,
   },
   {
     path: "/companies",
@@ -31,9 +31,9 @@ const routes: Array<RouteConfig> = [
     component: Company,
   },
   {
-    path: "/contacts",
-    name: "Contacts",
-    component: Contacts,
+    path: "/log",
+    name: "Log",
+    component: Log,
   },
   {
     path: "/profile",

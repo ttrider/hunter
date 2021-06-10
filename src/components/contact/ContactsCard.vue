@@ -17,14 +17,10 @@
   </div>
 </template>
 
-<style lang="less">
-@import "../styles/defs.less";
-</style>
-
 <script lang="ts">
 import { Company, Contact } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import PathLink from "../vue-tt/PathLink.vue";
+import PathLink from "../../vue-tt/PathLink.vue";
 
 @Component({
   components: { PathLink },
