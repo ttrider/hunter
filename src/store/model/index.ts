@@ -122,6 +122,22 @@ export interface ContactInfo {
     company?: string;
     notes?: string;
 }
+export interface ContactRecord {
+    id: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string[];
+    phone?: string[];
+    linkedIn?: string;
+    alias?: string;
+    role?: ContactRole;
+    title?: string;
+    company?: string;
+    notes?: string;
+
+    lastUpdated: string;
+    lastVersion: number;
+}
 
 export declare type CommunicationType = "phonescreen" | "informational" | "none";
 

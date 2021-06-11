@@ -6,7 +6,14 @@ import {
   VuexModule,
 } from "vuex-module-decorators";
 import store from "@/store";
-import { CalendarEvent, Communication, Session, SessionInfo } from "./model";
+import {
+  CalendarEvent,
+  Communication,
+  Contact2,
+  ItemSet,
+  Session,
+  SessionInfo,
+} from "./model";
 import localforage from "localforage";
 import fileDownload from "js-file-download";
 import Vue from "vue";
@@ -14,7 +21,7 @@ import { Interview } from "./model/interview";
 import { When } from "./model/when";
 import { DateInfo } from "./model/date-info";
 import { AuthModule } from "./auth";
-import { get, update } from "./client";
+import { get, getContacts, update } from "./client";
 
 export declare type AppStatus =
   | "Initializing"
@@ -60,6 +67,8 @@ export async function saveLocalFile() {
 @Module({ dynamic: true, store, name: "app", namespaced: true })
 class App extends VuexModule implements AppState {
   status: AppStatus = "Initializing";
+
+  contacts: { [id: string]: Contact2 } = {};
 
   session: Session = Session.initialize({ engagements: {} });
 
@@ -204,6 +213,17 @@ class App extends VuexModule implements AppState {
     Vue.set(this, "date", new Date());
   }
 
+  @Mutation initializeContacts(contacts: ItemSet<Contact2>) {
+    Vue.set(this, "contacts", contacts);
+  }
+  @Mutation updateContact(data: {
+    id: string | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    properties: { [name: string]: any };
+  }) {
+    console.info(data);
+  }
+
   @Action({ commit: "updateSession" })
   async initialize() {
     console.info("initialize App");
@@ -212,9 +232,19 @@ class App extends VuexModule implements AppState {
       store.commit("app/updateCurrentDate");
     }, 500);
 
+    await store.dispatch("app/loadContacts");
+
     console.info("getting data from lambda");
     const data = await get();
     return data;
+  }
+
+  @Action({ commit: "initializeContacts" })
+  async loadContacts() {
+    const data = await getContacts();
+    const contacts: { [name: string]: Contact2 } = {};
+    Object.keys(data).forEach((k) => (contacts[k] = new Contact2(data[k])));
+    return contacts;
   }
 }
 

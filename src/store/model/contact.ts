@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Company, ContactInfo, ContactRole, ItemSet } from ".";
+import { Company, ContactInfo, ContactRecord, ContactRole, ItemSet } from ".";
+import { updateContact } from "../client";
 
 export class Contact {
 
@@ -89,6 +90,13 @@ export class Contact {
                     info.id = key;
                     const item = Contact.initialize(company, info);
                     ret[key] = item;
+
+
+                    const altInfo = Object.assign({}, info);
+                    altInfo.id = company.id + "-" + info.id;
+                    // populate local db
+                    updateContact(altInfo);
+
                 }
             }
         }
@@ -114,4 +122,56 @@ export class Contact {
         return ret;
     }
 
+}
+
+export class Contact2 {
+
+    id: string;
+    firstName?: string;
+    lastName?: string;
+    email: string[];
+    phone: string[];
+    linkedIn?: string;
+    alias?: string;
+    role: ContactRole;
+    title?: string;
+    companyName?: string;
+    notes?: string;
+
+    constructor(item: ContactRecord) {
+        this.id = item.id;
+        this.firstName = item.firstName;
+        this.lastName = item.lastName;
+        this.email = item.email ?? [];
+        this.phone = item.phone ?? [];
+        this.linkedIn = item.linkedIn;
+        this.alias = item.alias;
+        this.role = item.role ?? "none";
+        this.title = item.title;
+        this.companyName = item.company;
+        this.notes = item.notes;
+    }
+
+    get displayName() {
+        if (this.alias) {
+            return this.alias;
+        }
+        const parts = [];
+        if (this.firstName) {
+            parts.push(this.firstName);
+        }
+        if (this.lastName) {
+            parts.push(this.lastName);
+        }
+        if (parts.length !== 0) {
+            return parts.join(" ");
+        }
+        if (this.email.length > 0) {
+            return this.email[0];
+        }
+        if (this.phone.length > 0) {
+            return this.phone[0];
+        }
+        return "unknown";
+    }
 }

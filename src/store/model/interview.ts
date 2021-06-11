@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, CalendarEvent } from ".";
+import { AppModule } from "../app";
+import { Contact2 } from "./contact";
 import { When } from "./when";
 
 
@@ -26,6 +28,20 @@ export class InterviewStep implements CalendarEvent {
     }
     get contacts() {
         return this.interview.company.getContacts(this.contactIds);
+    }
+    get contacts2() {
+
+        const ncid = this.contactIds.map(id => this.company.id + "-" + id);
+        const ret: Contact2[] = [];
+
+        for (const id of ncid) {
+            const c = AppModule.contacts[id];
+            if (c) {
+                ret.push(c);
+            }
+        }
+        return ret;
+        //return this.interview.company.getContacts(this.contactIds);
     }
 
     get positions() {
