@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Company, CompanyEditorData } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
@@ -43,29 +42,34 @@ import { getProperties } from "@/store/model/utils";
 export default class CompanyCard extends Vue {
   @Prop() value!: Company;
 
-  company = getProperties<CompanyEditorData>(
-    new Company({ name: "" }),
-    "id",
-    "name",
-    "status",
-    "active",
-    "careerPageUrl",
-    "careerPageHint"
+  // company = getProperties<CompanyEditorData>(
+  //   new Company({ name: "" }),
+  //   "id",
+  //   "name",
+  //   "status",
+  //   "active",
+  //   "careerPageUrl",
+  //   "careerPageHint"
+  // );
+  company: CompanyEditorData = Vue.observable<CompanyEditorData>(
+    // eslint-disable-next-line prettier/prettier
+    {} as unknown as CompanyEditorData
   );
 
   errors: string[] = [];
   editing = false;
 
   onEdit() {
-    this.company = getProperties<CompanyEditorData>(
-      this.value,
-      "id",
-      "name",
-      "status",
-      "active",
-      "careerPageUrl",
-      "careerPageHint"
-    );
+    this.company = this.value.beginEdit();
+    // this.company = getProperties<CompanyEditorData>(
+    //   this.value,
+    //   "id",
+    //   "name",
+    //   "status",
+    //   "active",
+    //   "careerPageUrl",
+    //   "careerPageHint"
+    // );
     this.editing = true;
   }
 
@@ -74,7 +78,9 @@ export default class CompanyCard extends Vue {
   }
 
   onSave() {
-    this.value.update(this.company);
+    // eslint-disable-next-line prettier/prettier
+    (this.company as unknown as { commit: () => void }).commit();
+    //this.value.update(this.company);
     this.editing = false;
   }
 }

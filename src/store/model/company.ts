@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
+import Vue from "vue";
 import { Communication, CompanyInfo, CompanyStatus, Contact, ItemSet, mapItemSet, Position } from ".";
-import store from "..";
 import { update } from "../client";
 import { ActionItem } from "./action-item";
 import { Interview } from "./interview";
 import { WebSite } from "./website";
+import "reflect-metadata";
 
 export interface CompanyEditorData {
     id: string;
@@ -14,10 +15,50 @@ export interface CompanyEditorData {
     careerPageUrl: string;
     careerPageHint: string;
 }
+
+const metadataKey = Symbol("EditableMetadata");
+
+// function editable() {
+//     console.log("I'm editable!");
+//     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+//         console.log("I'm editable property! - " + propertyKey);
+//     };
+// }
+
+function editableField(enabled: boolean) {
+    console.log("I'm editable2!");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return function (target: any, key: any) {
+        console.log("I'm editable property! - " + target + " - " + key);
+
+        const md: { [name: string]: boolean } =
+            (Reflect.hasMetadata(metadataKey, target)) ? Reflect.getMetadata(metadataKey, target) : {};
+        md[key] = enabled;
+        Reflect.defineMetadata(metadataKey, md, target);
+    };
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+function editableClass(constructor: Function) {
+    console.log("I'm editable class! - " + constructor.name);
+
+    constructor.prototype.doSomething = function () {
+
+        const md = Reflect.getMetadata(metadataKey, this);
+        console.info("doSomething");
+        console.info(md);
+    }
+
+}
+
+@editableClass
 export class Company {
     id: string;
+
+    @editableField(true)
     name: string;
     active: boolean;
+    @editableField(true)
     status: CompanyStatus;
     contacts: ItemSet<Contact>;
     communications: Communication[];
@@ -44,6 +85,9 @@ export class Company {
         this.communications = Communication.initializeArray(this, item.communications);
         this.positions = Position.initializeSet(this, item.positions);
         this.interviews = Interview.initializeArray(this, item.interviews);
+
+
+        (this as unknown as { doSomething: () => void }).doSomething();
     }
 
 
@@ -115,4 +159,39 @@ export class Company {
 
         update();
     }
+
+    beginEdit() {
+
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const source = this;
+
+        const ret: any = {
+            id: source.id,
+            // process simple properties
+            active: source.active,
+            name: source.name,
+            status: source.status,
+            careerPageHint: source.careerPageHint,
+            careerPageUrl: source.careerPageUrl,
+
+            commit: () => {
+
+                console.info(source.careerPageHint);
+                const hint = ret.careerPageHint;
+                console.info(hint);
+
+                source.careerPageHint = hint;
+
+                source.active = this.active;
+                source.name = this.name;
+                source.status = this.status;
+                source.careerPageHint = this.careerPageHint;
+                source.careerPageUrl = this.careerPageUrl;
+            }
+        };
+
+
+        return Vue.observable(ret);
+    }
+
 }
