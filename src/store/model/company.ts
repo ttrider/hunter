@@ -182,11 +182,11 @@ export class Company {
 
                 source.careerPageHint = hint;
 
-                source.active = this.active;
-                source.name = this.name;
-                source.status = this.status;
-                source.careerPageHint = this.careerPageHint;
-                source.careerPageUrl = this.careerPageUrl;
+                source.active = ret.active;
+                source.name = ret.name;
+                source.status = ret.status;
+                source.careerPageHint = ret.careerPageHint;
+                source.careerPageUrl = ret.careerPageUrl;
             }
         };
 

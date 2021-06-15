@@ -1,6 +1,9 @@
 /* eslint-disable prettier/prettier */
+import { requestDocuments } from "@/client";
+import { DocumentClient } from "@/client/documentClient";
+import Vue from "vue";
 import { Company, ContactInfo, ContactRecord, ContactRole, ItemSet } from ".";
-import { updateContact } from "../client";
+
 
 export class Contact {
 
@@ -95,7 +98,7 @@ export class Contact {
                     const altInfo = Object.assign({}, info);
                     altInfo.id = company.id + "-" + info.id;
                     // populate local db
-                    updateContact(altInfo);
+                    // updateContact(altInfo);
 
                 }
             }
@@ -174,4 +177,58 @@ export class Contact2 {
         }
         return "unknown";
     }
+
+
+    beginEdit() {
+
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const source = this;
+
+        const ret: any = {
+            id: source.id,
+            firstName: source.firstName,
+            lastName: source.lastName,
+            email: source.email,
+            phone: source.phone,
+            linkedIn: source.linkedIn,
+            alias: source.alias,
+            role: source.role,
+            title: source.title,
+            companyName: source.companyName,
+            notes: source.notes,
+
+            commit: () => {
+
+                source.id = ret.id;
+                source.firstName = ret.firstName;
+                source.lastName = ret.lastName;
+                source.email = ret.email;
+                source.phone = ret.phone;
+                source.linkedIn = ret.linkedIn;
+                source.alias = ret.alias;
+                source.role = ret.role;
+                source.title = ret.title;
+                source.companyName = ret.companyName;
+                source.notes = ret.notes;
+
+                contactsClient.update({ [ret.id]: ret });
+
+                //updateContact(ret);
+            }
+        };
+
+        return Vue.observable(ret);
+    }
 }
+
+
+
+export const contactsClient = new DocumentClient<ContactRecord>(
+    "contacts",
+    "app/initializeContacts",
+    "app/updateContacts",
+    async (client) => {
+        const documents = await requestDocuments<ContactRecord>("contacts", client.lastUpdated ? client.lastUpdated : undefined);
+        return documents ?? {};
+    }
+);

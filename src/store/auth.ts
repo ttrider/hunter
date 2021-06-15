@@ -9,6 +9,7 @@ import store from "@/store";
 import Vue from "vue";
 import AWS from "aws-sdk";
 import { get } from "./client";
+import { contactsClient } from "./model";
 
 export const client_id =
   "138993422227-h19aliqjhes1rmqcvnkkufsaiq7r9gv5.apps.googleusercontent.com";
@@ -89,9 +90,15 @@ class Auth extends VuexModule implements AuthState {
       this.id = this.displayName = this.imageUrl = this.email = this.id_token = this.credentials = null;
     }
 
+    contactsClient.refresh();
+
     if (this.credentials) {
       get("app/updateSession");
     }
+  }
+
+  @Mutation updateAwsCredentials(credentials: AWS.Credentials | null) {
+    this.credentials = credentials;
   }
 
   @Action({
@@ -103,6 +110,17 @@ class Auth extends VuexModule implements AuthState {
       userAuth.credentials = await getAwsCredentials(userAuth?.id_token);
     }
     return userAuth;
+  }
+
+  @Action({
+    commit: "updateAwsCredentials",
+  })
+  async refreshAwsCredentials() {
+    console.info("AUTH ACTION: refresh AWS Creds");
+    if (this.id_token) {
+      return await getAwsCredentials(this.id_token);
+    }
+    return null;
   }
 }
 

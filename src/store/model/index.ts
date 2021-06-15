@@ -55,6 +55,27 @@ export function mapItemSet<T1, T2>(set: ItemSet<T1>, handler: (item: T1) => T2 |
     return ret;
 }
 
+export function forEachItemSet<T>(set: ItemSet<T>, handler: (item: T) => void) {
+    for (const key in set) {
+        if (Object.prototype.hasOwnProperty.call(set, key)) {
+            const item = set[key];
+            handler(item);
+        }
+    }
+}
+
+export function mergeItemSets<T>(currentSet: ItemSet<T>, additionalSet: ItemSet<T>, includeUndefined = false): ItemSet<T> {
+    for (const key in additionalSet) {
+        if (Object.prototype.hasOwnProperty.call(additionalSet, key)) {
+            const item = additionalSet[key];
+            if (includeUndefined || item != undefined) {
+                currentSet[key] = item;
+            }
+        }
+    }
+    return currentSet;
+}
+
 export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
 }

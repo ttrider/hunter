@@ -10,18 +10,22 @@ import {
   CalendarEvent,
   Communication,
   Contact2,
+  ContactRecord,
+  contactsClient,
   ItemSet,
+  mapItemSet,
+  mergeItemSets,
   Session,
   SessionInfo,
 } from "./model";
-import localforage from "localforage";
+
 import fileDownload from "js-file-download";
 import Vue from "vue";
 import { Interview } from "./model/interview";
 import { When } from "./model/when";
 import { DateInfo } from "./model/date-info";
-import { AuthModule } from "./auth";
-import { get, getContacts, update } from "./client";
+import { get, update } from "./client";
+import { initializeAuth } from "./auth";
 
 export declare type AppStatus =
   | "Initializing"
@@ -38,8 +42,41 @@ export interface AppState {
   status: AppStatus;
 }
 
+export function updateAppStatus(status: AppStatus) {
+  store.commit("app/updateStatus", status);
+}
+
+export function updateStatusMessage(message: string) {
+  store.commit("app/updateStatusMessage", message);
+}
+export function updateError(err?: string) {
+  if (err) {
+    console.error("error " + err);
+  }
+  store.commit("app/updateError", err);
+}
+
+function runRefresh(): void {
+  store
+    .dispatch("app/refresh")
+    .then(() => {
+      setTimeout(runRefresh, 600000);
+    })
+    .catch(() => {
+      setTimeout(runRefresh, 600000);
+    });
+}
+
 export async function initializeApp() {
+  updateAppStatus("Initializing");
+
   await store.dispatch("app/initialize");
+
+  setTimeout(runRefresh, 600000);
+}
+
+export async function refreshAll() {
+  store.dispatch("app/refreshAll");
 }
 
 export async function loadDropedFile(files: File[]) {
@@ -67,6 +104,9 @@ export async function saveLocalFile() {
 @Module({ dynamic: true, store, name: "app", namespaced: true })
 class App extends VuexModule implements AppState {
   status: AppStatus = "Initializing";
+  //status: AppStatus = "Initializing";
+  error = "";
+  statusMessage = "";
 
   contacts: { [id: string]: Contact2 } = {};
 
@@ -213,8 +253,16 @@ class App extends VuexModule implements AppState {
     Vue.set(this, "date", new Date());
   }
 
-  @Mutation initializeContacts(contacts: ItemSet<Contact2>) {
-    Vue.set(this, "contacts", contacts);
+  @Mutation initializeContacts(contacts: ItemSet<ContactRecord>) {
+    console.info("initializeContacts: " + JSON.stringify(contacts, null, 2));
+    const cmap = mapItemSet(contacts, (item) => new Contact2(item));
+    Vue.set(this, "contacts", cmap);
+  }
+
+  @Mutation updateContacts(contacts: ItemSet<ContactRecord>) {
+    console.info("updateContacts: " + JSON.stringify(contacts, null, 2));
+    const cmap = mapItemSet(contacts, (item) => new Contact2(item));
+    mergeItemSets(this.contacts, cmap);
   }
   @Mutation updateContact(data: {
     id: string | undefined;
@@ -223,28 +271,102 @@ class App extends VuexModule implements AppState {
   }) {
     console.info(data);
   }
+  @Mutation updateStatusMessage(msg: string) {
+    this.statusMessage = !msg ? "" : msg;
+    console.info("status message: " + this.statusMessage);
+  }
 
   @Action({ commit: "updateSession" })
-  async initialize() {
+  async initializeOld() {
     console.info("initialize App");
 
-    setInterval(() => {
-      store.commit("app/updateCurrentDate");
-    }, 500);
-
-    await store.dispatch("app/loadContacts");
+    await contactsClient.refresh();
+    //await store.dispatch("app/loadContacts");
 
     console.info("getting data from lambda");
     const data = await get();
     return data;
   }
 
-  @Action({ commit: "initializeContacts" })
-  async loadContacts() {
-    const data = await getContacts();
-    const contacts: { [name: string]: Contact2 } = {};
-    Object.keys(data).forEach((k) => (contacts[k] = new Contact2(data[k])));
-    return contacts;
+  // @Action({ commit: "initializeContacts" })
+  // async loadContacts() {
+  //   const data = await getContacts();
+  //   const contacts: { [name: string]: Contact2 } = {};
+  //   Object.keys(data).forEach((k) => (contacts[k] = new Contact2(data[k])));
+  //   return contacts;
+  // }
+
+  @Mutation
+  updateStatus(status: AppStatus) {
+    this.status = status;
+    console.info("status: " + this.statusMessage);
+  }
+
+  @Mutation
+  updateError(err: string) {
+    this.error = !err ? "" : err;
+    if (err) {
+      this.statusMessage = "";
+      console.info("error: " + this.error);
+    }
+  }
+
+  @Action
+  async initialize() {
+    updateAppStatus("Loading");
+
+    setInterval(() => {
+      store.commit("app/updateCurrentDate");
+    }, 500);
+
+    // we have to make sure that we initialize AUTH before doing anything else
+    await initializeAuth();
+
+    await store.dispatch("app/initializeOld");
+
+    updateStatusMessage("loading contacts...");
+    await contactsClient.initialize();
+
+    await store.dispatch("app/refresh");
+
+    updateStatusMessage("");
+  }
+
+  @Action
+  async refresh() {
+    updateAppStatus("Refreshing");
+
+    updateStatusMessage("refreshing contacts information...");
+    await contactsClient.refresh();
+
+    // updateStatusMessage("refreshing folders information...");
+    // await folderClient.refresh();
+
+    // updateStatusMessage("refreshing labels...");
+    // await labelsClient.refresh();
+
+    // updateStatusMessage("refreshing tasks...");
+    // await issuesClient.refresh();
+    // updateStatusMessage("");
+  }
+
+  @Action
+  async refreshAll() {
+    updateAppStatus("Refreshing");
+
+    updateStatusMessage("getting contacts information...");
+    await contactsClient.reset();
+
+    // updateStatusMessage("getting program information...");
+    // await folderClient.reset();
+
+    // updateStatusMessage("getting labels...");
+    // await labelsClient.reset();
+
+    // updateStatusMessage("getting tasks...");
+    // await issuesClient.reset();
+
+    updateStatusMessage("");
   }
 }
 

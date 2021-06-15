@@ -42,7 +42,9 @@
               v-for="contact in de.contacts2"
               :key="de.id + '|' + contact.displayName"
             >
-              <div class="t2">{{ contact.displayName }}</div>
+              <PathLink class="t2" :path="'/contacts/' + contact.id">{{
+                contact.displayName
+              }}</PathLink>
               <div class="t3 text-light">{{ contact.title }}</div>
             </div>
             <Where

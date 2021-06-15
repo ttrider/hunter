@@ -6,6 +6,7 @@ import Log from "../views/Log.vue";
 import Profile from "../views/Profile.vue";
 import Companies from "../views/Companies.vue";
 import Company from "../views/Company.vue";
+import Contact from "../views/Contact.vue";
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ const routes: Array<RouteConfig> = [
     path: "/companies/:id",
     name: "Company",
     component: Company,
+  },
+  {
+    path: "/contacts/:id",
+    name: "Contact",
+    component: Contact,
   },
   {
     path: "/log",
