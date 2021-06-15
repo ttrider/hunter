@@ -6,18 +6,7 @@ import {
   VuexModule,
 } from "vuex-module-decorators";
 import store from "@/store";
-import {
-  CalendarEvent,
-  Communication,
-  Contact2,
-  ContactRecord,
-  contactsClient,
-  ItemSet,
-  mapItemSet,
-  mergeItemSets,
-  Session,
-  SessionInfo,
-} from "./model";
+import { CalendarEvent, Communication, Session, SessionInfo } from "./model";
 
 import fileDownload from "js-file-download";
 import Vue from "vue";
@@ -26,6 +15,7 @@ import { When } from "./model/when";
 import { DateInfo } from "./model/date-info";
 import { get, update } from "./client";
 import { initializeAuth } from "./auth";
+import { contactsClient } from "./contacts";
 
 export declare type AppStatus =
   | "Initializing"
@@ -107,8 +97,6 @@ class App extends VuexModule implements AppState {
   //status: AppStatus = "Initializing";
   error = "";
   statusMessage = "";
-
-  contacts: { [id: string]: Contact2 } = {};
 
   session: Session = Session.initialize({ engagements: {} });
 
@@ -253,24 +241,6 @@ class App extends VuexModule implements AppState {
     Vue.set(this, "date", new Date());
   }
 
-  @Mutation initializeContacts(contacts: ItemSet<ContactRecord>) {
-    console.info("initializeContacts: " + JSON.stringify(contacts, null, 2));
-    const cmap = mapItemSet(contacts, (item) => new Contact2(item));
-    Vue.set(this, "contacts", cmap);
-  }
-
-  @Mutation updateContacts(contacts: ItemSet<ContactRecord>) {
-    console.info("updateContacts: " + JSON.stringify(contacts, null, 2));
-    const cmap = mapItemSet(contacts, (item) => new Contact2(item));
-    mergeItemSets(this.contacts, cmap);
-  }
-  @Mutation updateContact(data: {
-    id: string | undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    properties: { [name: string]: any };
-  }) {
-    console.info(data);
-  }
   @Mutation updateStatusMessage(msg: string) {
     this.statusMessage = !msg ? "" : msg;
     console.info("status message: " + this.statusMessage);

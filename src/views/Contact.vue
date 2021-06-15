@@ -39,6 +39,7 @@ import ContactsCard from "@/components/contact/ContactsCard.vue";
 import ContactCard from "@/components/contact/ContactCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
+import { ContactsModule } from "@/store/contacts";
 
 @Component({
   components: {
@@ -67,7 +68,7 @@ export default class ContactView extends Vue {
   get instance() {
     const id = this.id.toLowerCase();
 
-    const item = AppModule.contacts[id];
+    const item = ContactsModule.contacts[id];
 
     if (item) {
       // if (this.$router.currentRoute.path !== item.id.toLowerCase()) {

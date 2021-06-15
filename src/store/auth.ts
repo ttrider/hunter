@@ -9,7 +9,7 @@ import store from "@/store";
 import Vue from "vue";
 import AWS from "aws-sdk";
 import { get } from "./client";
-import { contactsClient } from "./model";
+import { contactsClient } from "./contacts";
 
 export const client_id =
   "138993422227-h19aliqjhes1rmqcvnkkufsaiq7r9gv5.apps.googleusercontent.com";

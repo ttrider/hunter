@@ -31,14 +31,6 @@
               {{ de.company.name }}</PathLink
             >
             <div
-              v-for="contact in de.contacts"
-              :key="de.id + '|' + contact.displayName"
-            >
-              <div class="t2">{{ contact.displayName }}</div>
-              <div class="t3 text-light">{{ contact.title }}</div>
-            </div>
-            <hr />
-            <div
               v-for="contact in de.contacts2"
               :key="de.id + '|' + contact.displayName"
             >

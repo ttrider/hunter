@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, CalendarEvent } from ".";
-import { AppModule } from "../app";
-import { Contact2 } from "./contact";
+import { Contact2, ContactsModule } from "../contacts";
 import { When } from "./when";
-
 
 export class InterviewStep implements CalendarEvent {
     readonly id: string;
@@ -35,7 +33,7 @@ export class InterviewStep implements CalendarEvent {
         const ret: Contact2[] = [];
 
         for (const id of ncid) {
-            const c = AppModule.contacts[id];
+            const c = ContactsModule.contacts[id];
             if (c) {
                 ret.push(c);
             }
