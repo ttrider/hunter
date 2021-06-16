@@ -29,12 +29,13 @@
 <script lang="ts">
 import { When } from "@/store/model/when";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { Event } from "@/store/events";
 
 @Component({
   components: {},
 })
 export default class WhenComponent extends Vue {
-  @Prop() when?: When;
+  @Prop() when?: Event;
 
   @Prop({ required: false, default: true }) showDate?: boolean;
 
@@ -43,7 +44,7 @@ export default class WhenComponent extends Vue {
       this.showDate = true;
     }
 
-    return this.when?.startDate.ready && this.showDate;
+    return this.when?.startDate?.ready && this.showDate;
   }
 
   get displayRemaining() {

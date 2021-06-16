@@ -15,13 +15,11 @@
 </template>
 
 <script lang="ts">
-import { Company, CompanyEditorData, CompanyStatus } from "@/store/model";
-import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
-import Selector from "vue-select";
+import { Company, CompanyEditorData } from "@/store/model";
+import { Component, Vue } from "vue-property-decorator";
 import CompanyEditor from "@/components/company/CompanyEditor.vue";
 import "vue-select/dist/vue-select.css";
 import { getProperties } from "@/store/model/utils";
-import { AppModule } from "@/store/app";
 @Component({
   components: { CompanyEditor },
 })

@@ -5,23 +5,24 @@
       <button @click="getICal">iCAL</button>
     </div>
     <div class="card-grid events-grid">
-      <template v-for="di in dates">
-        <span class="card-grid-header" :key="di.date.value + 'header'">
+      <template v-for="di in groups">
+        <span class="card-grid-header" :key="di.groupId + 'header'">
           <div class="events-date-header">
-            {{ di.date.displayWeekday }} {{ di.date.displayDate }}
+            {{ di.title }}
+            <!-- {{ di.date.displayWeekday }} {{ di.date.displayDate }} -->
           </div>
         </span>
         <div
           class="card-grid-header-bottom events-date-header"
-          :key="di.date.value + 'header-bottom'"
+          :key="di.groupId + 'header-bottom'"
         ></div>
         <span
           class="card-grid-row events-grid-row"
-          v-for="(de, deindex) in di.events"
+          v-for="(de, deindex) in di.items"
           :key="de.id"
         >
           <When
-            :when="de.when"
+            :when="de"
             :showDate="false"
             style="padding-right: 0.5em; padding-top: 0.15em"
             class="t3 text-light"
@@ -50,9 +51,9 @@
             </div>
           </div>
           <div
-            v-if="deindex < di.events.length - 1"
+            v-if="deindex < di.items.length - 1"
             class="events-date-header events-event-separator"
-            :key="di.date.value + '-bottom'"
+            :key="di.groupId + '-bottom'"
           ></div>
         </span>
       </template>
@@ -103,31 +104,52 @@ import PathLink from "../vue-tt/PathLink.vue";
 import When from "@/components/When.vue";
 import Where from "@/components/Where.vue";
 
-import { createEvent, createEvents, EventAttributes } from "ics";
+import { createEvents, EventAttributes } from "ics";
 import fileDownload from "js-file-download";
 import { createICalEvent } from "@/store/model/utils";
+import { EventsModule, Event } from "@/store/events";
+import {
+  filterItemSet,
+  filterItemSetToArray,
+  groupItemSet,
+  itemSetToArray,
+} from "@/store/model";
 
 @Component({
   components: { PathLink, When, Where },
 })
 export default class Companies extends Vue {
-  get companies() {
-    // do sorting here
-    return AppModule.activeCompanySet;
+  get events() {
+    const events = itemSetToArray(
+      filterItemSet(EventsModule.events, (item) => !item.isInPast),
+      Event.compareStart
+    );
+    return events;
   }
+  get groups() {
+    const groups = groupItemSet(
+      this.events,
+      (item) => item.startDate.displayDate,
+      (item, groupId) => {
+        return {
+          groupId,
+          title: item.startDate.displayDate,
+          items: [],
+        };
+      }
+    );
 
-  get dates() {
-    return AppModule.eventDates;
+    console.info(groups);
+
+    return groups;
   }
 
   getICal() {
     const icsEvents: EventAttributes[] = [];
 
-    for (const date of this.dates) {
-      for (const event of date.events) {
-        icsEvents.push(createICalEvent(event));
-      }
-    }
+    // for (const event of this.events) {
+    //   icsEvents.push(createICalEvent(event));
+    // }
 
     createEvents(icsEvents, (err, val) => {
       if (err) {

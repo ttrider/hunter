@@ -5,7 +5,7 @@ import { ContactsModule } from "../contacts";
 import { PositionsModule } from "../positions";
 import { When } from "./when";
 
-export class Communication implements CalendarEvent {
+ class Communication implements CalendarEvent {
     id: string;
     company: Company;
     type: CommunicationType;

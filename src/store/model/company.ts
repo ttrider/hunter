@@ -1,15 +1,13 @@
 /* eslint-disable prettier/prettier */
 import Vue from "vue";
-import { Communication, CompanyInfo, CompanyStatus, EventRecord, filterItemSetToArray, ItemSet } from ".";
+import { CompanyInfo, CompanyStatus, filterItemSetToArray, ItemSet } from ".";
 import { update } from "../client";
 import { ActionItem } from "./action-item";
 import { Interview } from "./interview";
 import { WebSite } from "./website";
 import "reflect-metadata";
-import { ContactsModule, eventsClient } from "../contacts";
+import { ContactsModule } from "../contacts";
 import { PositionsModule } from "../positions";
-import uuid from "uuid";
-import store from "..";
 import { EventsModule } from "../events";
 
 export interface CompanyEditorData {
@@ -65,7 +63,6 @@ export class Company {
     active: boolean;
     @editableField(true)
     status: CompanyStatus;
-    communications: Communication[];
     interviews: Interview[];
     actionItems: ActionItem[];
     careerPageUrl?: string;
@@ -89,7 +86,6 @@ export class Company {
         this.contactIdList = [...item.contactIdList ?? []];
         this.positionIdList = [...item.positionIdList ?? []];
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);
-        this.communications = Communication.initializeArray(this, item.communications);
         this.interviews = Interview.initializeArray(this, item.interviews);
 
         this.eventIdList = [...item.eventIdList ?? []];
@@ -193,7 +189,6 @@ export class Company {
             contactIdList: [...this.contactIdList],
             positionIdList: [...this.positionIdList],
             eventIdList: [...this.eventIdList],
-            communications: this.communications.map(i => i.serialize()),
             interviews: this.interviews.map(i => i.serialize()),
             actionItems: this.actionItems.map(i => i.serialize()),
             careerSite: this.careerPageUrl ? {

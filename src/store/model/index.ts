@@ -75,26 +75,89 @@ export function mergeItemSets<T>(currentSet: ItemSet<T>, additionalSet: ItemSet<
     return currentSet;
 }
 
-export function filterItemSet<T>(set: ItemSet<T>, idSet: string[]): ItemSet<T> {
+export function filterItemSet<T>(set: ItemSet<T>, predicate: (string[] | ((item: T) => boolean))): ItemSet<T> {
 
     const ret: ItemSet<T> = {};
-    for (const id of idSet) {
-        const item = set[id];
-        if (item) {
-            ret[id] = item;
+    if (Array.isArray(predicate)) {
+        for (const id of predicate) {
+            const item = set[id];
+            if (item) {
+                ret[id] = item;
+            }
+        }
+    } else {
+        forEachItemSet(set, (item, id) => {
+            if (predicate(item)) {
+                ret[id] = item;
+            }
+        })
+    }
+    return ret;
+}
+
+export function groupItemSet<TSource, TGroup extends { groupId: string, title: string, items: TSource[] }>(
+    set: ItemSet<TSource> | TSource[],
+    groupIdProvider: (item: TSource) => string,
+    groupFactory: (item: TSource, groupId: string) => TGroup) {
+
+    const ret: ItemSet<TGroup> = {};
+
+    if (!Array.isArray(set)) {
+        set = itemSetToArray(set);
+    }
+
+    for (const item of set) {
+        const groupId = groupIdProvider(item);
+        if (groupId) {
+            if (ret[groupId] == undefined) {
+                ret[groupId] = groupFactory(item, groupId)
+            }
+            ret[groupId].items.push(item);
         }
     }
     return ret;
 }
 
-export function filterItemSetToArray<T>(set: ItemSet<T>, idSet: string[]): T[] {
+export function itemSetToArray<T>(set: ItemSet<T>, sortBy?: (a: T, b: T) => number) {
+    const ret: T[] = [];
+
+    forEachItemSet(set, (item) => {
+        ret.push(item);
+    });
+
+    return sortBy ? ret.sort(sortBy) : ret;
+}
+
+export function findInItemSet<T>(set: ItemSet<T>, predicate: (item: T) => boolean) {
+
+    for (const key in set) {
+        if (Object.prototype.hasOwnProperty.call(set, key)) {
+            const item = set[key];
+            if (predicate(item)) {
+                return item;
+            }
+        }
+    }
+
+    return undefined;
+}
+
+export function filterItemSetToArray<T>(set: ItemSet<T>, predicate: (string[] | ((item: T) => boolean))): T[] {
 
     const ret: T[] = [];
-    for (const id of idSet) {
-        const item = set[id];
-        if (item) {
-            ret.push(item);
+    if (Array.isArray(predicate)) {
+        for (const id of predicate) {
+            const item = set[id];
+            if (item) {
+                ret.push(item);
+            }
         }
+    } else {
+        forEachItemSet(set, (item) => {
+            if (predicate(item)) {
+                ret.push(item);
+            }
+        })
     }
     return ret;
 }
@@ -143,7 +206,7 @@ export interface InterviewInfo {
     positionIdList: string[];
     eventIdList: string[];
 
-    steps: InterviewStepInfo[];
+    //steps: InterviewStepInfo[];
 }
 
 export interface InterviewStepInfo {

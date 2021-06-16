@@ -38,6 +38,7 @@ import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { AppModule } from "@/store/app";
 import { CompanyEditorData } from "@/store/model/company";
+import { findInItemSet } from "@/store/model";
 
 @Component({
   components: { Selector },
@@ -59,10 +60,11 @@ export default class CompanyEditor extends Vue {
       errors.push("name can't be empty");
     }
 
-    const dup = AppModule.companySet.find(
-      (c) => c.name.toLowerCase() === name.toLowerCase()
+    const namelc = name.toLowerCase();
+    const dup = findInItemSet(
+      AppModule.companies,
+      (item) => item.name.toLowerCase() === namelc
     );
-
     if (dup && dup.id != this.currentValue.id) {
       errors.push("duplicate name");
     }

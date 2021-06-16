@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { AppModule } from "@/store/app";
+import { Event } from "@/store/events";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
 import PathLink from "../vue-tt/PathLink.vue";
@@ -93,8 +94,8 @@ export default class CompanyView extends Vue {
 
   get interviews() {
     if (this.instance) {
-      return this.instance.interviews.sort(
-        (a, b) => b.when.startDate.value - a.when.startDate.value
+      return this.instance.interviews.sort((a, b) =>
+        Event.compareStart(b.interviewEvent, a.interviewEvent)
       );
     }
     return [];

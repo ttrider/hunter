@@ -34,13 +34,5 @@ import CompanyListCard from "@/components/company/CompanyListCard.vue";
     CompanyListCard,
   },
 })
-export default class Home extends Vue {
-  get upcomingMeetings() {
-    return AppModule.upcomingMeetings;
-  }
-
-  get upcomingInterviews() {
-    return AppModule.upcomingInterviews;
-  }
-}
+export default class Home extends Vue {}
 </script>

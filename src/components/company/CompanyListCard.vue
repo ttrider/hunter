@@ -66,6 +66,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 import When from "@/components/When.vue";
 import Where from "@/components/Where.vue";
+import { itemSetToArray } from "@/store/model";
 
 @Component({
   components: { PathLink, When, Where },
@@ -75,9 +76,9 @@ export default class CompanyListCard extends Vue {
   @Prop({ required: false }) titleLinkPath?: string;
 
   get companies() {
-    // do sorting here
-    //return AppModule.activeCompanySet;
-    return AppModule.companySet;
+    return itemSetToArray(AppModule.companies, (a, b) =>
+      a.name < b.name ? -1 : 1
+    );
   }
 
   get activeCompanies() {
