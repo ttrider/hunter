@@ -19,12 +19,12 @@ import { ContactsModule } from "./contacts";
 import { PositionsModule } from "./positions";
 
 export interface CompanysState {
-  companys: ItemSet<Company>;
+  items: ItemSet<Company>;
 }
 
 @Module({ dynamic: true, store, name: "companys", namespaced: true })
 class Companys extends VuexModule implements CompanysState {
-  companys: ItemSet<Company> = {};
+  items: ItemSet<Company> = {};
 
   @Mutation initialize(items: ItemSet<CompanyRecord>) {
     const cmap = mapItemSet(items, (item) => new Company(item));
@@ -33,7 +33,7 @@ class Companys extends VuexModule implements CompanysState {
 
   @Mutation update(items: ItemSet<CompanyRecord>) {
     const cmap = mapItemSet(items, (item) => new Company(item));
-    mergeItemSets(this.companys, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 
@@ -70,9 +70,9 @@ export class Company {
   }
 
   get contacts() {
-    return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
+    return filterItemSetToArray(ContactsModule.items, this.contactIdList);
   }
   get positions() {
-    return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
+    return filterItemSetToArray(PositionsModule.items, this.positionIdList);
   }
 }

@@ -19,7 +19,7 @@ export class ActionItem {
     }
 
     get contacts() {
-        return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
+        return filterItemSetToArray(ContactsModule.items, this.contactIdList);
     }
 
     static initialize(company: Company, info: ActionItemInfo) {

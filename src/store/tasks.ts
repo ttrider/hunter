@@ -17,21 +17,21 @@ import { ContactsModule } from "./contacts";
 import { AppModule } from "./app";
 
 export interface TasksState {
-  tasks: ItemSet<Task>;
+  items: ItemSet<Task>;
 }
 
 @Module({ dynamic: true, store, name: "tasks", namespaced: true })
 class Tasks extends VuexModule implements TasksState {
-  tasks: ItemSet<Task> = {};
+  items: ItemSet<Task> = {};
 
   @Mutation initialize(items: ItemSet<TaskRecord>) {
     const cmap = mapItemSet(items, (item) => new Task(item));
-    Vue.set(this, "tasks", cmap);
+    Vue.set(this, "items", cmap);
   }
 
   @Mutation update(items: ItemSet<TaskRecord>) {
     const cmap = mapItemSet(items, (item) => new Task(item));
-    mergeItemSets(this.tasks, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 
@@ -66,6 +66,6 @@ export class Task {
     return AppModule.companies[this.companyId];
   }
   get contacts() {
-    return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
+    return filterItemSetToArray(ContactsModule.items, this.contactIdList);
   }
 }

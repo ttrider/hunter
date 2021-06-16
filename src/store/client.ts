@@ -3,16 +3,11 @@ import localforage from "localforage";
 import store from ".";
 import { AppModule } from "./app";
 import { AuthModule } from "./auth";
-import {
-  AssetRecord,
-  ContactRecord,
-  EventRecord,
-  PositionRecord,
-  SessionInfo,
-} from "./model";
+import { AssetRecord, ContactRecord, EventRecord, SessionInfo } from "./model";
 import uuid from "uuid";
 import { requestDocuments } from "@/client";
 import { DocumentClient } from "@/client/documentClient";
+import { PositionRecord } from "./positions";
 
 export const localStore = localforage.createInstance({ name: "localFile" });
 // export const contactsStore = localforage.createInstance({ name: "contacts" });

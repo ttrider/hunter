@@ -5,31 +5,38 @@ import {
   VuexModule,
 } from "vuex-module-decorators";
 import store from "@/store";
-import {
-  ItemSet,
-  mapItemSet,
-  mergeItemSets,
-  PositionRecord,
-  PositionStatus,
-} from "./model";
+import { ItemSet, mapItemSet, mergeItemSets } from "./model";
 import Vue from "vue";
+import { DocumentRecord } from "./common";
 
+export declare type PositionStatus =
+  | "applied"
+  | "rejected"
+  | "interview"
+  | "withdraw"
+  | "none";
+
+export interface PositionRecord extends DocumentRecord {
+  name?: string;
+  url?: string;
+  status?: PositionStatus;
+}
 export interface PositionsState {
-  positions: ItemSet<Position>;
+  items: ItemSet<Position>;
 }
 
 @Module({ dynamic: true, store, name: "positions", namespaced: true })
 class Positions extends VuexModule implements PositionsState {
-  positions: ItemSet<Position> = {};
+  items: ItemSet<Position> = {};
 
   @Mutation initialize(items: ItemSet<PositionRecord>) {
     const cmap = mapItemSet(items, (item) => new Position(item));
-    Vue.set(this, "positions", cmap);
+    Vue.set(this, "items", cmap);
   }
 
   @Mutation update(items: ItemSet<PositionRecord>) {
     const cmap = mapItemSet(items, (item) => new Position(item));
-    mergeItemSets(this.positions, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 

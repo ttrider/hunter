@@ -16,21 +16,21 @@ import Vue from "vue";
 import { contactsClient } from "./client";
 
 export interface ContactsState {
-  contacts: ItemSet<Contact>;
+  items: ItemSet<Contact>;
 }
 
 @Module({ dynamic: true, store, name: "contacts", namespaced: true })
 class Contacts extends VuexModule implements ContactsState {
-  contacts: ItemSet<Contact> = {};
+  items: ItemSet<Contact> = {};
 
   @Mutation initialize(contacts: ItemSet<ContactRecord>) {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
-    Vue.set(this, "contacts", cmap);
+    Vue.set(this, "items", cmap);
   }
 
   @Mutation update(contacts: ItemSet<ContactRecord>) {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
-    mergeItemSets(this.contacts, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 

@@ -85,9 +85,9 @@ export default class AuthButton extends Vue {
 
   exportData() {
     const data = AppModule.session.serialize();
-    data.contacts = ContactsModule.contacts;
-    data.positions = PositionsModule.positions;
-    data.events = EventsModule.events;
+    data.contacts = ContactsModule.items;
+    data.positions = PositionsModule.items;
+    data.events = EventsModule.items;
     const dataJ = JSON.stringify({ session: data }, null, 2);
     fileDownload(dataJ, "input.json");
   }

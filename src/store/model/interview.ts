@@ -19,11 +19,11 @@ export class Interview {
     }
 
     get positions() {
-        return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
+        return filterItemSetToArray(PositionsModule.items, this.positionIdList);
     }
 
     get events() {
-        return filterItemSetToArray(EventsModule.events, this.eventIdList).sort((a, b) => Event.compareStart(a, b));
+        return filterItemSetToArray(EventsModule.items, this.eventIdList).sort((a, b) => Event.compareStart(a, b));
     }
 
     get id() {

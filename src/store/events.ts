@@ -24,21 +24,21 @@ import { PositionsModule } from "./positions";
 import { AppModule } from "./app";
 
 export interface EventsState {
-  events: ItemSet<Event>;
+  items: ItemSet<Event>;
 }
 
 @Module({ dynamic: true, store, name: "events", namespaced: true })
 class Events extends VuexModule implements EventsState {
-  events: ItemSet<Event> = {};
+  items: ItemSet<Event> = {};
 
   @Mutation initialize(items: ItemSet<EventRecord>) {
     const cmap = mapItemSet(items, (item) => new Event(item));
-    Vue.set(this, "events", cmap);
+    Vue.set(this, "items", cmap);
   }
 
   @Mutation update(items: ItemSet<EventRecord>) {
     const cmap = mapItemSet(items, (item) => new Event(item));
-    mergeItemSets(this.events, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 
@@ -113,10 +113,10 @@ export class Event implements WhenEvent {
     return AppModule.companies[this.companyId];
   }
   get contacts() {
-    return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
+    return filterItemSetToArray(ContactsModule.items, this.contactIdList);
   }
   get positions() {
-    return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
+    return filterItemSetToArray(PositionsModule.items, this.positionIdList);
   }
 
   get startDate() {

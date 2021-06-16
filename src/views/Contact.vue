@@ -68,7 +68,7 @@ export default class ContactView extends Vue {
   get instance() {
     const id = this.id.toLowerCase();
 
-    const item = ContactsModule.contacts[id];
+    const item = ContactsModule.items[id];
 
     if (item) {
       // if (this.$router.currentRoute.path !== item.id.toLowerCase()) {

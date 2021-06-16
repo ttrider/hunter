@@ -147,13 +147,13 @@ export class Company {
     }
 
     get contacts() {
-        return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
+        return filterItemSetToArray(ContactsModule.items, this.contactIdList);
     }
     get positions() {
-        return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
+        return filterItemSetToArray(PositionsModule.items, this.positionIdList);
     }
     get events() {
-        return filterItemSetToArray(EventsModule.events, this.eventIdList);
+        return filterItemSetToArray(EventsModule.items, this.eventIdList);
     }
 
     static initialize(info: CompanyInfo) {

@@ -102,7 +102,7 @@ export async function saveLocalFile() {
   if (data) {
     // post processing
     const dt: any = data;
-    dt.contacts = ContactsModule.contacts;
+    dt.contacts = ContactsModule.items;
 
     const text = JSON.stringify(data, null, 2);
     fileDownload(text, "input.json");

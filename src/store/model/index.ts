@@ -1,5 +1,5 @@
 import { Contact } from "../contacts";
-import { Position } from "../positions";
+import { Position, PositionRecord } from "../positions";
 import { Company } from "./company";
 import { When } from "./when";
 
@@ -279,17 +279,7 @@ export interface WhereInfo extends WebSiteInfo {
     phone?: string[];
 }
 
-export declare type PositionStatus = "applied" | "rejected" | "interview" | "withdraw" | "none";
 
-export interface PositionRecord {
-    id: string;
-    companyId: string;
-    name?: string;
-    url?: string;
-    status?: PositionStatus;
-    lastUpdated: string;
-    lastVersion: number;
-}
 
 export declare type EventType = "call" | "interview" | "none";
 export interface EventRecord {

@@ -52,7 +52,7 @@ export default class ContactSelector extends Vue {
     }
 
     const vvv = this.valueObject
-      .map((v) => ContactsModule.contacts[v] ?? null)
+      .map((v) => ContactsModule.items[v] ?? null)
       .map((v) => this.adapter(v));
     return vvv;
   }

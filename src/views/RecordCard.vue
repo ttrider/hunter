@@ -135,7 +135,7 @@ export default class Record extends Vue {
   }
 
   get contact() {
-    return ContactsModule.contacts[this.contactId];
+    return ContactsModule.items[this.contactId];
   }
 }
 

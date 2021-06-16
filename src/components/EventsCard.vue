@@ -114,7 +114,7 @@ import { filterItemSet, groupItemSet, itemSetToArray } from "@/store/model";
 export default class Companies extends Vue {
   get events() {
     const events = itemSetToArray(
-      filterItemSet(EventsModule.events, (item) => !item.isInPast),
+      filterItemSet(EventsModule.items, (item) => !item.isInPast),
       Event.compareStart
     );
     return events;

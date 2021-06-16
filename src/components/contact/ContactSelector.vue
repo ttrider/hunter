@@ -47,7 +47,7 @@ export default class ContactSelector extends Vue {
     if (!this.company) {
       return null;
     }
-    const val = ContactsModule.contacts[this.valueObject ?? ""] ?? null;
+    const val = ContactsModule.items[this.valueObject ?? ""] ?? null;
 
     return this.adapter(val);
   }

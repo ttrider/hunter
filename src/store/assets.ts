@@ -17,21 +17,21 @@ import { ContactsModule } from "./contacts";
 import { AppModule } from "./app";
 
 export interface AssetsState {
-  assets: ItemSet<Asset>;
+  items: ItemSet<Asset>;
 }
 
 @Module({ dynamic: true, store, name: "assets", namespaced: true })
 class Assets extends VuexModule implements AssetsState {
-  assets: ItemSet<Asset> = {};
+  items: ItemSet<Asset> = {};
 
   @Mutation initialize(items: ItemSet<AssetRecord>) {
     const cmap = mapItemSet(items, (item) => new Asset(item));
-    Vue.set(this, "assets", cmap);
+    Vue.set(this, "items", cmap);
   }
 
   @Mutation update(items: ItemSet<AssetRecord>) {
     const cmap = mapItemSet(items, (item) => new Asset(item));
-    mergeItemSets(this.assets, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 
@@ -60,6 +60,6 @@ export class Asset {
     return AppModule.companies[this.companyId];
   }
   get contacts() {
-    return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
+    return filterItemSetToArray(ContactsModule.items, this.contactIdList);
   }
 }

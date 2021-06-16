@@ -19,21 +19,21 @@ import { AppModule } from "./app";
 import { EventsModule } from "./events";
 
 export interface InterviewsState {
-  interviews: ItemSet<Interview>;
+  items: ItemSet<Interview>;
 }
 
 @Module({ dynamic: true, store, name: "interviews", namespaced: true })
 class Interviews extends VuexModule implements InterviewsState {
-  interviews: ItemSet<Interview> = {};
+  items: ItemSet<Interview> = {};
 
   @Mutation initialize(items: ItemSet<InterviewRecord>) {
     const cmap = mapItemSet(items, (item) => new Interview(item));
-    Vue.set(this, "interviews", cmap);
+    Vue.set(this, "items", cmap);
   }
 
   @Mutation update(items: ItemSet<InterviewRecord>) {
     const cmap = mapItemSet(items, (item) => new Interview(item));
-    mergeItemSets(this.interviews, cmap);
+    mergeItemSets(this.items, cmap);
   }
 }
 
@@ -64,9 +64,9 @@ export class Interview {
     return AppModule.companies[this.companyId];
   }
   get contacts() {
-    return filterItemSetToArray(EventsModule.events, this.eventIdList);
+    return filterItemSetToArray(EventsModule.items, this.eventIdList);
   }
   get events() {
-    return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
+    return filterItemSetToArray(PositionsModule.items, this.positionIdList);
   }
 }
