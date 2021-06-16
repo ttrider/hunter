@@ -60,15 +60,7 @@ import VueContext from "vue-context";
 import "vue-context/dist/css/vue-context.css";
 import { AppModule } from "@/store/app";
 import fileDownload from "js-file-download";
-import { contactsClient, ContactsModule } from "@/store/contacts";
-import {
-  Company,
-  CompanyInfo,
-  forEachItemSet,
-  ItemSet,
-  PositionRecord,
-} from "@/store/model";
-import { update } from "@/store/client";
+import { ContactsModule } from "@/store/contacts";
 import { PositionsModule } from "@/store/positions";
 import { EventsModule } from "@/store/events";
 

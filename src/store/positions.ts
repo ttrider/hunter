@@ -13,8 +13,6 @@ import {
   PositionStatus,
 } from "./model";
 import Vue from "vue";
-import { DocumentClient } from "@/client/documentClient";
-import { requestDocuments } from "@/client";
 
 export interface PositionsState {
   positions: ItemSet<Position>;

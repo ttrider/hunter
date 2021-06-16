@@ -5,7 +5,6 @@ import { When } from "./when";
 
 /* eslint-disable prettier/prettier */
 export * from "./action-item";
-export * from "./communication";
 export * from "./company";
 export * from "./session";
 export * from "./website";

@@ -47,7 +47,7 @@ function editableClass(constructor: Function) {
 
     constructor.prototype.doSomething = function () {
 
-        const md = Reflect.getMetadata(metadataKey, this);
+        //const md = Reflect.getMetadata(metadataKey, this);
         //console.info("doSomething");
         //console.info(md);
     }

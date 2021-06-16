@@ -27,7 +27,6 @@
 </style>
 
 <script lang="ts">
-import { When } from "@/store/model/when";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Event } from "@/store/events";
 

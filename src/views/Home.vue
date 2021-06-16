@@ -15,7 +15,6 @@
 <style lang="less"></style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Component, Vue } from "vue-property-decorator";
 import Where from "@/components/Where.vue";
 import When from "@/components/When.vue";

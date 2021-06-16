@@ -98,7 +98,6 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Component, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
 import When from "@/components/When.vue";
@@ -106,14 +105,8 @@ import Where from "@/components/Where.vue";
 
 import { createEvents, EventAttributes } from "ics";
 import fileDownload from "js-file-download";
-import { createICalEvent } from "@/store/model/utils";
 import { EventsModule, Event } from "@/store/events";
-import {
-  filterItemSet,
-  filterItemSetToArray,
-  groupItemSet,
-  itemSetToArray,
-} from "@/store/model";
+import { filterItemSet, groupItemSet, itemSetToArray } from "@/store/model";
 
 @Component({
   components: { PathLink, When, Where },
