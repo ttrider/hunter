@@ -64,6 +64,7 @@ export class Where implements CalendarEventWhere {
         const ret: WhereInfo = {
             url: this.url,
             hint: this.hint,
+            title: this.url,
             phone: [...this.phone],
             meetingPassword: this.meetingPassword,
             meetingId: this.meetingId

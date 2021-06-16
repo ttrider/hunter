@@ -8,15 +8,12 @@ import store from "@/store";
 import {
   ContactRecord,
   ContactRole,
-  EventRecord,
   ItemSet,
   mapItemSet,
   mergeItemSets,
-  PositionRecord,
 } from "./model";
 import Vue from "vue";
-import { DocumentClient } from "@/client/documentClient";
-import { requestDocuments } from "@/client";
+import { contactsClient } from "./client";
 
 export interface ContactsState {
   contacts: ItemSet<Contact>;
@@ -26,12 +23,12 @@ export interface ContactsState {
 class Contacts extends VuexModule implements ContactsState {
   contacts: ItemSet<Contact> = {};
 
-  @Mutation initializeContacts(contacts: ItemSet<ContactRecord>) {
+  @Mutation initialize(contacts: ItemSet<ContactRecord>) {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
     Vue.set(this, "contacts", cmap);
   }
 
-  @Mutation updateContacts(contacts: ItemSet<ContactRecord>) {
+  @Mutation update(contacts: ItemSet<ContactRecord>) {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
     mergeItemSets(this.contacts, cmap);
   }
@@ -133,42 +130,3 @@ export class Contact {
     return Vue.observable(ret);
   }
 }
-
-export const contactsClient = new DocumentClient<ContactRecord>(
-  "contacts",
-  "contacts/initializeContacts",
-  "contacts/updateContacts",
-  async (client) => {
-    const documents = await requestDocuments<ContactRecord>(
-      "contacts",
-      client.lastUpdated ? client.lastUpdated : undefined
-    );
-    return documents ?? {};
-  }
-);
-
-export const positionsClient = new DocumentClient<PositionRecord>(
-  "positions",
-  "positions/initialize",
-  "positions/update",
-  async (client) => {
-    const documents = await requestDocuments<PositionRecord>(
-      "positions",
-      client.lastUpdated ? client.lastUpdated : undefined
-    );
-    return documents ?? {};
-  }
-);
-
-export const eventsClient = new DocumentClient<EventRecord>(
-  "events",
-  "events/initialize",
-  "events/update",
-  async (client) => {
-    const documents = await requestDocuments<EventRecord>(
-      "events",
-      client.lastUpdated ? client.lastUpdated : undefined
-    );
-    return documents ?? {};
-  }
-);

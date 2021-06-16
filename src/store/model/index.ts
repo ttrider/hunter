@@ -267,6 +267,7 @@ export interface ActionItemInfo {
 
 export interface WebSiteInfo {
     url: string;
+    title: string;
     federation?: string;
     userName?: string;
     hint?: string;
@@ -307,6 +308,70 @@ export interface EventRecord {
 export interface WhenInfo {
     date: string;
     duration?: string;
+}
+
+
+export interface InterviewRecord {
+    id: string;
+    companyId: string;
+    status: InterviewStatus;
+    notes?: string;
+    positionIdList: string[];
+    eventIdList: string[];
+    lastUpdated: string;
+    lastVersion: number;
+}
+
+export interface ActionItemRecord {
+    id: string;
+    companyId: string;
+    type: ActionItemType;
+    title: string;
+    notes?: string;
+    status: ActionItemStatus;
+    contactIdList: string[];
+    positionIdList: string[];
+    lastUpdated: string;
+    lastVersion: number;
+}
+
+export interface TaskRecord {
+    id: string;
+    companyId: string;
+    type: string;
+    title: string;
+    notes?: string;
+    status: string;
+    contactIdList: string[];
+    positionIdList: string[];
+    lastUpdated: string;
+    lastVersion: number;
+}
+
+export interface AssetRecord {
+    id: string;
+    companyId: string;
+    title: string;
+    notes?: string;
+    contactIdList: string[];
+    lastUpdated: string;
+    lastVersion: number;
+}
+
+export interface CompanyRecord {
+    id: string;
+    name: string;
+    active: boolean;
+    status: CompanyStatus;
+
+    links: WebSiteInfo[];
+    interviewIdList: string[];
+    taskIdList: string[];
+    contactIdList: string[];
+    positionIdList: string[];
+    eventIdList: string[];
+    lastUpdated: string;
+    lastVersion: number;
 }
 
 

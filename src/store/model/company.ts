@@ -193,7 +193,8 @@ export class Company {
             actionItems: this.actionItems.map(i => i.serialize()),
             careerSite: this.careerPageUrl ? {
                 url: this.careerPageUrl,
-                hint: this.careerPageHint
+                hint: this.careerPageHint,
+                title: ""
             } : undefined,
         }
 

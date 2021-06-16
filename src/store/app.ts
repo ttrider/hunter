@@ -10,15 +10,15 @@ import { Session, SessionInfo } from "./model";
 
 import fileDownload from "js-file-download";
 import Vue from "vue";
-import { get, update } from "./client";
-import { initializeAuth } from "./auth";
 import {
   contactsClient,
-  positionsClient,
-  ContactsModule,
   eventsClient,
-} from "./contacts";
-//import { positionsClient } from "./positions";
+  get,
+  positionsClient,
+  update,
+} from "./client";
+import { initializeAuth } from "./auth";
+import { ContactsModule } from "./contacts";
 
 export declare type AppStatus =
   | "Initializing"
@@ -270,7 +270,7 @@ class App extends VuexModule implements AppState {
 
     await contactsClient.refresh();
     await positionsClient.refresh();
-    await eventsClient.reset();
+    await eventsClient.refresh();
     //await store.dispatch("app/loadContacts");
 
     console.info("getting data from lambda");
@@ -317,9 +317,9 @@ class App extends VuexModule implements AppState {
     updateStatusMessage("loading ...");
     await contactsClient.initialize();
     await positionsClient.initialize();
-    await eventsClient.reset();
+    await eventsClient.initialize();
 
-    await store.dispatch("app/refresh");
+    //await store.dispatch("app/refresh");
 
     updateStatusMessage("");
   }
@@ -329,9 +329,9 @@ class App extends VuexModule implements AppState {
     updateAppStatus("Refreshing");
 
     updateStatusMessage("refreshing information...");
-    await contactsClient.refresh();
-    await positionsClient.refresh();
-    await eventsClient.reset();
+    // await contactsClient.refresh();
+    // await positionsClient.refresh();
+    // await eventsClient.reset();
 
     // updateStatusMessage("refreshing folders information...");
     // await folderClient.refresh();
@@ -348,11 +348,11 @@ class App extends VuexModule implements AppState {
   async refreshAll() {
     updateAppStatus("Refreshing");
 
-    updateStatusMessage("getting contacts information...");
-    await contactsClient.reset();
-    updateStatusMessage("getting position information...");
-    await positionsClient.reset();
-    await eventsClient.reset();
+    // updateStatusMessage("getting contacts information...");
+    // await contactsClient.reset();
+    // updateStatusMessage("getting position information...");
+    // await positionsClient.reset();
+    // await eventsClient.reset();
 
     // updateStatusMessage("getting program information...");
     // await folderClient.reset();
