@@ -27,7 +27,12 @@ import { AppModule } from "@/store/app";
 })
 export default class AddCompanyActivity extends Vue {
   company = getProperties<CompanyEditorData>(
-    new Company({ name: "", contactIdList: [] }),
+    new Company({
+      name: "",
+      contactIdList: [],
+      positionIdList: [],
+      eventIdList: [],
+    }),
     "id",
     "name",
     "status",

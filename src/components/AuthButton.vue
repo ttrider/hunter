@@ -70,6 +70,7 @@ import {
 } from "@/store/model";
 import { update } from "@/store/client";
 import { PositionsModule } from "@/store/positions";
+import { EventsModule } from "@/store/events";
 
 @Component({
   components: { GoogleLogin, VueContext },
@@ -94,6 +95,7 @@ export default class AuthButton extends Vue {
     const data = AppModule.session.serialize();
     data.contacts = ContactsModule.contacts;
     data.positions = PositionsModule.positions;
+    data.events = EventsModule.events;
     const dataJ = JSON.stringify({ session: data }, null, 2);
     fileDownload(dataJ, "input.json");
   }

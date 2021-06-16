@@ -103,6 +103,7 @@ export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
     contacts?: ItemSet<ContactRecord>;
     positions?: ItemSet<PositionRecord>;
+    events?: ItemSet<EventRecord>;
 }
 
 export declare type CompanyStatus =
@@ -130,6 +131,7 @@ export interface CompanyInfo {
     careerSite?: WebSiteInfo;
     contactIdList: string[];
     positionIdList: string[];
+    eventIdList: string[];
 }
 
 export declare type InterviewStatus = "scheduled" | "completed" | "cancelled" | "none";
@@ -139,6 +141,7 @@ export interface InterviewInfo {
     status?: InterviewStatus;
     positions?: string[];
     positionIdList: string[];
+    eventIdList: string[];
 
     steps: InterviewStepInfo[];
 }
@@ -224,6 +227,26 @@ export interface PositionRecord {
     lastUpdated: string;
     lastVersion: number;
 }
+
+export declare type EventType = "call" | "interview" | "none";
+export interface EventRecord {
+    id: string;
+    companyId: string;
+    type: EventType;
+    notes?: string;
+    where?: WhereInfo[];
+    when?: WhenInfo,
+    contactIdList: string[];
+    positionIdList: string[];
+    lastUpdated: string;
+    lastVersion: number;
+}
+
+export interface WhenInfo {
+    date: string;
+    duration?: string;
+}
+
 
 
 

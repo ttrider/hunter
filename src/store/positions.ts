@@ -61,16 +61,3 @@ export class Position {
     return this.status === "applied" || this.status === "interview";
   }
 }
-
-// export const positionsClient = new DocumentClient<PositionRecord>(
-//   "positions",
-//   "positions/initialize",
-//   "positions/update",
-//   async (client) => {
-//     const documents = await requestDocuments<PositionRecord>(
-//       "positions",
-//       client.lastUpdated ? client.lastUpdated : undefined
-//     );
-//     return documents ?? {};
-//   }
-// );

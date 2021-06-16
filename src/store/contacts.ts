@@ -8,6 +8,7 @@ import store from "@/store";
 import {
   ContactRecord,
   ContactRole,
+  EventRecord,
   ItemSet,
   mapItemSet,
   mergeItemSets,
@@ -26,13 +27,11 @@ class Contacts extends VuexModule implements ContactsState {
   contacts: ItemSet<Contact> = {};
 
   @Mutation initializeContacts(contacts: ItemSet<ContactRecord>) {
-    console.info("initializeContacts: " + JSON.stringify(contacts, null, 2));
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
     Vue.set(this, "contacts", cmap);
   }
 
   @Mutation updateContacts(contacts: ItemSet<ContactRecord>) {
-    console.info("updateContacts: " + JSON.stringify(contacts, null, 2));
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
     mergeItemSets(this.contacts, cmap);
   }
@@ -155,6 +154,19 @@ export const positionsClient = new DocumentClient<PositionRecord>(
   async (client) => {
     const documents = await requestDocuments<PositionRecord>(
       "positions",
+      client.lastUpdated ? client.lastUpdated : undefined
+    );
+    return documents ?? {};
+  }
+);
+
+export const eventsClient = new DocumentClient<EventRecord>(
+  "events",
+  "events/initialize",
+  "events/update",
+  async (client) => {
+    const documents = await requestDocuments<EventRecord>(
+      "events",
       client.lastUpdated ? client.lastUpdated : undefined
     );
     return documents ?? {};

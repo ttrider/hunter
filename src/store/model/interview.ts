@@ -59,12 +59,14 @@ export class Interview {
     company: Company;
     status: InterviewStatus;
     positionIdList: string[];
+    eventIdList: string[];
     interviewSteps: InterviewStep[];
 
     constructor(company: Company, item: InterviewInfo) {
         this.company = company;
         this.status = item.status ?? "none";
-        this.positionIdList = [...item.positionIdList];
+        this.positionIdList = [...item.positionIdList ?? []];
+        this.eventIdList = [...item.eventIdList ?? []];
 
         this.interviewSteps = item.steps.map(i =>
             new InterviewStep(this, i)
@@ -115,6 +117,7 @@ export class Interview {
         const ret: InterviewInfo = {
             status: this.status,
             positionIdList: [...this.positionIdList],
+            eventIdList: [...this.eventIdList],
             steps: this.interviewSteps.map(s => s.serialize()),
         };
 

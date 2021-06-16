@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
 import Vue from "vue";
-import { Communication, CompanyInfo, CompanyStatus, filterItemSetToArray, ItemSet } from ".";
+import { Communication, CompanyInfo, CompanyStatus, EventRecord, filterItemSetToArray, ItemSet } from ".";
 import { update } from "../client";
 import { ActionItem } from "./action-item";
 import { Interview } from "./interview";
 import { WebSite } from "./website";
 import "reflect-metadata";
-import { ContactsModule } from "../contacts";
+import { ContactsModule, eventsClient } from "../contacts";
 import { PositionsModule } from "../positions";
+import uuid from "uuid";
+import store from "..";
+import { EventsModule } from "../events";
 
 export interface CompanyEditorData {
     id: string;
@@ -28,10 +31,10 @@ const metadataKey = Symbol("EditableMetadata");
 // }
 
 function editableField(enabled: boolean) {
-    console.log("I'm editable2!");
+    //console.log("I'm editable2!");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return function (target: any, key: any) {
-        console.log("I'm editable property! - " + target + " - " + key);
+        //console.log("I'm editable property! - " + target + " - " + key);
 
         const md: { [name: string]: boolean } =
             (Reflect.hasMetadata(metadataKey, target)) ? Reflect.getMetadata(metadataKey, target) : {};
@@ -42,13 +45,13 @@ function editableField(enabled: boolean) {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 function editableClass(constructor: Function) {
-    console.log("I'm editable class! - " + constructor.name);
+    //console.log("I'm editable class! - " + constructor.name);
 
     constructor.prototype.doSomething = function () {
 
         const md = Reflect.getMetadata(metadataKey, this);
-        console.info("doSomething");
-        console.info(md);
+        //console.info("doSomething");
+        //console.info(md);
     }
 
 }
@@ -69,6 +72,7 @@ export class Company {
     careerPageHint?: string;
     contactIdList: string[];
     positionIdList: string[];
+    eventIdList: string[];
 
     constructor(item: CompanyInfo) {
         this.id = item.id ?? (item.name.toLowerCase());
@@ -88,8 +92,62 @@ export class Company {
         this.communications = Communication.initializeArray(this, item.communications);
         this.interviews = Interview.initializeArray(this, item.interviews);
 
+        this.eventIdList = [...item.eventIdList ?? []];
 
-        (this as unknown as { doSomething: () => void }).doSomething();
+        // const events: ItemSet<EventRecord> = {};
+        // // collect events here
+        // for (const item of this.communications) {
+
+        //     const event: EventRecord = {
+        //         id: this.id + "-" + uuid.v4(),
+        //         companyId: this.id,
+        //         type: "call",
+        //         notes: item.notes,
+        //         where: [...item.where],
+        //         when: {
+        //             date: (item.when.startDate.date ?? new Date()).toISOString(),
+        //             duration: item.when.duration.toString()
+        //         },
+        //         contactIdList: item.contactIdList,
+        //         positionIdList: item.positionIdList,
+        //         lastUpdated: new Date().toISOString(),
+        //         lastVersion: 0
+        //     };
+        //     events[event.id] = event;
+        //     this.eventIdList.push(event.id);
+        // }
+
+        // for (const interview of this.interviews) {
+
+        //     for (const item of interview.steps) {
+
+        //         const event: EventRecord = {
+        //             id: this.id + "-" + uuid.v4(),
+        //             companyId: this.id,
+        //             type: "interview",
+        //             notes: item.notes,
+        //             where: [...item.where],
+        //             when: {
+        //                 date: (item.when.startDate.date ?? new Date()).toISOString(),
+        //                 duration: item.when.duration.toString()
+        //             },
+        //             contactIdList: item.contactIdList,
+        //             positionIdList: item.positionIdList,
+        //             lastUpdated: new Date().toISOString(),
+        //             lastVersion: 0
+        //         };
+        //         events[event.id] = event;
+        //         this.eventIdList.push(event.id);
+        //         interview.eventIdList.push(event.id);
+        //     }
+
+        // }
+
+        //store.commit("events/update", events);
+        //eventsClient.update(events);
+
+
+        //(this as unknown as { doSomething: () => void }).doSomething();
     }
 
     get contacts() {
@@ -97,6 +155,9 @@ export class Company {
     }
     get positions() {
         return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
+    }
+    get events() {
+        return filterItemSetToArray(EventsModule.events, this.eventIdList);
     }
 
     static initialize(info: CompanyInfo) {
@@ -131,6 +192,7 @@ export class Company {
             status: this.status,
             contactIdList: [...this.contactIdList],
             positionIdList: [...this.positionIdList],
+            eventIdList: [...this.eventIdList],
             communications: this.communications.map(i => i.serialize()),
             interviews: this.interviews.map(i => i.serialize()),
             actionItems: this.actionItems.map(i => i.serialize()),
