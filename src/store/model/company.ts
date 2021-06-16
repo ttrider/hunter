@@ -68,6 +68,7 @@ export class Company {
     careerPageHint?: string;
     positions: ItemSet<Position>;
     contactIdList: string[];
+    positionIdList: string[];
 
     constructor(item: CompanyInfo) {
         this.id = item.id ?? (item.name.toLowerCase());
@@ -82,6 +83,7 @@ export class Company {
 
         this.active = item.active ?? false;
         this.contactIdList = [...item.contactIdList ?? []];
+        this.positionIdList = [...item.positionIdList ?? []];
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);
         this.communications = Communication.initializeArray(this, item.communications);
         this.positions = Position.initializeSet(this, item.positions);
@@ -132,6 +134,7 @@ export class Company {
             active: this.active,
             status: this.status,
             contactIdList: [...this.contactIdList],
+            positionIdList: Object.keys(this.positions).map(id => this.id + "-" + id),
             communications: this.communications.map(i => i.serialize()),
             interviews: this.interviews.map(i => i.serialize()),
             actionItems: this.actionItems.map(i => i.serialize()),

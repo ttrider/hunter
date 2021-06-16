@@ -54,11 +54,11 @@ export function mapItemSet<T1, T2>(set: ItemSet<T1>, handler: (item: T1) => T2 |
     return ret;
 }
 
-export function forEachItemSet<T>(set: ItemSet<T>, handler: (item: T) => void) {
+export function forEachItemSet<T>(set: ItemSet<T>, handler: (item: T, key: string) => void) {
     for (const key in set) {
         if (Object.prototype.hasOwnProperty.call(set, key)) {
             const item = set[key];
-            handler(item);
+            handler(item, key);
         }
     }
 }
@@ -101,6 +101,8 @@ export function filterItemSetToArray<T>(set: ItemSet<T>, idSet: string[]): T[] {
 
 export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
+    contacts?: ItemSet<ContactRecord>;
+    positions?: ItemSet<PositionRecord>;
 }
 
 export declare type CompanyStatus =
@@ -129,6 +131,7 @@ export interface CompanyInfo {
 
     positions?: ItemSet<PositionInfo>;
     contactIdList: string[];
+    positionIdList: string[];
 }
 
 export declare type InterviewStatus = "scheduled" | "completed" | "cancelled" | "none";
@@ -155,6 +158,7 @@ export declare type ContactRole = "recruiter" | "none";
 
 export interface ContactRecord {
     id: string;
+    companyId: string;
     firstName?: string;
     lastName?: string;
     email?: string[];
@@ -182,6 +186,7 @@ export interface CommunicationInfo {
     positions?: string[];
     where?: WhereInfo[];
     contactIdList: string[];
+    positionIdList: string[];
 
 }
 
@@ -216,6 +221,16 @@ export interface PositionInfo {
     name?: string;
     url?: string;
     status?: PositionStatus;
+}
+
+export interface PositionRecord {
+    id: string;
+    companyId: string;
+    name?: string;
+    url?: string;
+    status?: PositionStatus;
+    lastUpdated: string;
+    lastVersion: number;
 }
 
 

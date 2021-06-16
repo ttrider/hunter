@@ -9,7 +9,8 @@ import store from "@/store";
 import Vue from "vue";
 import AWS from "aws-sdk";
 import { get } from "./client";
-import { contactsClient } from "./contacts";
+import { contactsClient, positionsClient } from "./contacts";
+//import { positionsClient } from "./positions";
 
 export const client_id =
   "138993422227-h19aliqjhes1rmqcvnkkufsaiq7r9gv5.apps.googleusercontent.com";
@@ -91,6 +92,7 @@ class Auth extends VuexModule implements AuthState {
     }
 
     contactsClient.refresh();
+    positionsClient.refresh();
 
     if (this.credentials) {
       get("app/updateSession");

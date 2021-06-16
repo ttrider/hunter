@@ -11,6 +11,7 @@ import {
   ItemSet,
   mapItemSet,
   mergeItemSets,
+  PositionRecord,
 } from "./model";
 import Vue from "vue";
 import { DocumentClient } from "@/client/documentClient";
@@ -41,6 +42,7 @@ export const ContactsModule = getModule(Contacts);
 
 export class Contact {
   id: string;
+  companyId: string;
   firstName?: string;
   lastName?: string;
   email: string[];
@@ -54,6 +56,7 @@ export class Contact {
 
   constructor(item: ContactRecord) {
     this.id = item.id;
+    this.companyId = item.companyId;
     this.firstName = item.firstName;
     this.lastName = item.lastName;
     this.email = item.email ?? [];
@@ -134,6 +137,19 @@ export const contactsClient = new DocumentClient<ContactRecord>(
   async (client) => {
     const documents = await requestDocuments<ContactRecord>(
       "contacts",
+      client.lastUpdated ? client.lastUpdated : undefined
+    );
+    return documents ?? {};
+  }
+);
+
+export const positionsClient = new DocumentClient<PositionRecord>(
+  "positions",
+  "positions/initialize",
+  "positions/update",
+  async (client) => {
+    const documents = await requestDocuments<PositionRecord>(
+      "positions",
       client.lastUpdated ? client.lastUpdated : undefined
     );
     return documents ?? {};

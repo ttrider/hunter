@@ -61,7 +61,13 @@ import "vue-context/dist/css/vue-context.css";
 import { AppModule } from "@/store/app";
 import fileDownload from "js-file-download";
 import { contactsClient, ContactsModule } from "@/store/contacts";
-import { Company, CompanyInfo, forEachItemSet } from "@/store/model";
+import {
+  Company,
+  CompanyInfo,
+  forEachItemSet,
+  ItemSet,
+  PositionRecord,
+} from "@/store/model";
 import { update } from "@/store/client";
 
 @Component({
@@ -86,7 +92,25 @@ export default class AuthButton extends Vue {
   exportData() {
     const data = AppModule.session.serialize();
     const dt: any = data;
+
+    forEachItemSet(ContactsModule.contacts, (item) => {
+      const parts = item.id.split("-");
+      item.companyId = parts[0];
+    });
     dt.contacts = ContactsModule.contacts;
+
+    const positions: ItemSet<PositionRecord> = {};
+    // build positions list
+    forEachItemSet(AppModule.companies, (company) => {
+      forEachItemSet(company.positions, (item) => {
+        const pr = (item.serialize() as unknown) as PositionRecord;
+        pr.id = company.id + "-" + pr.id;
+        pr.companyId = company.id;
+        positions[pr.id] = pr;
+      });
+    });
+    dt.positions = positions;
+
     // let's add companyId and update the server
     // forEachItemSet(dt.contacts, (item: any) => {
     //   item.companyId = item.id.split("-")[0];
@@ -141,7 +165,7 @@ export default class AuthButton extends Vue {
 
     // update(data);
 
-    const dataJ = JSON.stringify(data, null, 2);
+    const dataJ = JSON.stringify({ session: data }, null, 2);
     fileDownload(dataJ, "input.json");
   }
 }

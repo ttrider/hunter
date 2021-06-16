@@ -10,6 +10,7 @@ export class Communication implements CalendarEvent {
     type: CommunicationType;
     notes?: string;
     positionIds: string[];
+    positionIdList: string[];
 
     when: When;
     where: Where[];
@@ -20,6 +21,7 @@ export class Communication implements CalendarEvent {
         this.type = item.type ?? "none";
         this.notes = item.notes ?? "";
         this.contactIdList = [...item.contactIdList ?? []];
+        this.positionIdList = [...item.contactIdList ?? []];
         this.positionIds = [...item.positions ?? []];
         this.when = new When(item.date, item.duration);
         this.where = Where.initializeArray(item.where);
@@ -52,6 +54,7 @@ export class Communication implements CalendarEvent {
             date: this.when.startDate.date?.toISOString(),
             duration: this.when.duration?.toString(),
             contactIdList: [...this.contactIdList],
+            positionIdList: this.positionIds.map(id => this.company.id + "-" + id),
             notes: this.notes,
             positions: [...this.positionIds],
             where: this.where.map(w => w.serialize())
