@@ -1,5 +1,5 @@
+import { Contact } from "../contacts";
 import { Company } from "./company";
-import { Contact } from "./contact";
 import { Position } from "./position";
 import { When } from "./when";
 
@@ -7,7 +7,6 @@ import { When } from "./when";
 export * from "./action-item";
 export * from "./communication";
 export * from "./company";
-export * from "./contact";
 export * from "./position";
 export * from "./session";
 export * from "./website";
@@ -26,14 +25,14 @@ export interface CalendarEventWhere {
 }
 
 export interface CalendarEvent {
-
     company: Company;
     id: string
     notes?: string;
     when: When;
     where: CalendarEventWhere[];
-    contacts: Contact[];
     positions: Position[];
+    contactIdList: string[];
+    contacts: Contact[];
 }
 
 export declare type ItemSet<T> = { [name: string]: T };
@@ -76,6 +75,30 @@ export function mergeItemSets<T>(currentSet: ItemSet<T>, additionalSet: ItemSet<
     return currentSet;
 }
 
+export function filterItemSet<T>(set: ItemSet<T>, idSet: string[]): ItemSet<T> {
+
+    const ret: ItemSet<T> = {};
+    for (const id of idSet) {
+        const item = set[id];
+        if (item) {
+            ret[id] = item;
+        }
+    }
+    return ret;
+}
+
+export function filterItemSetToArray<T>(set: ItemSet<T>, idSet: string[]): T[] {
+
+    const ret: T[] = [];
+    for (const id of idSet) {
+        const item = set[id];
+        if (item) {
+            ret.push(item);
+        }
+    }
+    return ret;
+}
+
 export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
 }
@@ -98,8 +121,6 @@ export interface CompanyInfo {
     active?: boolean;
     status?: CompanyStatus;
 
-    contacts?: ItemSet<ContactInfo>;
-
     communications?: CommunicationInfo[];
     interviews?: InterviewInfo[];
 
@@ -107,6 +128,7 @@ export interface CompanyInfo {
     careerSite?: WebSiteInfo;
 
     positions?: ItemSet<PositionInfo>;
+    contactIdList: string[];
 }
 
 export declare type InterviewStatus = "scheduled" | "completed" | "cancelled" | "none";
@@ -121,28 +143,16 @@ export interface InterviewInfo {
 
 export interface InterviewStepInfo {
 
-    contacts: string[];
+    //contacts: string[];
     date: string;
     duration: string;
     notes?: string;
     where?: WhereInfo[];
+    contactIdList: string[];
 }
 
 export declare type ContactRole = "recruiter" | "none";
 
-export interface ContactInfo {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string[];
-    phone?: string[];
-    linkedIn?: string;
-    alias?: string;
-    role?: ContactRole;
-    title?: string;
-    company?: string;
-    notes?: string;
-}
 export interface ContactRecord {
     id: string;
     firstName?: string;
@@ -167,10 +177,11 @@ export interface CommunicationInfo {
     date?: string;
     duration?: string;
     actualDuraction?: string;
-    contacts?: string[];
+    //contacts?: string[];
     notes?: string;
     positions?: string[];
     where?: WhereInfo[];
+    contactIdList: string[];
 
 }
 
@@ -180,8 +191,9 @@ export declare type ActionItemStatus = "completed" | "pending" | "none";
 export interface ActionItemInfo {
     type: ActionItemType;
     description: string;
-    contacts?: string[];
+    //contacts?: string[];
     status: ActionItemStatus;
+    contactIdList: string[];
 }
 
 export interface WebSiteInfo {

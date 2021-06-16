@@ -1,24 +1,25 @@
 /* eslint-disable prettier/prettier */
 
-import { ActionItemInfo, ActionItemType, ActionItemStatus, Company } from ".";
+import { ActionItemInfo, ActionItemType, ActionItemStatus, Company, filterItemSetToArray } from ".";
+import { ContactsModule } from "../contacts";
 
 export class ActionItem {
     company: Company;
     type: ActionItemType;
     description: string;
-    contactIds: string[];
+    contactIdList: string[];
     status: ActionItemStatus;
 
     constructor(company: Company, item: ActionItemInfo) {
         this.company = company;
         this.type = item.type;
         this.description = item.description ?? "";
-        this.contactIds = [...item.contacts ?? []];
+        this.contactIdList = [...item.contactIdList ?? []];
         this.status = item.status ?? "none";
     }
 
     get contacts() {
-        return this.company.getContacts(this.contactIds);
+        return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
     }
 
     static initialize(company: Company, info: ActionItemInfo) {
@@ -34,7 +35,7 @@ export class ActionItem {
         const ret: ActionItemInfo = {
             type: this.type,
             description: this.description,
-            contacts: [...this.contactIds],
+            contactIdList: [...this.contactIdList],
             status: this.status,
         };
 

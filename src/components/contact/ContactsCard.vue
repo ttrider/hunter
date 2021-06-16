@@ -18,7 +18,8 @@
 </template>
 
 <script lang="ts">
-import { Company, Contact } from "@/store/model";
+import { Contact } from "@/store/contacts";
+import { Company } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 

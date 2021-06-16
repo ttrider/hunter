@@ -23,17 +23,18 @@
 </template>
 
 <script lang="ts">
-import { Contact2, ContactRecord } from "@/store/model";
+import { ContactRecord } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 import ContactEditor from "@/components/contact/ContactEditor.vue";
 import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
+import { Contact } from "@/store/contacts";
 
 @Component({
   components: { PathLink, ContactEditor, FormButtonsPanel },
 })
 export default class CompanyCard extends Vue {
-  @Prop() value!: Contact2;
+  @Prop() value!: Contact;
 
   contact: ContactRecord = Vue.observable<ContactRecord>(
     // eslint-disable-next-line prettier/prettier

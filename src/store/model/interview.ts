@@ -1,19 +1,19 @@
 /* eslint-disable prettier/prettier */
-import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, CalendarEvent } from ".";
-import { Contact2, ContactsModule } from "../contacts";
+import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, CalendarEvent, filterItemSetToArray } from ".";
+import { ContactsModule } from "../contacts";
 import { When } from "./when";
 
 export class InterviewStep implements CalendarEvent {
     readonly id: string;
     interview: Interview;
-    contactIds: string[];
     notes?: string;
     where: Where[];
     when: When;
+    contactIdList: string[];
 
     constructor(interview: Interview, item: InterviewStepInfo) {
         this.interview = interview;
-        this.contactIds = [...item.contacts ?? []];
+        this.contactIdList = [...item.contactIdList ?? []];
         this.notes = item.notes;
 
         this.where = Where.initializeArray(item.where);
@@ -25,21 +25,7 @@ export class InterviewStep implements CalendarEvent {
         ].join("-");
     }
     get contacts() {
-        return this.interview.company.getContacts(this.contactIds);
-    }
-    get contacts2() {
-
-        const ncid = this.contactIds.map(id => this.company.id + "-" + id);
-        const ret: Contact2[] = [];
-
-        for (const id of ncid) {
-            const c = ContactsModule.contacts[id];
-            if (c) {
-                ret.push(c);
-            }
-        }
-        return ret;
-        //return this.interview.company.getContacts(this.contactIds);
+        return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
     }
 
     get positions() {
@@ -54,7 +40,7 @@ export class InterviewStep implements CalendarEvent {
         const ret: InterviewStepInfo = {
             date: (this.when.startDate.date ?? (new Date())).toISOString(),
             duration: this.when.duration?.toString(),
-            contacts: [...this.contactIds],
+            contactIdList: [...this.contactIdList],
             notes: this.notes,
             where: this.where.map(w => w.serialize())
         };
@@ -129,6 +115,4 @@ export class Interview {
 
         return ret;
     }
-
-
 }

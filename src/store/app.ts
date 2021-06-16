@@ -15,7 +15,7 @@ import { When } from "./model/when";
 import { DateInfo } from "./model/date-info";
 import { get, update } from "./client";
 import { initializeAuth } from "./auth";
-import { contactsClient } from "./contacts";
+import { contactsClient, ContactsModule } from "./contacts";
 
 export declare type AppStatus =
   | "Initializing"
@@ -86,6 +86,10 @@ export async function loadDropedFile(files: File[]) {
 export async function saveLocalFile() {
   const data = AppModule.session.serialize();
   if (data) {
+    // post processing
+    const dt: any = data;
+    dt.contacts = ContactsModule.contacts;
+
     const text = JSON.stringify(data, null, 2);
     fileDownload(text, "input.json");
   }

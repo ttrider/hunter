@@ -51,7 +51,6 @@
 import { Component, ModelSync, Vue, Watch } from "vue-property-decorator";
 import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
-import { AppModule } from "@/store/app";
 import { ContactRecord } from "@/store/model";
 
 @Component({

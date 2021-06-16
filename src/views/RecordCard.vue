@@ -84,11 +84,11 @@ import Calendar from "v-calendar/lib/components/calendar.umd";
 import DatePicker from "v-calendar/lib/components/date-picker.umd";
 
 import "vue-select/dist/vue-select.css";
-import { Company, Contact } from "@/store/model";
 import { Duration } from "@/store/model/duration";
 import { DateInfo } from "@/store/model/date-info";
 
 import WhenData from "@/store/model/when";
+import { ContactsModule } from "@/store/contacts";
 
 @Component({
   components: {
@@ -135,10 +135,7 @@ export default class Record extends Vue {
   }
 
   get contact() {
-    if (this.company) {
-      return this.company.contacts[this.contactId];
-    }
-    return undefined;
+    return ContactsModule.contacts[this.contactId];
   }
 }
 

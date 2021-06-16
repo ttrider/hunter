@@ -19,7 +19,8 @@ import { Component, ModelSync, Prop, Vue, Watch } from "vue-property-decorator";
 import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { AppModule } from "@/store/app";
-import { Company, Contact } from "@/store/model";
+import { Company } from "@/store/model";
+import { Contact, ContactsModule } from "@/store/contacts";
 
 @Component({
   components: { Selector },
@@ -46,7 +47,7 @@ export default class ContactSelector extends Vue {
     if (!this.company) {
       return null;
     }
-    const val = this.company.contacts[this.valueObject ?? ""] ?? null;
+    const val = ContactsModule.contacts[this.valueObject ?? ""] ?? null;
 
     return this.adapter(val);
   }
@@ -55,7 +56,7 @@ export default class ContactSelector extends Vue {
     if (!this.company) {
       return [];
     }
-    const values = Object.values(this.company.contacts);
+    const values = this.company.contacts;
     return values.map((i) => this.adapter(i));
   }
 

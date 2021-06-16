@@ -27,7 +27,7 @@ import { AppModule } from "@/store/app";
 })
 export default class AddCompanyActivity extends Vue {
   company = getProperties<CompanyEditorData>(
-    new Company({ name: "" }),
+    new Company({ name: "", contactIdList: [] }),
     "id",
     "name",
     "status",
@@ -42,20 +42,20 @@ export default class AddCompanyActivity extends Vue {
     this.$emit("form-close");
   }
   onSave() {
-    const newCompany = new Company({
-      name: this.company.name,
-      status: this.company.status as CompanyStatus,
-      active: this.company.active,
-      careerSite: {
-        url: this.company.careerPageUrl,
-        hint: this.company.careerPageHint,
-      },
-    });
+    // const newCompany = new Company({
+    //   name: this.company.name,
+    //   status: this.company.status as CompanyStatus,
+    //   active: this.company.active,
+    //   careerSite: {
+    //     url: this.company.careerPageUrl,
+    //     hint: this.company.careerPageHint,
+    //   },
+    // });
 
-    AppModule.companies[newCompany.id] = newCompany;
+    // AppModule.companies[newCompany.id] = newCompany;
     this.onClose();
 
-    this.$router.push("companies/" + newCompany.id);
+    //this.$router.push("companies/" + newCompany.id);
   }
 }
 </script>

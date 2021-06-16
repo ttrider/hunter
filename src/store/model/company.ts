@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import Vue from "vue";
-import { Communication, CompanyInfo, CompanyStatus, Contact, ItemSet, mapItemSet, Position } from ".";
+import { Communication, CompanyInfo, CompanyStatus, filterItemSetToArray, ItemSet, mapItemSet, Position } from ".";
 import { update } from "../client";
 import { ActionItem } from "./action-item";
 import { Interview } from "./interview";
 import { WebSite } from "./website";
 import "reflect-metadata";
+import { ContactsModule } from "../contacts";
 
 export interface CompanyEditorData {
     id: string;
@@ -60,13 +61,13 @@ export class Company {
     active: boolean;
     @editableField(true)
     status: CompanyStatus;
-    contacts: ItemSet<Contact>;
     communications: Communication[];
     interviews: Interview[];
     actionItems: ActionItem[];
     careerPageUrl?: string;
     careerPageHint?: string;
     positions: ItemSet<Position>;
+    contactIdList: string[];
 
     constructor(item: CompanyInfo) {
         this.id = item.id ?? (item.name.toLowerCase());
@@ -80,7 +81,7 @@ export class Company {
         }
 
         this.active = item.active ?? false;
-        this.contacts = Contact.initializeSet(this, item.contacts);
+        this.contactIdList = [...item.contactIdList ?? []];
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);
         this.communications = Communication.initializeArray(this, item.communications);
         this.positions = Position.initializeSet(this, item.positions);
@@ -90,11 +91,8 @@ export class Company {
         (this as unknown as { doSomething: () => void }).doSomething();
     }
 
-
-    getContacts(id?: string[]): Contact[] {
-        return (id ?? []).map(
-            contactId => this.contacts[contactId]
-        ).filter(contact => contact);
+    get contacts() {
+        return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
     }
 
     getPositions(id?: string[]): Position[] {
@@ -133,7 +131,7 @@ export class Company {
             name: this.name,
             active: this.active,
             status: this.status,
-            contacts: mapItemSet(this.contacts, i => i.serialize()),
+            contactIdList: [...this.contactIdList],
             communications: this.communications.map(i => i.serialize()),
             interviews: this.interviews.map(i => i.serialize()),
             actionItems: this.actionItems.map(i => i.serialize()),

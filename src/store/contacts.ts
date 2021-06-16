@@ -17,29 +17,29 @@ import { DocumentClient } from "@/client/documentClient";
 import { requestDocuments } from "@/client";
 
 export interface ContactsState {
-  contacts: ItemSet<Contact2>;
+  contacts: ItemSet<Contact>;
 }
 
 @Module({ dynamic: true, store, name: "contacts", namespaced: true })
 class Contacts extends VuexModule implements ContactsState {
-  contacts: ItemSet<Contact2> = {};
+  contacts: ItemSet<Contact> = {};
 
   @Mutation initializeContacts(contacts: ItemSet<ContactRecord>) {
     console.info("initializeContacts: " + JSON.stringify(contacts, null, 2));
-    const cmap = mapItemSet(contacts, (item) => new Contact2(item));
+    const cmap = mapItemSet(contacts, (item) => new Contact(item));
     Vue.set(this, "contacts", cmap);
   }
 
   @Mutation updateContacts(contacts: ItemSet<ContactRecord>) {
     console.info("updateContacts: " + JSON.stringify(contacts, null, 2));
-    const cmap = mapItemSet(contacts, (item) => new Contact2(item));
+    const cmap = mapItemSet(contacts, (item) => new Contact(item));
     mergeItemSets(this.contacts, cmap);
   }
 }
 
 export const ContactsModule = getModule(Contacts);
 
-export class Contact2 {
+export class Contact {
   id: string;
   firstName?: string;
   lastName?: string;
@@ -120,8 +120,6 @@ export class Contact2 {
         source.notes = ret.notes;
 
         contactsClient.update({ [ret.id]: ret });
-
-        //updateContact(ret);
       },
     };
 
@@ -131,8 +129,8 @@ export class Contact2 {
 
 export const contactsClient = new DocumentClient<ContactRecord>(
   "contacts",
-  "app/initializeContacts",
-  "app/updateContacts",
+  "contacts/initializeContacts",
+  "contacts/updateContacts",
   async (client) => {
     const documents = await requestDocuments<ContactRecord>(
       "contacts",
