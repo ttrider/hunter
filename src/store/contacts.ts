@@ -53,6 +53,8 @@ export class Contact {
   title?: string;
   companyName?: string;
   notes?: string;
+  lastUpdated: string;
+  lastVersion: number;
 
   constructor(item: ContactRecord) {
     this.id = item.id;
@@ -67,6 +69,9 @@ export class Contact {
     this.title = item.title;
     this.companyName = item.company;
     this.notes = item.notes;
+
+    this.lastUpdated = item.lastUpdated;
+    this.lastVersion = item.lastVersion;
   }
 
   get displayName() {

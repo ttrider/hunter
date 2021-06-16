@@ -1,13 +1,12 @@
 import { Contact } from "../contacts";
+import { Position } from "../positions";
 import { Company } from "./company";
-import { Position } from "./position";
 import { When } from "./when";
 
 /* eslint-disable prettier/prettier */
 export * from "./action-item";
 export * from "./communication";
 export * from "./company";
-export * from "./position";
 export * from "./session";
 export * from "./website";
 export * from "./where";
@@ -30,6 +29,7 @@ export interface CalendarEvent {
     notes?: string;
     when: When;
     where: CalendarEventWhere[];
+    positionIdList: string[];
     positions: Position[];
     contactIdList: string[];
     contacts: Contact[];
@@ -128,8 +128,6 @@ export interface CompanyInfo {
 
     actionItems?: ActionItemInfo[];
     careerSite?: WebSiteInfo;
-
-    positions?: ItemSet<PositionInfo>;
     contactIdList: string[];
     positionIdList: string[];
 }
@@ -140,6 +138,7 @@ export interface InterviewInfo {
 
     status?: InterviewStatus;
     positions?: string[];
+    positionIdList: string[];
 
     steps: InterviewStepInfo[];
 }
@@ -215,13 +214,6 @@ export interface WhereInfo extends WebSiteInfo {
 }
 
 export declare type PositionStatus = "applied" | "rejected" | "interview" | "withdraw" | "none";
-
-export interface PositionInfo {
-    id: string;
-    name?: string;
-    url?: string;
-    status?: PositionStatus;
-}
 
 export interface PositionRecord {
     id: string;

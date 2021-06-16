@@ -69,6 +69,7 @@ import {
   PositionRecord,
 } from "@/store/model";
 import { update } from "@/store/client";
+import { PositionsModule } from "@/store/positions";
 
 @Component({
   components: { GoogleLogin, VueContext },
@@ -91,80 +92,8 @@ export default class AuthButton extends Vue {
 
   exportData() {
     const data = AppModule.session.serialize();
-    const dt: any = data;
-
-    forEachItemSet(ContactsModule.contacts, (item) => {
-      const parts = item.id.split("-");
-      item.companyId = parts[0];
-    });
-    dt.contacts = ContactsModule.contacts;
-
-    const positions: ItemSet<PositionRecord> = {};
-    // build positions list
-    forEachItemSet(AppModule.companies, (company) => {
-      forEachItemSet(company.positions, (item) => {
-        const pr = (item.serialize() as unknown) as PositionRecord;
-        pr.id = company.id + "-" + pr.id;
-        pr.companyId = company.id;
-        positions[pr.id] = pr;
-      });
-    });
-    dt.positions = positions;
-
-    // let's add companyId and update the server
-    // forEachItemSet(dt.contacts, (item: any) => {
-    //   item.companyId = item.id.split("-")[0];
-    // });
-    // //contactsClient.update(dt.contacts);
-
-    // // update companies
-    // for (const key in data.engagements) {
-    //   if (Object.prototype.hasOwnProperty.call(data.engagements, key)) {
-    //     const company = data.engagements[key] as CompanyInfo & {
-    //       contactIdList: string[];
-    //     };
-
-    //     company.contactIdList = [];
-    //     if (company.contacts) {
-    //       for (const contactId of Object.keys(company.contacts)) {
-    //         const newId = company.id + "-" + contactId;
-    //         company.contactIdList.push(newId);
-    //       }
-    //     }
-
-    //     if (company.communications) {
-    //       company.communications.forEach((item) => {
-    //         const cs = item.contacts
-    //           ? item.contacts.map((c) => company.id + "-" + c)
-    //           : [];
-    //         (item as any).contactIdList = cs;
-    //       });
-    //     }
-
-    //     if (company.interviews) {
-    //       company.interviews.forEach((item) => {
-    //         item.steps.forEach((step) => {
-    //           const cs = step.contacts
-    //             ? step.contacts.map((c) => company.id + "-" + c)
-    //             : [];
-    //           (step as any).contactIdList = cs;
-    //         });
-    //       });
-    //     }
-
-    //     if (company.actionItems) {
-    //       company.actionItems.forEach((item) => {
-    //         const cs = item.contacts
-    //           ? item.contacts.map((c) => company.id + "-" + c)
-    //           : [];
-    //         (item as any).contactIdList = cs;
-    //       });
-    //     }
-    //   }
-    // }
-
-    // update(data);
-
+    data.contacts = ContactsModule.contacts;
+    data.positions = PositionsModule.positions;
     const dataJ = JSON.stringify({ session: data }, null, 2);
     fileDownload(dataJ, "input.json");
   }

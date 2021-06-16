@@ -2,6 +2,7 @@
 
 import { CommunicationInfo, CommunicationType, Company, Where, CalendarEvent, filterItemSetToArray } from ".";
 import { ContactsModule } from "../contacts";
+import { PositionsModule } from "../positions";
 import { When } from "./when";
 
 export class Communication implements CalendarEvent {
@@ -9,7 +10,6 @@ export class Communication implements CalendarEvent {
     company: Company;
     type: CommunicationType;
     notes?: string;
-    positionIds: string[];
     positionIdList: string[];
 
     when: When;
@@ -22,7 +22,6 @@ export class Communication implements CalendarEvent {
         this.notes = item.notes ?? "";
         this.contactIdList = [...item.contactIdList ?? []];
         this.positionIdList = [...item.contactIdList ?? []];
-        this.positionIds = [...item.positions ?? []];
         this.when = new When(item.date, item.duration);
         this.where = Where.initializeArray(item.where);
         this.id = [
@@ -36,7 +35,7 @@ export class Communication implements CalendarEvent {
     }
 
     get positions() {
-        return this.company.getPositions(this.positionIds);
+        return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
     }
 
     static initialize(company: Company, info: CommunicationInfo) {
@@ -54,9 +53,8 @@ export class Communication implements CalendarEvent {
             date: this.when.startDate.date?.toISOString(),
             duration: this.when.duration?.toString(),
             contactIdList: [...this.contactIdList],
-            positionIdList: this.positionIds.map(id => this.company.id + "-" + id),
+            positionIdList: [...this.positionIdList],
             notes: this.notes,
-            positions: [...this.positionIds],
             where: this.where.map(w => w.serialize())
         };
 

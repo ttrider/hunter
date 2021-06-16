@@ -43,6 +43,8 @@ export class Position {
   url?: string;
   status: PositionStatus;
   companyId: string;
+  lastUpdated: string;
+  lastVersion: number;
 
   constructor(item: PositionRecord) {
     this.companyId = item.companyId;
@@ -50,6 +52,9 @@ export class Position {
     this.name = item.name ?? item.id;
     this.url = item.url;
     this.status = item.status ?? "none";
+
+    this.lastUpdated = item.lastUpdated;
+    this.lastVersion = item.lastVersion;
   }
 
   get active() {

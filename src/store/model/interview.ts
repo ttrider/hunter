@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Company, InterviewInfo, InterviewStatus, InterviewStepInfo, Where, CalendarEvent, filterItemSetToArray } from ".";
 import { ContactsModule } from "../contacts";
+import { PositionsModule } from "../positions";
 import { When } from "./when";
 
 export class InterviewStep implements CalendarEvent {
@@ -10,6 +11,7 @@ export class InterviewStep implements CalendarEvent {
     where: Where[];
     when: When;
     contactIdList: string[];
+
 
     constructor(interview: Interview, item: InterviewStepInfo) {
         this.interview = interview;
@@ -28,6 +30,9 @@ export class InterviewStep implements CalendarEvent {
         return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
     }
 
+    get positionIdList() {
+        return this.interview.positionIdList;
+    }
     get positions() {
         return this.interview.positions;
     }
@@ -53,13 +58,13 @@ export class InterviewStep implements CalendarEvent {
 export class Interview {
     company: Company;
     status: InterviewStatus;
-    positionIds: string[];
+    positionIdList: string[];
     interviewSteps: InterviewStep[];
 
     constructor(company: Company, item: InterviewInfo) {
         this.company = company;
         this.status = item.status ?? "none";
-        this.positionIds = [...item.positions ?? []];
+        this.positionIdList = [...item.positionIdList];
 
         this.interviewSteps = item.steps.map(i =>
             new InterviewStep(this, i)
@@ -67,7 +72,7 @@ export class Interview {
     }
 
     get positions() {
-        return this.company.getPositions(this.positionIds);
+        return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
     }
 
     get steps() {
@@ -109,7 +114,7 @@ export class Interview {
     serialize() {
         const ret: InterviewInfo = {
             status: this.status,
-            positions: [...this.positionIds],
+            positionIdList: [...this.positionIdList],
             steps: this.interviewSteps.map(s => s.serialize()),
         };
 

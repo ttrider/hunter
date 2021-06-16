@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import Vue from "vue";
-import { Communication, CompanyInfo, CompanyStatus, filterItemSetToArray, ItemSet, mapItemSet, Position } from ".";
+import { Communication, CompanyInfo, CompanyStatus, filterItemSetToArray, ItemSet } from ".";
 import { update } from "../client";
 import { ActionItem } from "./action-item";
 import { Interview } from "./interview";
 import { WebSite } from "./website";
 import "reflect-metadata";
 import { ContactsModule } from "../contacts";
+import { PositionsModule } from "../positions";
 
 export interface CompanyEditorData {
     id: string;
@@ -66,7 +67,6 @@ export class Company {
     actionItems: ActionItem[];
     careerPageUrl?: string;
     careerPageHint?: string;
-    positions: ItemSet<Position>;
     contactIdList: string[];
     positionIdList: string[];
 
@@ -86,7 +86,6 @@ export class Company {
         this.positionIdList = [...item.positionIdList ?? []];
         this.actionItems = ActionItem.initializeArray(this, item.actionItems);
         this.communications = Communication.initializeArray(this, item.communications);
-        this.positions = Position.initializeSet(this, item.positions);
         this.interviews = Interview.initializeArray(this, item.interviews);
 
 
@@ -96,11 +95,8 @@ export class Company {
     get contacts() {
         return filterItemSetToArray(ContactsModule.contacts, this.contactIdList);
     }
-
-    getPositions(id?: string[]): Position[] {
-        return (id ?? []).map(
-            itemId => this.positions[itemId]
-        ).filter(item => item);
+    get positions() {
+        return filterItemSetToArray(PositionsModule.positions, this.positionIdList);
     }
 
     static initialize(info: CompanyInfo) {
@@ -134,7 +130,7 @@ export class Company {
             active: this.active,
             status: this.status,
             contactIdList: [...this.contactIdList],
-            positionIdList: Object.keys(this.positions).map(id => this.id + "-" + id),
+            positionIdList: [...this.positionIdList],
             communications: this.communications.map(i => i.serialize()),
             interviews: this.interviews.map(i => i.serialize()),
             actionItems: this.actionItems.map(i => i.serialize()),
@@ -142,10 +138,7 @@ export class Company {
                 url: this.careerPageUrl,
                 hint: this.careerPageHint
             } : undefined,
-            positions: mapItemSet(this.positions, i => i.serialize()),
         }
-
-
 
         return ret;
     }
