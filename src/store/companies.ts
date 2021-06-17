@@ -18,12 +18,12 @@ import Vue from "vue";
 import { ContactsModule } from "./contacts";
 import { PositionsModule } from "./positions";
 
-export interface CompanysState {
+export interface CompaniesState {
   items: ItemSet<Company>;
 }
 
 @Module({ dynamic: true, store, name: "companys", namespaced: true })
-class Companys extends VuexModule implements CompanysState {
+class Companies extends VuexModule implements CompaniesState {
   items: ItemSet<Company> = {};
 
   @Mutation initialize(items: ItemSet<CompanyRecord>) {
@@ -37,7 +37,7 @@ class Companys extends VuexModule implements CompanysState {
   }
 }
 
-export const CompanysModule = getModule(Companys);
+export const CompaniesModule = getModule(Companies);
 
 export class Company {
   id: string;

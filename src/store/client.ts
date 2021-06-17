@@ -19,7 +19,7 @@ import { ContactsModule } from "./contacts";
 import { EventsModule } from "./events";
 import { InterviewsModule } from "./interviews";
 import { TasksModule } from "./tasks";
-//import { CompaniesModule } from "./companies";
+import { CompaniesModule } from "./companies";
 
 export const localStore = localforage.createInstance({ name: "localFile" });
 // export const contactsStore = localforage.createInstance({ name: "contacts" });
@@ -115,7 +115,7 @@ export const tasksClient = DocumentClient.create<TaskRecord>("tasks");
 
 export const clients = {
   assets: assetsClient,
-  //companies: companiesClient,
+  companies: companiesClient,
   contacts: contactsClient,
   events: eventsClient,
   interviews: interviewsClient,
@@ -168,7 +168,7 @@ export async function loadFromSessionInfo(session: SessionInfo) {
 
 export function exportToSessionInfo(session: SessionInfo) {
   session.assets = AssetsModule.items;
-  //session.companies = CompaniesModule.items;
+  session.companies = CompaniesModule.items;
   session.contacts = ContactsModule.items;
   session.events = EventsModule.items;
   session.interviews = InterviewsModule.items;
