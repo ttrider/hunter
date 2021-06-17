@@ -25,7 +25,7 @@ class Contacts extends VuexModule implements ContactsState {
 
   @Mutation initialize(contacts: ItemSet<ContactRecord>) {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
-    Vue.set(this, "items", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(contacts: ItemSet<ContactRecord>) {
