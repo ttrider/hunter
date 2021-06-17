@@ -163,9 +163,13 @@ export function filterItemSetToArray<T>(set: ItemSet<T>, predicate: (string[] | 
 
 export interface SessionInfo {
     engagements: ItemSet<CompanyInfo>;
+    assets?: ItemSet<AssetRecord>;
+    companies?: ItemSet<CompanyRecord>;
     contacts?: ItemSet<ContactRecord>;
-    positions?: ItemSet<PositionRecord>;
     events?: ItemSet<EventRecord>;
+    interviews?: ItemSet<InterviewRecord>;
+    positions?: ItemSet<PositionRecord>;
+    tasks?: ItemSet<TaskRecord>;
 }
 
 export declare type CompanyStatus =
