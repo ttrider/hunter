@@ -11,10 +11,11 @@ import { Session, SessionInfo } from "./model";
 import fileDownload from "js-file-download";
 import Vue from "vue";
 import {
-  contactsClient,
-  eventsClient,
   get,
-  positionsClient,
+  initialize,
+  loadFromSessionInfo,
+  refresh,
+  reset,
   update,
 } from "./client";
 import { initializeAuth } from "./auth";
@@ -82,17 +83,8 @@ export async function loadDropedFile(files: File[]) {
 
   const data = JSON.parse(text) as { session: SessionInfo };
   if (data && data.session) {
+    await loadFromSessionInfo(data.session);
     // load contacts
-    if (data.session.contacts) {
-      await contactsClient.update(data.session.contacts);
-    }
-    if (data.session.positions) {
-      await positionsClient.update(data.session.positions);
-    }
-    if (data.session.events) {
-      await eventsClient.update(data.session.events);
-    }
-
     await update(data.session);
   }
 }
@@ -268,23 +260,12 @@ class App extends VuexModule implements AppState {
   async initializeOld() {
     console.info("initialize App");
 
-    await contactsClient.refresh();
-    await positionsClient.refresh();
-    await eventsClient.refresh();
-    //await store.dispatch("app/loadContacts");
+    await refresh();
 
     console.info("getting data from lambda");
     const data = await get();
     return data;
   }
-
-  // @Action({ commit: "initializeContacts" })
-  // async loadContacts() {
-  //   const data = await getContacts();
-  //   const contacts: { [name: string]: Contact2 } = {};
-  //   Object.keys(data).forEach((k) => (contacts[k] = new Contact2(data[k])));
-  //   return contacts;
-  // }
 
   @Mutation
   updateStatus(status: AppStatus) {
@@ -315,11 +296,7 @@ class App extends VuexModule implements AppState {
     await store.dispatch("app/initializeOld");
 
     updateStatusMessage("loading ...");
-    await contactsClient.initialize();
-    await positionsClient.initialize();
-    await eventsClient.initialize();
-
-    //await store.dispatch("app/refresh");
+    await initialize();
 
     updateStatusMessage("");
   }
@@ -329,40 +306,13 @@ class App extends VuexModule implements AppState {
     updateAppStatus("Refreshing");
 
     updateStatusMessage("refreshing information...");
-    // await contactsClient.refresh();
-    // await positionsClient.refresh();
-    // await eventsClient.reset();
-
-    // updateStatusMessage("refreshing folders information...");
-    // await folderClient.refresh();
-
-    // updateStatusMessage("refreshing labels...");
-    // await labelsClient.refresh();
-
-    // updateStatusMessage("refreshing tasks...");
-    // await issuesClient.refresh();
-    // updateStatusMessage("");
+    await refresh();
   }
 
   @Action
   async refreshAll() {
     updateAppStatus("Refreshing");
-
-    // updateStatusMessage("getting contacts information...");
-    // await contactsClient.reset();
-    // updateStatusMessage("getting position information...");
-    // await positionsClient.reset();
-    // await eventsClient.reset();
-
-    // updateStatusMessage("getting program information...");
-    // await folderClient.reset();
-
-    // updateStatusMessage("getting labels...");
-    // await labelsClient.reset();
-
-    // updateStatusMessage("getting tasks...");
-    // await issuesClient.reset();
-
+    await reset();
     updateStatusMessage("");
   }
 }

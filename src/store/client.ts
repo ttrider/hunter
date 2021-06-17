@@ -9,6 +9,8 @@ import {
   ContactRecord,
   EventRecord,
   InterviewRecord,
+  ItemSet,
+  itemSetToArray,
   SessionInfo,
   TaskRecord,
 } from "./model";
@@ -20,6 +22,7 @@ import { EventsModule } from "./events";
 import { InterviewsModule } from "./interviews";
 import { TasksModule } from "./tasks";
 import { CompaniesModule } from "./companies";
+import { BaseClient } from "@/client/resourceClient";
 
 export const localStore = localforage.createInstance({ name: "localFile" });
 // export const contactsStore = localforage.createInstance({ name: "contacts" });
@@ -114,26 +117,24 @@ export const positionsClient = DocumentClient.create<PositionRecord>(
 export const tasksClient = DocumentClient.create<TaskRecord>("tasks");
 
 export const clients = {
-  assets: assetsClient,
-  companies: companiesClient,
+  // assets: assetsClient,
+  // companies: companiesClient,
   contacts: contactsClient,
   events: eventsClient,
-  interviews: interviewsClient,
+  // interviews: interviewsClient,
   positions: positionsClient,
-  tasks: tasksClient,
+  // tasks: tasksClient,
 };
 
 export function initialize() {
-  // const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);
-  // const tasks = clientSet.map((client) => client.initialize());
-  // return Promise.all(tasks);
-  return Promise.resolve();
+  const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);
+  const tasks = clientSet.map((client) => client.initialize());
+  return Promise.all(tasks);
 }
 export function refresh() {
-  // const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);
-  // const tasks = clientSet.map((client) => client.refresh());
-  // return Promise.all(tasks);
-  return Promise.resolve();
+  const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);
+  const tasks = clientSet.map((client) => client.refresh());
+  return Promise.all(tasks);
 }
 export function reset() {
   // const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);

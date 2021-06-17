@@ -89,7 +89,7 @@ class Auth extends VuexModule implements AuthState {
       this.id = this.displayName = this.imageUrl = this.email = this.id_token = this.credentials = null;
     }
 
-    store.dispatch("app/refreshAll");
+    store.dispatch("app/refresh");
 
     if (this.credentials) {
       get("app/updateSession");
