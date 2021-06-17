@@ -3,8 +3,13 @@ import localforage from 'localforage';
 import store from '@/store';
 import { updateDocuments, wait } from '.';
 
-export class ResourceClient<T extends { id: string }>
-{
+export interface BaseClient {
+    initialize(): Promise<void>;
+    reset(): Promise<void>;
+    refresh(): Promise<void>;
+}
+
+export class ResourceClient<T extends { id: string }> implements BaseClient {
     private storage: LocalForage;
 
     constructor(protected name: string,
@@ -64,7 +69,7 @@ export class ResourceClient<T extends { id: string }>
         await this.fetchItems();
     }
 
-    protected preUpdate(documents: { [id: string]: T }){
+    protected preUpdate(documents: { [id: string]: T }) {
         return documents;
     }
 
