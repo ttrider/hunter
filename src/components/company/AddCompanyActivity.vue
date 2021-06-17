@@ -30,6 +30,7 @@ export default class AddCompanyActivity extends Vue {
       contactIdList: [],
       positionIdList: [],
       eventIdList: [],
+      interviewIdList: [],
     }),
     "id",
     "name",

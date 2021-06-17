@@ -4,7 +4,6 @@ import { Company } from "./company";
 import { When } from "./when";
 
 /* eslint-disable prettier/prettier */
-export * from "./action-item";
 export * from "./company";
 export * from "./session";
 export * from "./website";
@@ -196,6 +195,7 @@ export interface CompanyInfo {
     actionItems?: ActionItemInfo[];
     careerSite?: WebSiteInfo;
     contactIdList: string[];
+    interviewIdList: string[];
     positionIdList: string[];
     eventIdList: string[];
 }

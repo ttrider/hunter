@@ -33,7 +33,7 @@ class Events extends VuexModule implements EventsState {
 
   @Mutation initialize(items: ItemSet<EventRecord>) {
     const cmap = mapItemSet(items, (item) => new Event(item));
-    Vue.set(this, "items", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(items: ItemSet<EventRecord>) {

@@ -63,6 +63,7 @@ import fileDownload from "js-file-download";
 import { ContactsModule } from "@/store/contacts";
 import { PositionsModule } from "@/store/positions";
 import { EventsModule } from "@/store/events";
+import { exportToSessionInfo } from "@/store/client";
 
 @Component({
   components: { GoogleLogin, VueContext },
@@ -85,9 +86,10 @@ export default class AuthButton extends Vue {
 
   exportData() {
     const data = AppModule.session.serialize();
-    data.contacts = ContactsModule.items;
-    data.positions = PositionsModule.items;
-    data.events = EventsModule.items;
+    exportToSessionInfo(data);
+    // data.contacts = ContactsModule.items;
+    // data.positions = PositionsModule.items;
+    // data.events = EventsModule.items;
     const dataJ = JSON.stringify({ session: data }, null, 2);
     fileDownload(dataJ, "input.json");
   }

@@ -22,13 +22,13 @@ export interface CompaniesState {
   items: ItemSet<Company>;
 }
 
-@Module({ dynamic: true, store, name: "companys", namespaced: true })
+@Module({ dynamic: true, store, name: "companies", namespaced: true })
 class Companies extends VuexModule implements CompaniesState {
   items: ItemSet<Company> = {};
 
   @Mutation initialize(items: ItemSet<CompanyRecord>) {
     const cmap = mapItemSet(items, (item) => new Company(item));
-    Vue.set(this, "companys", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(items: ItemSet<CompanyRecord>) {

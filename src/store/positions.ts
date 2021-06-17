@@ -31,7 +31,7 @@ class Positions extends VuexModule implements PositionsState {
 
   @Mutation initialize(items: ItemSet<PositionRecord>) {
     const cmap = mapItemSet(items, (item) => new Position(item));
-    Vue.set(this, "items", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(items: ItemSet<PositionRecord>) {

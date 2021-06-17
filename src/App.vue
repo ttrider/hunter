@@ -39,7 +39,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, Vue } from "vue-property-decorator";
-import { AppModule, loadDropedFile, saveLocalFile } from "@/store/app";
+import { AppModule, loadDropedFile } from "@/store/app";
 import GoogleLogin from "vue-google-login";
 import AuthButton from "@/components/AuthButton.vue";
 import { AuthModule } from "./store/auth";
@@ -170,10 +170,6 @@ export default class App extends Vue {
       height: 20,
       longtitle: false,
     };
-  }
-
-  savefile() {
-    saveLocalFile();
   }
 
   serialize() {

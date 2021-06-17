@@ -26,7 +26,7 @@ class Assets extends VuexModule implements AssetsState {
 
   @Mutation initialize(items: ItemSet<AssetRecord>) {
     const cmap = mapItemSet(items, (item) => new Asset(item));
-    Vue.set(this, "items", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(items: ItemSet<AssetRecord>) {

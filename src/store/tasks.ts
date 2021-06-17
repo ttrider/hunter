@@ -26,7 +26,7 @@ class Tasks extends VuexModule implements TasksState {
 
   @Mutation initialize(items: ItemSet<TaskRecord>) {
     const cmap = mapItemSet(items, (item) => new Task(item));
-    Vue.set(this, "items", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(items: ItemSet<TaskRecord>) {

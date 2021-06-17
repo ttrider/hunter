@@ -2,13 +2,12 @@
 import Vue from "vue";
 import { CompanyInfo, CompanyStatus, filterItemSetToArray, ItemSet } from ".";
 import { update } from "../client";
-import { ActionItem } from "./action-item";
-import { Interview } from "./interview";
 import { WebSite } from "./website";
 import "reflect-metadata";
 import { ContactsModule } from "../contacts";
 import { PositionsModule } from "../positions";
 import { EventsModule } from "../events";
+import { InterviewsModule } from "../interviews";
 
 export interface CompanyEditorData {
     id: string;
@@ -63,13 +62,12 @@ export class Company {
     active: boolean;
     @editableField(true)
     status: CompanyStatus;
-    interviews: Interview[];
-    actionItems: ActionItem[];
     careerPageUrl?: string;
     careerPageHint?: string;
     contactIdList: string[];
     positionIdList: string[];
     eventIdList: string[];
+    interviewIdList: string[];
 
     constructor(item: CompanyInfo) {
         this.id = item.id ?? (item.name.toLowerCase());
@@ -85,10 +83,26 @@ export class Company {
         this.active = item.active ?? false;
         this.contactIdList = [...item.contactIdList ?? []];
         this.positionIdList = [...item.positionIdList ?? []];
-        this.actionItems = ActionItem.initializeArray(this, item.actionItems);
-        this.interviews = Interview.initializeArray(this, item.interviews);
-
         this.eventIdList = [...item.eventIdList ?? []];
+
+        this.interviewIdList = [...item.interviewIdList ?? []];
+        // const collect: ItemSet<InterviewRecord> = {};
+        // for (const item of this.interviews) {
+        //     const record: InterviewRecord = {
+        //         id: this.id + "-" + uuid.v4(),
+        //         companyId: this.id,
+
+        //         status: item.status,
+        //         notes: "",
+        //         positionIdList: item.positionIdList,
+        //         eventIdList: item.eventIdList,
+        //         lastUpdated: new Date().toISOString(),
+        //         lastVersion: 0
+        //     }
+        //     collect[record.id] = record;
+        //     this.interviewIdList.push(record.id);
+        // }
+        // interviewsClient.update(collect);
 
         // const events: ItemSet<EventRecord> = {};
         // // collect events here
@@ -155,6 +169,9 @@ export class Company {
     get events() {
         return filterItemSetToArray(EventsModule.items, this.eventIdList);
     }
+    get interviews() {
+        return filterItemSetToArray(InterviewsModule.items, this.interviewIdList);
+    }
 
     static initialize(info: CompanyInfo) {
         const item = new Company(info);
@@ -189,8 +206,7 @@ export class Company {
             contactIdList: [...this.contactIdList],
             positionIdList: [...this.positionIdList],
             eventIdList: [...this.eventIdList],
-            interviews: this.interviews.map(i => i.serialize()),
-            actionItems: this.actionItems.map(i => i.serialize()),
+            interviewIdList: [...this.interviewIdList],
             careerSite: this.careerPageUrl ? {
                 url: this.careerPageUrl,
                 hint: this.careerPageHint,

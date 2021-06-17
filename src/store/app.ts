@@ -88,19 +88,6 @@ export async function loadDropedFile(files: File[]) {
     await update(data.session);
   }
 }
-
-export async function saveLocalFile() {
-  const data = AppModule.session.serialize();
-  if (data) {
-    // post processing
-    const dt: any = data;
-    dt.contacts = ContactsModule.items;
-
-    const text = JSON.stringify(data, null, 2);
-    fileDownload(text, "input.json");
-  }
-}
-
 @Module({ dynamic: true, store, name: "app", namespaced: true })
 class App extends VuexModule implements AppState {
   status: AppStatus = "Initializing";

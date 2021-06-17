@@ -16,7 +16,8 @@ import {
 import Vue from "vue";
 import { PositionsModule } from "./positions";
 import { AppModule } from "./app";
-import { EventsModule } from "./events";
+import { EventsModule, Event } from "./events";
+import { ContactsModule } from "./contacts";
 
 export interface InterviewsState {
   items: ItemSet<Interview>;
@@ -28,7 +29,7 @@ class Interviews extends VuexModule implements InterviewsState {
 
   @Mutation initialize(items: ItemSet<InterviewRecord>) {
     const cmap = mapItemSet(items, (item) => new Interview(item));
-    Vue.set(this, "items", cmap);
+    this.items = cmap;
   }
 
   @Mutation update(items: ItemSet<InterviewRecord>) {
@@ -64,9 +65,16 @@ export class Interview {
     return AppModule.companies[this.companyId];
   }
   get contacts() {
-    return filterItemSetToArray(EventsModule.items, this.eventIdList);
+    return filterItemSetToArray(ContactsModule.items, this.eventIdList);
   }
   get events() {
+    return filterItemSetToArray(EventsModule.items, this.positionIdList);
+  }
+  get positions() {
     return filterItemSetToArray(PositionsModule.items, this.positionIdList);
+  }
+
+  get interviewEvent() {
+    return Event.merge(this.events);
   }
 }
