@@ -117,13 +117,13 @@ export const positionsClient = DocumentClient.create<PositionRecord>(
 export const tasksClient = DocumentClient.create<TaskRecord>("tasks");
 
 export const clients = {
-  // assets: assetsClient,
-  // companies: companiesClient,
+  assets: assetsClient,
+  companies: companiesClient,
   contacts: contactsClient,
   events: eventsClient,
-  // interviews: interviewsClient,
+  interviews: interviewsClient,
   positions: positionsClient,
-  // tasks: tasksClient,
+  tasks: tasksClient,
 };
 
 export function initialize() {
@@ -137,10 +137,9 @@ export function refresh() {
   return Promise.all(tasks);
 }
 export function reset() {
-  // const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);
-  // const tasks = clientSet.map((client) => client.reset());
-  // return Promise.all(tasks);
-  return Promise.resolve();
+  const clientSet = itemSetToArray((clients as unknown) as ItemSet<BaseClient>);
+  const tasks = clientSet.map((client) => client.reset());
+  return Promise.all(tasks);
 }
 
 export async function loadFromSessionInfo(session: SessionInfo) {
