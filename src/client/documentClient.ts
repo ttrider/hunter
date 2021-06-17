@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { forEachItemSet } from '@/store/model';
-import { requestDocument } from '.';
+import { requestDocument, requestDocuments } from '.';
 import { ResourceClient } from './resourceClient';
 
 export class DocumentClient<T extends { id: string, lastUpdated?: string }> extends ResourceClient<T>
@@ -75,5 +75,24 @@ export class DocumentClient<T extends { id: string, lastUpdated?: string }> exte
         await super.reset();
 
     }
+
+
+    static create<TRecord extends { id: string, lastUpdated?: string }>(name: string) {
+        const client = new DocumentClient<TRecord>(
+            name,
+            name + "/initialize",
+            name + "/update",
+            async (client) => {
+                const documents = await requestDocuments<TRecord>(
+                    name,
+                    client.lastUpdated ? client.lastUpdated : undefined
+                );
+                return documents ?? {};
+            }
+        );
+        return client;
+    }
 }
+
+
 
