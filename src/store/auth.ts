@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Action,
   getModule,
@@ -85,7 +86,8 @@ class Auth extends VuexModule implements AuthState {
       this.id_token = userAuth.id_token;
       this.credentials = userAuth.credentials;
     } else {
-      this.id = this.displayName = this.imageUrl = this.email = this.id_token = this.credentials = null;
+      this.id = this.displayName = this.imageUrl = 
+      this.email = this.id_token = this.credentials = null;
     }
     store.dispatch("app/refresh");
   }
