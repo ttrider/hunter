@@ -58,11 +58,7 @@ import { Component, Vue } from "vue-property-decorator";
 import GoogleLogin from "vue-google-login";
 import VueContext from "vue-context";
 import "vue-context/dist/css/vue-context.css";
-import { AppModule } from "@/store/app";
 import fileDownload from "js-file-download";
-import { ContactsModule } from "@/store/contacts";
-import { PositionsModule } from "@/store/positions";
-import { EventsModule } from "@/store/events";
 import { exportToSessionInfo } from "@/store/client";
 
 @Component({
@@ -85,7 +81,7 @@ export default class AuthButton extends Vue {
   }
 
   exportData() {
-    const data = AppModule.session.serialize();
+    const data = {};
     exportToSessionInfo(data);
     // data.contacts = ContactsModule.items;
     // data.positions = PositionsModule.items;

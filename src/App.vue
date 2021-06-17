@@ -39,12 +39,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, Vue } from "vue-property-decorator";
-import { AppModule, loadDropedFile } from "@/store/app";
+import { loadDropedFile } from "@/store/app";
 import GoogleLogin from "vue-google-login";
 import AuthButton from "@/components/AuthButton.vue";
 import { AuthModule } from "./store/auth";
-import fileDownload from "js-file-download";
-// import Amplify, { Auth } from "aws-amplify";
 
 @Component({
   name: "App",
@@ -172,11 +170,6 @@ export default class App extends Vue {
     };
   }
 
-  serialize() {
-    const data = AppModule.session.serialize();
-    const dataJ = JSON.stringify(data, null, 2);
-    fileDownload(dataJ, "input_serialized.json");
-  }
   async dropHandler(ev: DragEvent) {
     if (ev.dataTransfer) {
       const files: File[] = [];

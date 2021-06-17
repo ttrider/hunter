@@ -61,12 +61,12 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 import When from "@/components/When.vue";
 import Where from "@/components/Where.vue";
 import { itemSetToArray } from "@/store/model";
+import { CompaniesModule } from "@/store/companies";
 
 @Component({
   components: { PathLink, When, Where },
@@ -76,7 +76,7 @@ export default class CompanyListCard extends Vue {
   @Prop({ required: false }) titleLinkPath?: string;
 
   get companies() {
-    return itemSetToArray(AppModule.companies, (a, b) =>
+    return itemSetToArray(CompaniesModule.items, (a, b) =>
       a.name < b.name ? -1 : 1
     );
   }

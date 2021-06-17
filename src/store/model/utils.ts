@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { EventAttributes } from "ics";
 import Vue from "vue";
-import { CalendarEvent } from ".";
 
 /**
  * extracts properties from the object for editing
@@ -36,100 +34,100 @@ export function setProperties<T>(
 }
 
 
-export function createICalEvent(event: CalendarEvent) {
+// export function createICalEvent(event: CalendarEvent) {
 
-    const body: string[] = [];
+//     const body: string[] = [];
 
-    body.push("-Company:\t" + event.company.name);
+//     body.push("-Company:\t" + event.company.name);
 
-    if (event.positions.length > 0) {
-        body.push("-Position:");
-        for (const p of event.positions) {
-            body.push(p.name);
-            if (p.url) {
-                body.push(p.url);
-            }
-            body.push("-");
-        }
-    }
+//     if (event.positions.length > 0) {
+//         body.push("-Position:");
+//         for (const p of event.positions) {
+//             body.push(p.name);
+//             if (p.url) {
+//                 body.push(p.url);
+//             }
+//             body.push("-");
+//         }
+//     }
 
-    body.push("-When:\t" + event.when.toString());
+//     body.push("-When:\t" + event.when.toString());
 
-    if (event.where.length > 0) {
-        body.push("-Where:");
-        for (const w of event.where) {
-            if (w.url) {
-                body.push(w.url);
-            }
-            if (w.meetingId) {
-                body.push(w.meetingId);
-            }
-            if (w.meetingPassword) {
-                body.push(w.meetingPassword);
-            }
-            if (w.hint) { body.push(w.hint); }
-            body.push("-");
-        }
-    }
+//     if (event.where.length > 0) {
+//         body.push("-Where:");
+//         for (const w of event.where) {
+//             if (w.url) {
+//                 body.push(w.url);
+//             }
+//             if (w.meetingId) {
+//                 body.push(w.meetingId);
+//             }
+//             if (w.meetingPassword) {
+//                 body.push(w.meetingPassword);
+//             }
+//             if (w.hint) { body.push(w.hint); }
+//             body.push("-");
+//         }
+//     }
 
-    if (event.contacts.length > 0) {
-        body.push("-Who:");
-        for (const c of event.contacts) {
-            body.push(c.displayName);
-            if (c.title) {
-                body.push(c.title);
-            }
-            body.push(c.role);
-            if (c.email?.length > 0) {
-                body.push(c.email.join(", "));
-            }
-            if (c.phone?.length > 0) {
-                body.push(c.phone.join(", "));
-            }
-            if (c.linkedIn) {
-                body.push(c.linkedIn);
-            }
-            body.push("-");
-        }
-    }
+//     if (event.contacts.length > 0) {
+//         body.push("-Who:");
+//         for (const c of event.contacts) {
+//             body.push(c.displayName);
+//             if (c.title) {
+//                 body.push(c.title);
+//             }
+//             body.push(c.role);
+//             if (c.email?.length > 0) {
+//                 body.push(c.email.join(", "));
+//             }
+//             if (c.phone?.length > 0) {
+//                 body.push(c.phone.join(", "));
+//             }
+//             if (c.linkedIn) {
+//                 body.push(c.linkedIn);
+//             }
+//             body.push("-");
+//         }
+//     }
 
-    if (event.notes) {
-        body.push("-Notes:");
-        body.push(event.notes);
-    }
+//     if (event.notes) {
+//         body.push("-Notes:");
+//         body.push(event.notes);
+//     }
 
-    const description = body.map(line => {
+//     const description = body.map(line => {
 
-        if (line.startsWith("-")) {
-            return line.substring(1);
-        }
-        return "\t\t" + line;
-    }).join("\n");
+//         if (line.startsWith("-")) {
+//             return line.substring(1);
+//         }
+//         return "\t\t" + line;
+//     }).join("\n");
 
 
-    const icsEvent: EventAttributes = {
-        start: event.when.dateArray,
-        startInputType: "local",
-        startOutputType: "local",
-        duration: event.when.duration.durationObject,
-        title: `${event.company.name}: Conversation with ${event.contacts
-            .map((c) => c.displayName)
-            .join(", ")}`,
-        description: description,
-        location: event.where
-            .map((w) => w.url ?? w.phone.join(", "))
-            .filter((w) => !!w)
-            .join(", "),
-        //url: event.where.map((w) => w.url).filter((w) => !!w)[0],
-        uid: event.id,
-        attendees: event.contacts.map((c) => {
-            return { name: c.displayName };
-        }),
-        status: "CONFIRMED",
-        //busyStatus: "BUSY",
-        calName: "vyangurs@hotmail.com",
-        categories: ["DARK", "Personal"],
-        productId: "JOBHUNTER",
-    };
-    return icsEvent;
-}
+//     const icsEvent: EventAttributes = {
+//         start: event.when.dateArray,
+//         startInputType: "local",
+//         startOutputType: "local",
+//         duration: event.when.duration.durationObject,
+//         title: `${event.company.name}: Conversation with ${event.contacts
+//             .map((c) => c.displayName)
+//             .join(", ")}`,
+//         description: description,
+//         location: event.where
+//             .map((w) => w.url ?? w.phone.join(", "))
+//             .filter((w) => !!w)
+//             .join(", "),
+//         //url: event.where.map((w) => w.url).filter((w) => !!w)[0],
+//         uid: event.id,
+//         attendees: event.contacts.map((c) => {
+//             return { name: c.displayName };
+//         }),
+//         status: "CONFIRMED",
+//         //busyStatus: "BUSY",
+//         calName: "vyangurs@hotmail.com",
+//         categories: ["DARK", "Personal"],
+//         productId: "JOBHUNTER",
+//     };
+//     return icsEvent;
+// }

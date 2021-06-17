@@ -14,12 +14,21 @@ import {
   CompanyStatus,
   WebSiteInfo,
 } from "./model";
-import Vue from "vue";
 import { ContactsModule } from "./contacts";
 import { PositionsModule } from "./positions";
+import { InterviewsModule } from "./interviews";
 
 export interface CompaniesState {
   items: ItemSet<Company>;
+}
+
+export interface CompanyEditorData {
+  id: string;
+  name: string;
+  status: string;
+  active: boolean;
+  careerPageUrl: string;
+  careerPageHint: string;
 }
 
 @Module({ dynamic: true, store, name: "companies", namespaced: true })
@@ -74,5 +83,8 @@ export class Company {
   }
   get positions() {
     return filterItemSetToArray(PositionsModule.items, this.positionIdList);
+  }
+  get interviews() {
+    return filterItemSetToArray(InterviewsModule.items, this.interviewIdList);
   }
 }

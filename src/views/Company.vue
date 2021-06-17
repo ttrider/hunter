@@ -32,7 +32,6 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Event } from "@/store/events";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
@@ -43,6 +42,7 @@ import PositionsCard from "@/components/PositionsCard.vue";
 import ContactsCard from "@/components/contact/ContactsCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
+import { CompaniesModule } from "@/store/companies";
 
 @Component({
   components: {
@@ -70,14 +70,9 @@ export default class CompanyView extends Vue {
   get instance() {
     const id = this.id.toLowerCase();
 
-    const item = AppModule.companies[id];
+    const item = CompaniesModule.items[id];
 
     if (item) {
-      // if (this.$router.currentRoute.path !== item.id.toLowerCase()) {
-      //   this.$router.replace({
-      //     path: item.id.toLowerCase(),
-      //   });
-      // }
       return item;
     }
 
@@ -86,12 +81,6 @@ export default class CompanyView extends Vue {
     });
     return undefined;
   }
-
-  get companies() {
-    // do sorting here
-    return AppModule.companies;
-  }
-
   get interviews() {
     if (this.instance) {
       return this.instance.interviews.sort((a, b) =>

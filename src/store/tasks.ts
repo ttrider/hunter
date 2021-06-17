@@ -12,9 +12,8 @@ import {
   TaskRecord,
   filterItemSetToArray,
 } from "./model";
-import Vue from "vue";
 import { ContactsModule } from "./contacts";
-import { AppModule } from "./app";
+import { CompaniesModule } from "./companies";
 
 export interface TasksState {
   items: ItemSet<Task>;
@@ -63,7 +62,7 @@ export class Task {
   }
 
   get company() {
-    return AppModule.companies[this.companyId];
+    return CompaniesModule.items[this.companyId];
   }
   get contacts() {
     return filterItemSetToArray(ContactsModule.items, this.contactIdList);

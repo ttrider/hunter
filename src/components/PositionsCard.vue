@@ -22,7 +22,7 @@
 </style>
 
 <script lang="ts">
-import { Company } from "@/store/model";
+import { Company } from "@/store/companies";
 import { Position } from "@/store/positions";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";

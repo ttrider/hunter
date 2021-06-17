@@ -15,22 +15,30 @@
 </template>
 
 <script lang="ts">
-import { Company, CompanyEditorData } from "@/store/model";
 import { Component, Vue } from "vue-property-decorator";
 import CompanyEditor from "@/components/company/CompanyEditor.vue";
 import "vue-select/dist/vue-select.css";
 import { getProperties } from "@/store/model/utils";
+import { CompanyEditorData, Company } from "@/store/companies";
 @Component({
   components: { CompanyEditor },
 })
 export default class AddCompanyActivity extends Vue {
   company = getProperties<CompanyEditorData>(
     new Company({
+      id: "",
       name: "",
+      active: true,
+      status: "none",
+
+      links: [],
+      interviewIdList: [],
+      taskIdList: [],
       contactIdList: [],
       positionIdList: [],
       eventIdList: [],
-      interviewIdList: [],
+      lastUpdated: "",
+      lastVersion: 0,
     }),
     "id",
     "name",

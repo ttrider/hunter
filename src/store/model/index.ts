@@ -1,11 +1,6 @@
-import { Contact } from "../contacts";
-import { Position, PositionRecord } from "../positions";
-import { Company } from "./company";
-import { When } from "./when";
+import { PositionRecord } from "../positions";
 
 /* eslint-disable prettier/prettier */
-export * from "./company";
-export * from "./session";
 export * from "./website";
 export * from "./where";
 
@@ -21,17 +16,17 @@ export interface CalendarEventWhere {
     hint?: string;
 }
 
-export interface CalendarEvent {
-    company: Company;
-    id: string
-    notes?: string;
-    when: When;
-    where: CalendarEventWhere[];
-    positionIdList: string[];
-    positions: Position[];
-    contactIdList: string[];
-    contacts: Contact[];
-}
+// export interface CalendarEvent {
+//     company: Company;
+//     id: string
+//     notes?: string;
+//     when: When;
+//     where: CalendarEventWhere[];
+//     positionIdList: string[];
+//     positions: Position[];
+//     contactIdList: string[];
+//     contacts: Contact[];
+//}
 
 export declare type ItemSet<T> = { [name: string]: T };
 
@@ -161,7 +156,7 @@ export function filterItemSetToArray<T>(set: ItemSet<T>, predicate: (string[] | 
 }
 
 export interface SessionInfo {
-    engagements: ItemSet<CompanyInfo>;
+    //engagements: ItemSet<CompanyInfo>;
     assets?: ItemSet<AssetRecord>;
     companies?: ItemSet<CompanyRecord>;
     contacts?: ItemSet<ContactRecord>;
@@ -183,44 +178,44 @@ export declare type CompanyStatus =
     "declined" | // i decided not to continue - end of the engagement
     "none";
 
-export interface CompanyInfo {
-    id?: string;
-    name: string;
-    active?: boolean;
-    status?: CompanyStatus;
+// export interface CompanyInfo {
+//     id?: string;
+//     name: string;
+//     active?: boolean;
+//     status?: CompanyStatus;
 
-    communications?: CommunicationInfo[];
-    interviews?: InterviewInfo[];
+//     communications?: CommunicationInfo[];
+//     interviews?: InterviewInfo[];
 
-    actionItems?: ActionItemInfo[];
-    careerSite?: WebSiteInfo;
-    contactIdList: string[];
-    interviewIdList: string[];
-    positionIdList: string[];
-    eventIdList: string[];
-}
+//     actionItems?: ActionItemInfo[];
+//     careerSite?: WebSiteInfo;
+//     contactIdList: string[];
+//     interviewIdList: string[];
+//     positionIdList: string[];
+//     eventIdList: string[];
+// }
 
 export declare type InterviewStatus = "scheduled" | "completed" | "cancelled" | "none";
 
-export interface InterviewInfo {
+// export interface InterviewInfo {
 
-    status?: InterviewStatus;
-    positions?: string[];
-    positionIdList: string[];
-    eventIdList: string[];
+//     status?: InterviewStatus;
+//     positions?: string[];
+//     positionIdList: string[];
+//     eventIdList: string[];
 
-    //steps: InterviewStepInfo[];
-}
+//     //steps: InterviewStepInfo[];
+// }
 
-export interface InterviewStepInfo {
+// export interface InterviewStepInfo {
 
-    //contacts: string[];
-    date: string;
-    duration: string;
-    notes?: string;
-    where?: WhereInfo[];
-    contactIdList: string[];
-}
+//     //contacts: string[];
+//     date: string;
+//     duration: string;
+//     notes?: string;
+//     where?: WhereInfo[];
+//     contactIdList: string[];
+// }
 
 export declare type ContactRole = "recruiter" | "none";
 
@@ -244,30 +239,30 @@ export interface ContactRecord {
 
 export declare type CommunicationType = "phonescreen" | "informational" | "none";
 
-export interface CommunicationInfo {
-    type: CommunicationType;
-    date?: string;
-    duration?: string;
-    actualDuraction?: string;
-    //contacts?: string[];
-    notes?: string;
-    positions?: string[];
-    where?: WhereInfo[];
-    contactIdList: string[];
-    positionIdList: string[];
+// export interface CommunicationInfo {
+//     type: CommunicationType;
+//     date?: string;
+//     duration?: string;
+//     actualDuraction?: string;
+//     //contacts?: string[];
+//     notes?: string;
+//     positions?: string[];
+//     where?: WhereInfo[];
+//     contactIdList: string[];
+//     positionIdList: string[];
 
-}
+// }
 
 export declare type ActionItemType = "email";
 export declare type ActionItemStatus = "completed" | "pending" | "none";
 
-export interface ActionItemInfo {
-    type: ActionItemType;
-    description: string;
-    //contacts?: string[];
-    status: ActionItemStatus;
-    contactIdList: string[];
-}
+// export interface ActionItemInfo {
+//     type: ActionItemType;
+//     description: string;
+//     //contacts?: string[];
+//     status: ActionItemStatus;
+//     contactIdList: string[];
+// }
 
 export interface WebSiteInfo {
     url: string;

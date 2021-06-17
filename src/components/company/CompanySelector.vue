@@ -14,8 +14,8 @@
 import { Component, ModelSync, Vue } from "vue-property-decorator";
 import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
-import { AppModule } from "@/store/app";
 import { itemSetToArray } from "@/store/model";
+import { CompaniesModule } from "@/store/companies";
 
 @Component({
   components: { Selector },
@@ -28,13 +28,13 @@ export default class CompanySelector extends Vue {
   valueObject!: string;
 
   get options() {
-    return itemSetToArray(AppModule.companies, (a, b) =>
+    return itemSetToArray(CompaniesModule.items, (a, b) =>
       a.name < b.name ? -1 : 1
     );
   }
 
   get current() {
-    return AppModule.companies[this.valueObject] ?? null;
+    return CompaniesModule.items[this.valueObject] ?? null;
   }
 }
 </script>

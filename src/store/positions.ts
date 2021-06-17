@@ -6,7 +6,6 @@ import {
 } from "vuex-module-decorators";
 import store from "@/store";
 import { ItemSet, mapItemSet, mergeItemSets } from "./model";
-import Vue from "vue";
 import { DocumentRecord } from "./common";
 
 export declare type PositionStatus =

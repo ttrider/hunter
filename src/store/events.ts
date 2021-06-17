@@ -15,13 +15,12 @@ import {
   WhenInfo,
   filterItemSetToArray,
 } from "./model";
-import Vue from "vue";
 import { DateInfo } from "./model/date-info";
 import { Duration } from "./model/duration";
 import uuid from "uuid";
 import { ContactsModule } from "./contacts";
 import { PositionsModule } from "./positions";
-import { AppModule } from "./app";
+import { CompaniesModule } from "./companies";
 
 export interface EventsState {
   items: ItemSet<Event>;
@@ -110,7 +109,7 @@ export class Event implements WhenEvent {
   }
 
   get company() {
-    return AppModule.companies[this.companyId];
+    return CompaniesModule.items[this.companyId];
   }
   get contacts() {
     return filterItemSetToArray(ContactsModule.items, this.contactIdList);

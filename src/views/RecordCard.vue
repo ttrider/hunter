@@ -67,8 +67,7 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
-import { Component, Vue, Provide } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
 import When from "@/components/When.vue";
 import Where from "@/components/Where.vue";
@@ -89,6 +88,7 @@ import { DateInfo } from "@/store/model/date-info";
 
 import WhenData from "@/store/model/when";
 import { ContactsModule } from "@/store/contacts";
+import { CompaniesModule } from "@/store/companies";
 
 @Component({
   components: {
@@ -126,11 +126,7 @@ export default class Record extends Vue {
   datePickerModel: DatePickerModel = new DatePickerModel();
 
   get company() {
-    console.info("get " + this.companyId);
-
-    const c = AppModule.companies[this.companyId];
-    console.info(c);
-
+    const c = CompaniesModule.items[this.companyId];
     return c;
   }
 

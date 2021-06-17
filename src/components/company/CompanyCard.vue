@@ -29,12 +29,11 @@
 </template>
 
 <script lang="ts">
-import { Company, CompanyEditorData } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 import CompanyEditor from "@/components/company/CompanyEditor.vue";
 import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
-import { getProperties } from "@/store/model/utils";
+import { Company, CompanyEditorData } from "@/store/companies";
 
 @Component({
   components: { PathLink, CompanyEditor, FormButtonsPanel },
@@ -60,7 +59,7 @@ export default class CompanyCard extends Vue {
   editing = false;
 
   onEdit() {
-    this.company = this.value.beginEdit();
+    //this.company = this.value.beginEdit();
     // this.company = getProperties<CompanyEditorData>(
     //   this.value,
     //   "id",

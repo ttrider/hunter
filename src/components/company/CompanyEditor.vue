@@ -36,9 +36,8 @@
 import { Component, ModelSync, Vue, Watch } from "vue-property-decorator";
 import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
-import { AppModule } from "@/store/app";
-import { CompanyEditorData } from "@/store/model/company";
-import { findInItemSet } from "@/store/model";
+import { CompanyRecord, findInItemSet } from "@/store/model";
+import { CompaniesModule } from "@/store/companies";
 
 @Component({
   components: { Selector },
@@ -48,7 +47,7 @@ export default class CompanyEditor extends Vue {
     type: Object,
     required: true,
   })
-  currentValue!: CompanyEditorData;
+  currentValue!: CompanyRecord;
 
   @Watch("currentValue", { deep: true, immediate: false })
   onUpdated() {
@@ -62,7 +61,7 @@ export default class CompanyEditor extends Vue {
 
     const namelc = name.toLowerCase();
     const dup = findInItemSet(
-      AppModule.companies,
+      CompaniesModule.items,
       (item) => item.name.toLowerCase() === namelc
     );
     if (dup && dup.id != this.currentValue.id) {

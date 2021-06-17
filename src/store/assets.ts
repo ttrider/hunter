@@ -15,6 +15,7 @@ import {
 import Vue from "vue";
 import { ContactsModule } from "./contacts";
 import { AppModule } from "./app";
+import { CompaniesModule } from "./companies";
 
 export interface AssetsState {
   items: ItemSet<Asset>;
@@ -57,7 +58,7 @@ export class Asset {
   }
 
   get company() {
-    return AppModule.companies[this.companyId];
+    return CompaniesModule.items[this.companyId];
   }
   get contacts() {
     return filterItemSetToArray(ContactsModule.items, this.contactIdList);

@@ -13,11 +13,10 @@ import {
   filterItemSetToArray,
   InterviewStatus,
 } from "./model";
-import Vue from "vue";
 import { PositionsModule } from "./positions";
-import { AppModule } from "./app";
 import { EventsModule, Event } from "./events";
 import { ContactsModule } from "./contacts";
+import { CompaniesModule } from "./companies";
 
 export interface InterviewsState {
   items: ItemSet<Interview>;
@@ -62,7 +61,7 @@ export class Interview {
   }
 
   get company() {
-    return AppModule.companies[this.companyId];
+    return CompaniesModule.items[this.companyId];
   }
   get contacts() {
     return filterItemSetToArray(ContactsModule.items, this.eventIdList);

@@ -7,7 +7,8 @@
 </template>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
+import { CompaniesModule } from "@/store/companies";
+import { itemSetToArray } from "@/store/model";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
@@ -15,20 +16,9 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class Home extends Vue {
   get companies() {
-    const ret = [];
-    const sessions = AppModule.session;
-    const companies = sessions?.companies;
-    if (companies) {
-      for (const key in companies) {
-        if (Object.prototype.hasOwnProperty.call(companies, key)) {
-          const company = companies[key];
-          ret.push(company);
-        }
-      }
-    }
-
-    ret.sort((a, b) => (a.name < b.name ? -1 : 1));
-    return ret;
+    return itemSetToArray(CompaniesModule.items, (a, b) =>
+      a.name < b.name ? -1 : 1
+    );
   }
 }
 </script>

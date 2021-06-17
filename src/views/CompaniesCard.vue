@@ -30,7 +30,7 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
+import { CompaniesModule } from "@/store/companies";
 import { filterItemSetToArray } from "@/store/model";
 import { Component, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
@@ -41,7 +41,7 @@ import PathLink from "../vue-tt/PathLink.vue";
 export default class Companies extends Vue {
   get companies() {
     return filterItemSetToArray(
-      AppModule.companies,
+      CompaniesModule.items,
       (item) => item.active
     ).sort((a, b) => (a.name < b.name ? -1 : 1));
   }
