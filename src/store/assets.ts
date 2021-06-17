@@ -12,9 +12,7 @@ import {
   AssetRecord,
   filterItemSetToArray,
 } from "./model";
-import Vue from "vue";
 import { ContactsModule } from "./contacts";
-import { AppModule } from "./app";
 import { CompaniesModule } from "./companies";
 
 export interface AssetsState {
