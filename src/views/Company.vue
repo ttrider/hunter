@@ -1,17 +1,33 @@
 <template>
-  <div v-if="!!instance" class="cardspace">
-    <div class="csc-content">
-      <div class="csc-main">
-        <RecordCard />
-        <CompanyCard :value="instance" />
-        <!-- <EventsCard /> -->
-      </div>
-      <div class="csc-side">
-        <ContactsCard :value="instance" />
-        <PositionsCard :value="instance" />
+  <span class="page">
+    <Header :title="title" :subtitle="subtitle" :commands="commands" />
+    <div class="cardspace">
+      <div class="csc-content">
+        <div v-if="mode != 'view'" class="csc-main">
+          <div class="card form-actions">
+            <CompanyEditor
+              :value="instance"
+              @form-errors="(e) => (errors = e)"
+            />
+            <FormButtonsPanel
+              :errors="errors"
+              @cancel="onClose()"
+              @submit="onSave()"
+            />
+          </div>
+        </div>
+        <div v-if="mode == 'view'" class="csc-main">
+          <RecordCard />
+          <CompanyCard :value="instance" />
+          <!-- <EventsCard /> -->
+        </div>
+        <div v-if="mode == 'view'" class="csc-side">
+          <ContactsCard :value="instance" />
+          <PositionsCard :value="instance" />
+        </div>
       </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <style lang="less">
@@ -43,6 +59,8 @@ import ContactsCard from "@/components/contact/ContactsCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
 import { CompaniesModule } from "@/store/companies";
+import Header from "@/components/Header.vue";
+import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
 
 @Component({
   components: {
@@ -53,9 +71,13 @@ import { CompaniesModule } from "@/store/companies";
     ContactsCard,
     EventsCard,
     RecordCard,
+    Header,
+    FormButtonsPanel,
   },
 })
 export default class CompanyView extends Vue {
+  mode: "view" | "edit" | "new" = "view";
+  errors: string[] = [];
   id = "";
 
   @Watch("$route", { immediate: true, deep: true })
@@ -67,18 +89,36 @@ export default class CompanyView extends Vue {
     }
   }
 
-  get instance() {
-    const id = this.id.toLowerCase();
+  get commands() {
+    return [
+      {
+        title: "Update",
+        click: () => this.beginEdit(),
+        enabled: this.mode === "view",
+      },
+      {
+        title: "Add New Company",
+        click: () => this.beginNew(),
+        enabled: this.mode === "view",
+      },
+    ];
+  }
 
+  get instance() {
+    console.info("instance");
+    const id = this.id.toLowerCase();
+    console.info("instance: " + id);
     const item = CompaniesModule.items[id];
 
     if (item) {
+      console.info("instance: " + item);
       return item;
     }
 
     this.$router.replace({
       path: "/",
     });
+    console.info("instance: undefined");
     return undefined;
   }
   get interviews() {
@@ -88,6 +128,30 @@ export default class CompanyView extends Vue {
       );
     }
     return [];
+  }
+
+  get title() {
+    const v = this.instance?.name ?? "";
+    return v;
+  }
+  get subtitle() {
+    return this.instance?.active
+      ? "active: " + this.instance.status
+      : "inactive";
+  }
+
+  beginEdit() {
+    this.mode = "edit";
+  }
+  beginNew() {
+    this.mode = "new";
+  }
+
+  onSave() {
+    this.mode = "view";
+  }
+  onClose() {
+    this.mode = "view";
   }
 }
 </script>

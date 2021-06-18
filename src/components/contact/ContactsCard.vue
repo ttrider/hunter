@@ -3,7 +3,9 @@
     <div class="card-title">Contacts</div>
     <div v-if="contacts.length === 0">no contacts</div>
     <div v-else v-for="p in contacts" :key="p.id">
-      <div class="t1 company-card-item-top">{{ p.displayName }}</div>
+      <PathLink :path="'/contacts/' + p.id" class="t1 company-card-item-top">{{
+        p.displayName
+      }}</PathLink>
       <div v-if="p.title" class="t2">{{ p.title }}</div>
       <div v-if="p.role" class="t2">{{ p.role }}</div>
       <div class="t3 company-card-item-bottom">

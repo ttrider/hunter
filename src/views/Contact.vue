@@ -1,13 +1,16 @@
 <template>
-  <div v-if="!!instance" class="cardspace">
-    <div class="csc-content">
-      <div class="csc-main">
-        <RecordCard />
-        <ContactCard :value="instance" />
-        <!-- <EventsCard /> -->
+  <span class="page">
+    <Header :title="title" :subtitle="subtitle" />
+    <div v-if="!!instance" class="cardspace">
+      <div class="csc-content">
+        <div class="csc-main">
+          <!-- <RecordCard /> -->
+          <ContactCard :value="instance" />
+          <!-- <EventsCard /> -->
+        </div>
       </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <style lang="less">
@@ -28,7 +31,6 @@
 </style>
 
 <script lang="ts">
-import { AppModule } from "@/store/app";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Route } from "vue-router";
 import PathLink from "../vue-tt/PathLink.vue";
@@ -40,6 +42,7 @@ import ContactCard from "@/components/contact/ContactCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
 import { ContactsModule } from "@/store/contacts";
+import Header from "@/components/Header.vue";
 
 @Component({
   components: {
@@ -51,6 +54,7 @@ import { ContactsModule } from "@/store/contacts";
     EventsCard,
     RecordCard,
     ContactCard,
+    Header,
   },
 })
 export default class ContactView extends Vue {
@@ -83,6 +87,27 @@ export default class ContactView extends Vue {
       path: "/",
     });
     return undefined;
+  }
+
+  get title() {
+    return this.instance?.displayName ?? "";
+  }
+  get subtitle() {
+    if (this.instance) {
+      const parts: string[] = [];
+      if (this.instance.title) {
+        parts.push(this.instance.title);
+      }
+      const company = this.instance.company;
+      if (company) {
+        parts.push(company.name);
+      }
+
+      if (parts.length > 0) {
+        return parts.join(" - ");
+      }
+    }
+    return "";
   }
 }
 </script>

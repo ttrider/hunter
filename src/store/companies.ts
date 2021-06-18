@@ -87,4 +87,7 @@ export class Company {
   get interviews() {
     return filterItemSetToArray(InterviewsModule.items, this.interviewIdList);
   }
+  get path() {
+    return `/companies/${this.id.toLowerCase()}`;
+  }
 }

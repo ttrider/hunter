@@ -90,6 +90,8 @@ import WhenData from "@/store/model/when";
 import { ContactsModule } from "@/store/contacts";
 import { CompaniesModule } from "@/store/companies";
 
+import Header from "@/components/Header.vue";
+
 @Component({
   components: {
     PathLink,
@@ -104,6 +106,7 @@ import { CompaniesModule } from "@/store/companies";
     DatePicker,
     WhenSelector,
     AddCompanyActivity,
+    Header,
   },
   data: () => {
     return {

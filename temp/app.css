@@ -5,6 +5,9 @@ body {
   background-color: hsl(32, 50%, 96%);
   padding-top: 3rem;
 }
+.page {
+  display: contents;
+}
 .flex-spacer {
   flex-grow: 100;
 }
@@ -186,6 +189,10 @@ body {
 .card .card-grid .card-grid-row:hover > div,
 .card .card-grid .card-grid-row:hover a {
   background: hsl(32, 100%, 98.7%);
+}
+.card-entity {
+  font-size: 1.3em;
+  padding: 1em;
 }
 .footer {
   display: none;
@@ -453,15 +460,66 @@ body {
 .header .header-menu:hover {
   background-color: hsl(32, 80%, 73%);
 }
-.header .header-title {
+.header .header-logo {
   font-size: 1.8em;
   margin-right: 0.5em;
   margin-left: 0.5em;
   text-decoration: none;
   cursor: pointer;
 }
-.header .header-title:visited {
+.header .header-logo:visited {
   color: unset;
+}
+.header .header-central {
+  display: flex;
+  justify-content: center;
+}
+.header .header-titlecard {
+  display: flex;
+  flex-direction: column;
+}
+.header .header-titlecard .header-title {
+  font-weight: bold;
+  font-size: 1.6em;
+  color: hsl(32, 80%, 12%);
+}
+.header .header-titlecard .header-subtitle {
+  font-size: 1em;
+  color: hsl(32, 80%, 12%);
+}
+.header .header-buttons {
+  display: flex;
+}
+.header .header-buttons .header-button {
+  font-size: 0.9em;
+  padding: 0.5em;
+  cursor: pointer;
+  margin-left: 0.5em;
+  min-width: 10ch;
+  background: hsl(32, 100%, 99.7%);
+  color: hsl(32, 80%, 37%);
+  border: 1px solid hsl(32, 80%, 37%);
+  border-radius: 1em;
+  box-sizing: border-box;
+}
+.header .header-buttons .header-button:focus-visible {
+  border: 2px solid hsl(32, 80%, 12%);
+  outline: none;
+}
+.header .header-buttons .header-button:disabled {
+  border: 1px solid #808080;
+  color: #808080;
+  cursor: auto;
+}
+.header .header-buttons .header-button:disabled:hover {
+  border: 1px solid #808080;
+  color: #808080;
+  cursor: auto;
+  background: hsl(32, 100%, 99.7%);
+}
+.header .header-buttons .header-button:hover {
+  background: hsl(32, 100%, 95%);
+  color: hsl(32, 80%, 37%);
 }
 .header .header-icon {
   max-height: 3rem;

@@ -22,7 +22,11 @@ export default class PathLink extends Vue {
 
   get href() {
     if (this.path) {
-      if (this.path.startsWith("http")) {
+      if (
+        this.path.startsWith("http") ||
+        this.path.startsWith("tel") ||
+        this.path.startsWith("mailto")
+      ) {
         return this.path;
       }
       return "/#" + this.path;

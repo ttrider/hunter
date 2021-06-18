@@ -1,15 +1,18 @@
 <template>
-  <div class="view cardspace">
-    <div class="csc-content">
-      <div class="csc-main">
-        <RecordCard />
-        <EventsCard />
-      </div>
-      <div class="csc-side">
-        <CompanyListCard title="Companies" titleLinkPath="/companies" />
+  <span class="page">
+    <Header title="" />
+    <div class="view cardspace">
+      <div class="csc-content">
+        <div class="csc-main">
+          <RecordCard />
+          <EventsCard />
+        </div>
+        <div class="csc-side">
+          <CompanyListCard title="Companies" titleLinkPath="/companies" />
+        </div>
       </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <style lang="less"></style>
@@ -22,6 +25,7 @@ import CompaniesCard from "@/views/CompaniesCard.vue";
 import EventsCard from "@/components/EventsCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
 import CompanyListCard from "@/components/company/CompanyListCard.vue";
+import Header from "@/components/Header.vue";
 
 @Component({
   components: {
@@ -31,6 +35,7 @@ import CompanyListCard from "@/components/company/CompanyListCard.vue";
     EventsCard,
     RecordCard,
     CompanyListCard,
+    Header,
   },
 })
 export default class Home extends Vue {}

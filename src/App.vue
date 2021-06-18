@@ -4,12 +4,12 @@
     @drop.prevent="(e) => dropHandler(e)"
     @dragover.prevent="(e) => {}"
   >
-    <header
+    <!-- <header
       class="header"
       @drop.prevent="(e) => dropHandler(e)"
       @dragover.prevent="(e) => {}"
     >
-      <!-- <div class="header-menu">&#x2261;</div> -->
+      
       <router-link to="/" class="header-title">JobHunter</router-link>
       <div class="flex-spacer"></div>
       <div class="tabs">
@@ -18,7 +18,7 @@
         <router-link to="/log" class="tab">log</router-link>
       </div>
       <AuthButton />
-    </header>
+    </header> -->
 
     <footer class="footer">
       <router-link to="/companies" class="tab">companies</router-link>

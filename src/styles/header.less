@@ -30,7 +30,7 @@
     }
   }
 
-  .header-title {
+  .header-logo {
     //font-weight: bold;
     font-size: 1.8em;
     margin-right: 0.5em;
@@ -40,6 +40,65 @@
     cursor: pointer;
     &:visited {
       color: unset;
+    }
+  }
+
+  .header-central {
+    display: flex;
+    justify-content: center;
+  }
+
+  .header-titlecard {
+    display: flex;
+    flex-direction: column;
+
+    .header-title {
+      font-weight: bold;
+      font-size: 1.6em;
+      color: @color-dark;
+    }
+
+    .header-subtitle {
+      font-size: 1em;
+      color: @color-dark;
+    }
+  }
+
+  .header-buttons {
+    display: flex;
+    .header-button {
+      font-size: 0.9em;
+      padding: 0.5em;
+      cursor: pointer;
+      margin-left: 0.5em;
+      min-width: 10ch;
+      background: @color-light;
+      color: @color-0-5;
+      border: 1px solid @color-0-5;
+      border-radius: 1em;
+      box-sizing: border-box;
+    }
+
+    .header-button:focus-visible {
+      border: 2px solid @color-dark;
+      outline: none;
+    }
+
+    .header-button:disabled {
+      border: 1px solid @color-gray;
+      color: @color-gray;
+      cursor: auto;
+    }
+    .header-button:disabled:hover {
+      border: 1px solid @color-gray;
+      color: @color-gray;
+      cursor: auto;
+      background: @color-light;
+    }
+
+    .header-button:hover {
+      background: @color-0-1;
+      color: @color-0-5;
     }
   }
 

@@ -34,9 +34,10 @@ import { CompaniesModule } from "@/store/companies";
 import { filterItemSetToArray } from "@/store/model";
 import { Component, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
+import Header from "@/components/Header.vue";
 
 @Component({
-  components: { PathLink },
+  components: { PathLink, Header },
 })
 export default class Companies extends Vue {
   get companies() {

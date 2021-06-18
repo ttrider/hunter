@@ -14,6 +14,7 @@ import {
 } from "./model";
 import Vue from "vue";
 import { contactsClient } from "./client";
+import { CompaniesModule } from "./companies";
 
 export interface ContactsState {
   items: ItemSet<Contact>;
@@ -91,6 +92,13 @@ export class Contact {
       return this.phone[0];
     }
     return "unknown";
+  }
+
+  get company() {
+    if (this.companyId) {
+      return CompaniesModule.items[this.companyId];
+    }
+    return undefined;
   }
 
   beginEdit() {
