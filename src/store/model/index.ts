@@ -230,7 +230,7 @@ export interface ContactRecord {
     alias?: string;
     role?: ContactRole;
     title?: string;
-    company?: string;
+    alternativeCompanyName?: string;
     notes?: string;
 
     lastUpdated: string;

@@ -48,7 +48,7 @@ export class Contact {
   alias?: string;
   role: ContactRole;
   title?: string;
-  companyName?: string;
+  alternativeCompanyName?: string;
   notes?: string;
   lastUpdated: string;
   lastVersion: number;
@@ -64,7 +64,7 @@ export class Contact {
     this.alias = item.alias;
     this.role = item.role ?? "none";
     this.title = item.title;
-    this.companyName = item.company;
+    this.alternativeCompanyName = item.alternativeCompanyName;
     this.notes = item.notes;
 
     this.lastUpdated = item.lastUpdated;
@@ -115,7 +115,7 @@ export class Contact {
       alias: source.alias,
       role: source.role,
       title: source.title,
-      companyName: source.companyName,
+      alternativeCompanyName: source.alternativeCompanyName,
       notes: source.notes,
 
       commit: () => {
@@ -128,7 +128,7 @@ export class Contact {
         source.alias = ret.alias;
         source.role = ret.role;
         source.title = ret.title;
-        source.companyName = ret.companyName;
+        source.alternativeCompanyName = ret.alternativeCompanyName;
         source.notes = ret.notes;
 
         contactsClient.update({ [ret.id]: ret });
