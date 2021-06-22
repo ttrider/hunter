@@ -190,8 +190,31 @@
   }
 }
 .card-entity {
-  font-size: 1.3em;
+  font-size: 1.2em;
   padding: 1em;
+}
+.card-tile {
+  font-size: 1.2em;
+  flex-direction: row;
+  display: flex;
+  padding-top: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid @color-border;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+.card-tile-linkable {
+  cursor: pointer;
+  &:hover {
+    background-color: @color-back-hover;
+    text-decoration: none;
+  }
 }
 
 @import "./defs.less";

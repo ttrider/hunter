@@ -1,6 +1,6 @@
 <template>
   <span class="page">
-    <Header title="" />
+    <Header />
     <div class="view cardspace">
       <div class="csc-content">
         <div class="csc-main">

@@ -1,6 +1,6 @@
 <template>
   <a
-    :class="href ? 'path-link-active' : 'path-link-passive'"
+    :class="className"
     :href="href"
     :target="target"
     @click.stop="(e) => navigateToPath(e, path)"
@@ -19,6 +19,17 @@ import { Component, Prop } from "vue-property-decorator";
 })
 export default class PathLink extends Vue {
   @Prop() path?: string;
+  @Prop({ required: false }) disableDecoration?: boolean;
+
+  get className() {
+    if (this.href) {
+      if (this.disableDecoration) {
+        return "path-link-active-alt";
+      }
+      return "path-link-active";
+    }
+    return "path-link-passive";
+  }
 
   get href() {
     if (this.path) {
@@ -52,7 +63,7 @@ export default class PathLink extends Vue {
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .path-link-active {
   text-decoration: none;
   color: inherit;
@@ -65,6 +76,21 @@ export default class PathLink extends Vue {
 
 .path-link-active:hover {
   text-decoration: underline;
+  color: inherit;
+}
+
+.path-link-active-alt {
+  text-decoration: none;
+  color: inherit;
+}
+
+.path-link-active-alt:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+.path-link-active-alt:hover {
+  text-decoration: none;
   color: inherit;
 }
 

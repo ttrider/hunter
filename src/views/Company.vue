@@ -22,7 +22,7 @@
           <!-- <EventsCard /> -->
         </div>
         <div v-if="mode == 'view'" class="csc-side">
-          <ContactsCard :value="instance" />
+          <ContactsCard :value="instance" :enableTitleLink="true" />
           <PositionsCard :value="instance" />
         </div>
       </div>
@@ -105,13 +105,9 @@ export default class CompanyView extends Vue {
   }
 
   get instance() {
-    console.info("instance");
     const id = this.id.toLowerCase();
-    console.info("instance: " + id);
     const item = CompaniesModule.items[id];
-
     if (item) {
-      console.info("instance: " + item);
       return item;
     }
 

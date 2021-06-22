@@ -88,7 +88,7 @@ export function filterItemSet<T>(set: ItemSet<T>, predicate: (string[] | ((item:
     return ret;
 }
 
-export function groupItemSet<TSource, TGroup extends { groupId: string, title: string, items: TSource[] }>(
+export function groupItemSet<TSource, TGroup extends { groupId: string, title: string, items: TSource[] } = { groupId: string, title: string, items: TSource[] }>(
     set: ItemSet<TSource> | TSource[],
     groupIdProvider: (item: TSource) => string,
     groupFactory: (item: TSource, groupId: string) => TGroup) {

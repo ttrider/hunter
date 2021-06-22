@@ -30,6 +30,15 @@
     }
   }
 
+  .header-icon {
+    background-image: url("../assets/favicon-64x64.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-width: 2.8rem;
+    min-height: 2.8rem;
+  }
+
   .header-logo {
     //font-weight: bold;
     font-size: 1.8em;
@@ -46,6 +55,7 @@
   .header-central {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .header-titlecard {
@@ -56,18 +66,31 @@
       font-weight: bold;
       font-size: 1.6em;
       color: @color-dark;
+      white-space: nowrap;
     }
 
     .header-subtitle {
       font-size: 1em;
       color: @color-dark;
+      white-space: nowrap;
+    }
+  }
+  .header-actionbar {
+    .vs__dropdown-toggle {
+      background-color: @color-back-light;
+      border-radius: 1em;
+      border: 1px solid @color-0-5;
+      font-size: 0.9rem;
+      .vs__selected {
+        font-weight: normal;
+      }
     }
   }
 
   .header-buttons {
     display: flex;
     .header-button {
-      font-size: 0.9em;
+      //font-size: 0.9em;
       padding: 0.5em;
       cursor: pointer;
       margin-left: 0.5em;

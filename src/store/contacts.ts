@@ -8,6 +8,7 @@ import store from "@/store";
 import {
   ContactRecord,
   ContactRole,
+  groupItemSet,
   ItemSet,
   mapItemSet,
   mergeItemSets,
@@ -15,6 +16,7 @@ import {
 import Vue from "vue";
 import { contactsClient } from "./client";
 import { CompaniesModule } from "./companies";
+import uuid from "uuid";
 
 export interface ContactsState {
   items: ItemSet<Contact>;
@@ -23,6 +25,21 @@ export interface ContactsState {
 @Module({ dynamic: true, store, name: "contacts", namespaced: true })
 class Contacts extends VuexModule implements ContactsState {
   items: ItemSet<Contact> = {};
+
+  get groupByCompany() {
+    const groups = groupItemSet<Contact>(
+      this.items,
+      (item) => item.companyId,
+      (item, groupId) => {
+        return {
+          groupId: groupId,
+          title: groupId,
+          items: [],
+        };
+      }
+    );
+    return groups;
+  }
 
   @Mutation initialize(contacts: ItemSet<ContactRecord>) {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
@@ -71,6 +88,10 @@ export class Contact {
     this.lastVersion = item.lastVersion;
   }
 
+  get path() {
+    return "/contacts/" + this.id;
+  }
+
   get displayName() {
     if (this.alias) {
       return this.alias;
@@ -103,10 +124,23 @@ export class Contact {
 
   beginEdit() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const source = this;
+    return Contact.createFormModel(this);
+  }
 
-    const ret: any = {
+  static createFormModel(modelSource: ContactRecord | string) {
+    const source =
+      typeof modelSource === "string"
+        ? {
+            id: uuid.v4(),
+            companyId: modelSource,
+            lastUpdated: new Date().toISOString(),
+            lastVersion: 0,
+          }
+        : modelSource;
+
+    const ret: ContactRecord & FormModel<ContactRecord> = {
       id: source.id,
+      companyId: source.companyId,
       firstName: source.firstName,
       lastName: source.lastName,
       email: source.email,
@@ -117,24 +151,48 @@ export class Contact {
       title: source.title,
       alternativeCompanyName: source.alternativeCompanyName,
       notes: source.notes,
+      lastUpdated: source.lastUpdated,
+      lastVersion: source.lastVersion,
+
+      validate: () => {
+        const errors: string[] = [];
+
+        const name = (
+          (ret.alias ?? "") +
+          (ret.firstName ?? "") +
+          (ret.lastName ?? "")
+        ).trim();
+
+        if (name.length === 0) {
+          errors.push("please enter either name or alias");
+        }
+        return errors;
+      },
 
       commit: () => {
-        source.id = ret.id;
-        source.firstName = ret.firstName;
-        source.lastName = ret.lastName;
-        source.email = ret.email;
-        source.phone = ret.phone;
-        source.linkedIn = ret.linkedIn;
-        source.alias = ret.alias;
-        source.role = ret.role;
-        source.title = ret.title;
-        source.alternativeCompanyName = ret.alternativeCompanyName;
-        source.notes = ret.notes;
-
+        if (source) {
+          source.id = ret.id;
+          source.firstName = ret.firstName;
+          source.lastName = ret.lastName;
+          source.email = ret.email;
+          source.phone = ret.phone;
+          source.linkedIn = ret.linkedIn;
+          source.alias = ret.alias;
+          source.role = ret.role;
+          source.title = ret.title;
+          source.alternativeCompanyName = ret.alternativeCompanyName;
+          source.notes = ret.notes;
+        }
         contactsClient.update({ [ret.id]: ret });
+        return ret;
       },
     };
 
     return Vue.observable(ret);
   }
+}
+
+interface FormModel<T> {
+  commit(): T;
+  validate(): string[];
 }

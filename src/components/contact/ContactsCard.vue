@@ -1,21 +1,22 @@
 <template>
   <div v-if="!!value" class="card">
-    <div class="card-title">Contacts</div>
-    <div v-if="contacts.length === 0">no contacts</div>
-    <div v-else v-for="p in contacts" :key="p.id">
-      <PathLink :path="'/contacts/' + p.id" class="t1 company-card-item-top">{{
-        p.displayName
-      }}</PathLink>
-      <div v-if="p.title" class="t2">{{ p.title }}</div>
-      <div v-if="p.role" class="t2">{{ p.role }}</div>
-      <div class="t3 company-card-item-bottom">
-        <PathLink v-if="p.linkedIn" :path="p.linkedIn" class="t3"
-          >&nbsp;LinkedIn&nbsp;</PathLink
-        >
-        <span v-for="e in p.email" :key="e">&nbsp;{{ e }}&nbsp;</span>
-        <span v-for="p in p.phone" :key="p">&nbsp;{{ p }}&nbsp;</span>
-      </div>
+    <div class="card-title">
+      <path-link
+        :path="enableTitleLink ? value.contactsPath : ''"
+        class="card-title-main"
+        >Contacts</path-link
+      >
+      <button class="button" @click="addNew">add new</button>
     </div>
+    <div v-if="contacts.length === 0">no contacts</div>
+    <contact-tile
+      v-else
+      v-for="p in contacts"
+      :key="p.id"
+      :value="p"
+      :enableLink="true"
+      style="font-size: 1.2em"
+    />
   </div>
 </template>
 
@@ -24,12 +25,14 @@ import { Company } from "@/store/companies";
 import { Contact } from "@/store/contacts";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
+import ContactTile from "@/components/contact/ContactTile.vue";
 
 @Component({
-  components: { PathLink },
+  components: { PathLink, ContactTile },
 })
 export default class ContactsCard extends Vue {
   @Prop() value!: Company;
+  @Prop({ required: false }) enableTitleLink?: boolean;
 
   get contacts() {
     const ret: Contact[] = [];
@@ -43,6 +46,12 @@ export default class ContactsCard extends Vue {
       }
     }
     return ret.sort((a, b) => (a.displayName < b.displayName ? -1 : 1));
+  }
+
+  addNew() {
+    if (this.value) {
+      this.$router.push(this.value.newContactsPath);
+    }
   }
 }
 </script>

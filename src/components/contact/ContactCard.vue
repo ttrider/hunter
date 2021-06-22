@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!!value" class="card card-entity">
+  <div v-if="!!value" class="card">
     <div class="form-actions" v-if="editing">
       <ContactEditor :value="contact" @form-errors="(e) => (errors = e)" />
       <FormButtonsPanel
@@ -8,33 +8,7 @@
         @submit="onSave()"
       />
     </div>
-    <div v-else class="contact-tile">
-      <div style="display: flex; flex-direction: column; flex-grow: 10">
-        <div class="t1">{{ value.displayName }}</div>
-        <path-link class="t2" :path="value.company.path">{{
-          subtitle
-        }}</path-link>
-        <path-link v-if="linkedIn" :path="linkedIn">{{ linkedIn }}</path-link>
-        <div class="t3">&nbsp;</div>
-        <path-link
-          class="t3"
-          v-for="i in emails"
-          :key="i.path"
-          :path="i.path"
-          >{{ i.title }}</path-link
-        >
-        <path-link
-          class="t3"
-          v-for="i in phones"
-          :key="i.path"
-          :path="i.path"
-          >{{ i.title }}</path-link
-        >
-      </div>
-      <div class="form-buttons-panel" style="align-items: flex-start">
-        <button class="button" @click="onEdit">Edit</button>
-      </div>
-    </div>
+    <contact-tile v-else :value="value" @edit="onEdit" :enableEdit="true" />
   </div>
 </template>
 
@@ -50,11 +24,12 @@ import { ContactRecord } from "@/store/model";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 import ContactEditor from "@/components/contact/ContactEditor.vue";
+import ContactTile from "@/components/contact/ContactTile.vue";
 import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
 import { Contact } from "@/store/contacts";
 
 @Component({
-  components: { PathLink, ContactEditor, FormButtonsPanel },
+  components: { PathLink, ContactEditor, FormButtonsPanel, ContactTile },
 })
 export default class CompanyCard extends Vue {
   @Prop() value!: Contact;
@@ -105,6 +80,9 @@ export default class CompanyCard extends Vue {
   }
 
   get phones() {
+    if (!Array.isArray(this.value?.phone)) {
+      this.value.phone = [this.value.phone as string];
+    }
     return (this.value?.phone ?? []).map((title) => {
       const path = "tel:" + title.replace(/\(\)-\s/g, "");
 
@@ -116,6 +94,9 @@ export default class CompanyCard extends Vue {
   }
 
   get emails() {
+    if (!Array.isArray(this.value?.email)) {
+      this.value.email = [this.value.email as string];
+    }
     return (this.value?.email ?? []).map((title) => {
       const path = "mailto:" + title;
 

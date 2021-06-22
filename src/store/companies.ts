@@ -79,7 +79,9 @@ export class Company {
   }
 
   get contacts() {
-    return filterItemSetToArray(ContactsModule.items, this.contactIdList);
+    // we can't rely on the list from the company
+    const contacts = ContactsModule.groupByCompany[this.id] ?? { items: [] };
+    return contacts.items;
   }
   get positions() {
     return filterItemSetToArray(PositionsModule.items, this.positionIdList);
@@ -89,5 +91,11 @@ export class Company {
   }
   get path() {
     return `/companies/${this.id.toLowerCase()}`;
+  }
+  get contactsPath() {
+    return `/companies/${this.id.toLowerCase()}/contacts`;
+  }
+  get newContactsPath() {
+    return `/companies/${this.id.toLowerCase()}/newcontact`;
   }
 }

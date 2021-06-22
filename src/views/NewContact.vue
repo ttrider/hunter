@@ -1,12 +1,16 @@
 <template>
   <span class="page">
     <Header :title="title" />
-    <div v-if="!!instance" class="cardspace">
+    <div class="cardspace">
       <div class="csc-content">
         <div class="csc-main">
-          <!-- <RecordCard /> -->
-          <ContactCard :value="instance" />
-          <!-- <EventsCard /> -->
+          <div class="card form-actions">
+            <ContactEditor
+              :value="newValue"
+              @commit="onCommit"
+              @close="onClose"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -19,29 +23,25 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { Route } from "vue-router";
-import PathLink from "../vue-tt/PathLink.vue";
-import CompanyEditor from "@/components/company/CompanyEditor.vue";
 import CompanyCard from "@/components/company/CompanyCard.vue";
 import PositionsCard from "@/components/PositionsCard.vue";
 import ContactsCard from "@/components/contact/ContactsCard.vue";
-import ContactCard from "@/components/contact/ContactCard.vue";
+import ContactEditor from "@/components/contact/ContactEditor.vue";
 import EventsCard from "@/components/EventsCard.vue";
-import RecordCard from "@/views/RecordCard.vue";
-import { ContactsModule } from "@/store/contacts";
 import Header from "@/components/Header.vue";
+import { Contact, ContactsModule } from "@/store/contacts";
+import { Route } from "vue-router";
+import { CompaniesModule } from "@/store/companies";
 
 @Component({
   components: {
-    PathLink,
-    CompanyEditor,
     CompanyCard,
     PositionsCard,
     ContactsCard,
     EventsCard,
-    RecordCard,
-    ContactCard,
+
     Header,
+    ContactEditor,
   },
 })
 export default class ContactView extends Vue {
@@ -56,51 +56,51 @@ export default class ContactView extends Vue {
     }
   }
 
-  get instance() {
+  get company() {
     const id = this.id.toLowerCase();
-
-    const item = ContactsModule.items[id];
-
+    const item = CompaniesModule.items[id];
     if (item) {
-      // if (this.$router.currentRoute.path !== item.id.toLowerCase()) {
-      //   this.$router.replace({
-      //     path: item.id.toLowerCase(),
-      //   });
-      // }
       return item;
     }
-
-    this.$router.replace({
-      path: "/",
-    });
     return undefined;
   }
 
   get title() {
     const ret: { title: string; path?: string }[] = [];
-    if (!this.instance) {
-      return ret;
-    }
 
-    const company = this.instance.company;
-    if (company) {
-      ret.push(
-        {
-          title: company.name,
-          path: company.path,
-        },
-        {
-          title: "Contacts",
-          path: company.contactsPath,
-        }
-      );
-    } else {
-      ret.push({
+    ret.push(
+      {
         title: "Contacts",
         path: "/contacts",
-      });
-    }
+      },
+      {
+        title: "New Contact",
+      }
+    );
+
     return ret;
+  }
+
+  get newValue() {
+    if (this.company) {
+      return Contact.createFormModel(this.company.id);
+    }
+    return undefined;
+  }
+
+  onClose() {
+    this.$router.back();
+  }
+
+  onCommit(id: string) {
+    if (id) {
+      const item = ContactsModule.items[id];
+      if (item) {
+        this.$router.push(item.path);
+        return;
+      }
+    }
+    this.$router.back();
   }
 }
 </script>

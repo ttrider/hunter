@@ -44,6 +44,41 @@ body {
   color: @color-text-light;
 }
 
+.button {
+  // font-size: 0.9em;
+  // padding: 0.5em;
+  cursor: pointer;
+  margin-left: 0.5em;
+  min-width: 10ch;
+  background: @color-light;
+  color: @color-0-5;
+  border: 1px solid @color-0-5;
+  border-radius: 1em;
+  box-sizing: border-box;
+}
+
+.button:focus-visible {
+  border: 2px solid @color-dark;
+  outline: none;
+}
+
+.button:disabled {
+  border: 1px solid @color-gray;
+  color: @color-gray;
+  cursor: auto;
+}
+.button:disabled:hover {
+  border: 1px solid @color-gray;
+  color: @color-gray;
+  cursor: auto;
+  background: @color-light;
+}
+
+.button:hover {
+  background: @color-0-1;
+  color: @color-0-5;
+}
+
 @import "./card.less";
 @import "./defs.less";
 @import "./footer.less";
