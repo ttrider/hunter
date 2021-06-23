@@ -8,6 +8,7 @@ import store from "@/store";
 import {
   ContactRecord,
   ContactRole,
+  FormModel,
   groupItemSet,
   ItemSet,
   mapItemSet,
@@ -190,9 +191,4 @@ export class Contact {
 
     return Vue.observable(ret);
   }
-}
-
-interface FormModel<T> {
-  commit(): T;
-  validate(): string[];
 }

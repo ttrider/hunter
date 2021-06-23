@@ -9,6 +9,7 @@ import Company from "../views/Company.vue";
 import Contact from "../views/Contact.vue";
 import NewContact from "../views/NewContact.vue";
 import Contacts from "../views/Contacts.vue";
+import NewCompany from "../views/NewCompany.vue";
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,11 @@ const routes: Array<RouteConfig> = [
     path: "/companies/:id/newcontact",
     name: "CompanyNewContact",
     component: NewContact,
+  },
+  {
+    path: "/newcompany",
+    name: "NewCompany",
+    component: NewCompany,
   },
   {
     path: "/contacts",

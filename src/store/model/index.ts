@@ -264,6 +264,12 @@ export declare type ActionItemStatus = "completed" | "pending" | "none";
 //     contactIdList: string[];
 // }
 
+export interface FormModel<T> {
+    commit(): T;
+    validate(): string[];
+}
+
+
 export interface WebSiteInfo {
     url: string;
     title: string;

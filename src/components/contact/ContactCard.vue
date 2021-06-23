@@ -1,12 +1,7 @@
 <template>
   <div v-if="!!value" class="card">
     <div class="form-actions" v-if="editing">
-      <ContactEditor :value="contact" @form-errors="(e) => (errors = e)" />
-      <FormButtonsPanel
-        :errors="errors"
-        @cancel="onClose()"
-        @submit="onSave()"
-      />
+      <ContactEditor :value="contact" @close="onClose" @commit="onSave" />
     </div>
     <contact-tile v-else :value="value" @edit="onEdit" :enableEdit="true" />
   </div>
@@ -52,8 +47,6 @@ export default class CompanyCard extends Vue {
   }
 
   onSave() {
-    // eslint-disable-next-line prettier/prettier
-    (this.contact as unknown as { commit: () => void }).commit();
     this.editing = false;
   }
 

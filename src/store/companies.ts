@@ -13,10 +13,15 @@ import {
   filterItemSetToArray,
   CompanyStatus,
   WebSiteInfo,
+  FormModel,
+  findInItemSet,
 } from "./model";
 import { ContactsModule } from "./contacts";
 import { PositionsModule } from "./positions";
 import { InterviewsModule } from "./interviews";
+import uuid from "uuid";
+import { companiesClient } from "./client";
+import Vue from "vue";
 
 export interface CompaniesState {
   items: ItemSet<Company>;
@@ -97,5 +102,85 @@ export class Company {
   }
   get newContactsPath() {
     return `/companies/${this.id.toLowerCase()}/newcontact`;
+  }
+
+  beginEdit() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    return Company.createFormModel(this);
+  }
+
+  static createFormModel(modelSource?: CompanyRecord) {
+    const source: CompanyRecord =
+      modelSource == undefined
+        ? {
+            id: uuid.v4(),
+            name: "",
+            active: false,
+            status: "none",
+            links: [],
+            interviewIdList: [],
+            taskIdList: [],
+            contactIdList: [],
+            positionIdList: [],
+            eventIdList: [],
+            lastUpdated: new Date().toISOString(),
+            lastVersion: 0,
+          }
+        : modelSource;
+
+    const ret: CompanyRecord & FormModel<CompanyRecord> = {
+      id: source.id,
+      name: source.name,
+      active: source.active,
+      status: source.status,
+      links: source.links,
+      interviewIdList: source.interviewIdList,
+      taskIdList: source.taskIdList,
+      contactIdList: source.contactIdList,
+      positionIdList: source.positionIdList,
+      eventIdList: source.eventIdList,
+      //notes: source.notes,
+      lastUpdated: source.lastUpdated,
+      lastVersion: source.lastVersion,
+
+      validate: () => {
+        const errors: string[] = [];
+
+        const name = ret.name?.trim();
+
+        if (!name) {
+          errors.push("name can't be empty");
+        }
+
+        const namelc = name.toLowerCase();
+        const dup = findInItemSet(
+          CompaniesModule.items,
+          (item) => item.name.toLowerCase() === namelc
+        );
+        if (dup && dup.id != ret.id) {
+          errors.push("duplicate name");
+        }
+        return errors;
+      },
+
+      commit: () => {
+        if (source) {
+          source.id = ret.id;
+          source.name = ret.name;
+          source.active = ret.active;
+          source.status = ret.status;
+          source.links = ret.links;
+          source.interviewIdList = ret.interviewIdList;
+          source.taskIdList = ret.taskIdList;
+          source.contactIdList = ret.contactIdList;
+          source.positionIdList = ret.positionIdList;
+          source.eventIdList = ret.eventIdList;
+          //source.notes = ret.notes;
+        }
+        companiesClient.update({ [ret.id]: ret });
+        return ret;
+      },
+    };
+    return Vue.observable(ret);
   }
 }

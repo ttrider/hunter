@@ -1,34 +1,37 @@
 <template>
-  <div class="form-section">
-    <div>Name:</div>
-    <input
-      class="form-input"
-      placeholder="company name"
-      v-model="currentValue.name"
-    />
-    <div></div>
-    <div>
+  <div>
+    <div class="form-section">
+      <div>Name:</div>
       <input
-        v-model="currentValue.active"
-        type="checkbox"
-        id="active_company"
+        class="form-input"
+        placeholder="company name"
+        v-model="currentValue.name"
       />
-      <label for="active_company">Active</label>
+      <div></div>
+      <div>
+        <input
+          v-model="currentValue.active"
+          type="checkbox"
+          id="active_company"
+        />
+        <label for="active_company">Active</label>
+      </div>
+      <hr />
+      <div></div>
+      <div>Career Website:</div>
+      <input
+        class="form-input"
+        placeholder="career site url"
+        v-model="currentValue.careerPageUrl"
+      />
+      <div>Login hint:</div>
+      <input
+        class="form-input"
+        placeholder="login hint"
+        v-model="currentValue.careerPageHint"
+      />
     </div>
-    <hr />
-    <div></div>
-    <div>Career Website:</div>
-    <input
-      class="form-input"
-      placeholder="career site url"
-      v-model="currentValue.careerPageUrl"
-    />
-    <div>Login hint:</div>
-    <input
-      class="form-input"
-      placeholder="login hint"
-      v-model="currentValue.careerPageHint"
-    />
+    <FormButtonsPanel :errors="errors" @cancel="onClose()" @submit="onSave()" />
   </div>
 </template>
 
@@ -38,37 +41,31 @@ import Selector from "vue-select";
 import "vue-select/dist/vue-select.css";
 import { CompanyRecord, findInItemSet } from "@/store/model";
 import { CompaniesModule } from "@/store/companies";
+import FormButtonsPanel from "@/components/FormButtonsPanel.vue";
 
 @Component({
-  components: { Selector },
+  components: { Selector, FormButtonsPanel },
 })
 export default class CompanyEditor extends Vue {
   @ModelSync("value", "input", {
     type: Object,
     required: true,
   })
-  currentValue!: CompanyRecord;
+  currentValue!: CompanyRecord & { validate: () => string[] };
 
-  @Watch("currentValue", { deep: true, immediate: false })
-  onUpdated() {
-    const errors: string[] = [];
+  get errors() {
+    return this.currentValue.validate();
+  }
 
-    const name = this.currentValue.name?.trim();
+  onClose() {
+    this.$emit("close");
+  }
 
-    if (!name) {
-      errors.push("name can't be empty");
-    }
-
-    const namelc = name.toLowerCase();
-    const dup = findInItemSet(
-      CompaniesModule.items,
-      (item) => item.name.toLowerCase() === namelc
-    );
-    if (dup && dup.id != this.currentValue.id) {
-      errors.push("duplicate name");
-    }
-
-    this.$emit("form-errors", errors);
+  onSave() {
+    // eslint-disable-next-line prettier/prettier
+    (this.currentValue as unknown as { commit: () => void }).commit();
+    this.$emit("commit", this.currentValue.id);
+    // this.editing = false;
   }
 }
 </script>

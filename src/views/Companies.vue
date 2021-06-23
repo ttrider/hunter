@@ -4,8 +4,8 @@
     <div class="cardspace">
       <div class="csc-content">
         <div class="csc-main">
-          <RecordCard />
-          <CompanyListCard />
+          <!-- <RecordCard /> -->
+          <CompaniesCard />
           <!-- <EventsCard /> -->
         </div>
         <!-- <div class="csc-side">
@@ -26,7 +26,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import PathLink from "../vue-tt/PathLink.vue";
-import CompaniesCard from "@/views/CompaniesCard.vue";
+import CompaniesCard from "@/components/company/CompaniesCard.vue";
 import RecordCard from "@/views/RecordCard.vue";
 import CompanyListCard from "@/components/company/CompanyListCard.vue";
 import Header from "@/components/Header.vue";
