@@ -224,11 +224,11 @@ export interface ContactRecord {
     companyId: string;
     firstName?: string;
     lastName?: string;
-    email?: string[];
-    phone?: string[];
+    email: string[];
+    phone: string[];
     linkedIn?: string;
     alias?: string;
-    role?: ContactRole;
+    role: ContactRole;
     title?: string;
     alternativeCompanyName?: string;
     notes?: string;
@@ -264,11 +264,10 @@ export declare type ActionItemStatus = "completed" | "pending" | "none";
 //     contactIdList: string[];
 // }
 
-export interface FormModel<T> {
+export declare type FormModel<T> = T & {
     commit(): T;
     validate(): string[];
-}
-
+};
 
 export interface WebSiteInfo {
     url: string;

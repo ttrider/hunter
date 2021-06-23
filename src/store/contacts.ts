@@ -1,4 +1,5 @@
 import {
+  Action,
   getModule,
   Module,
   Mutation,
@@ -51,42 +52,69 @@ class Contacts extends VuexModule implements ContactsState {
     const cmap = mapItemSet(contacts, (item) => new Contact(item));
     mergeItemSets(this.items, cmap);
   }
+
+  @Action({
+    commit: "update",
+  })
+  async createNew(input: { companyId: string; value: string }) {
+    const value = input.value?.trim();
+    if (!value) {
+      return {};
+    }
+
+    const template: Partial<ContactRecord> & { id: string; companyId: string } =
+      {
+        id: value.toLowerCase().replace(/[^\w]/gim, ""),
+        companyId: input.companyId,
+      };
+
+    const parts = value.split(/\s+/);
+    if (parts.length === 1) {
+      template.alias = parts[0];
+    } else {
+      template.firstName = parts.shift();
+      if (parts.length > 0) {
+        template.lastName = parts.shift();
+      }
+      if (parts.length > 0) {
+        template.title = parts.shift();
+      }
+    }
+
+    let index = 0;
+    let id = template.id;
+    while (this.items[id]) {
+      id = template.id + (index++).toString();
+    }
+
+    const record = expandRecord(template);
+    const records = { [record.id]: record };
+
+    await contactsClient.update(records);
+    return records;
+  }
 }
 
 export const ContactsModule = getModule(Contacts);
 
 export class Contact {
-  id: string;
-  companyId: string;
+  id!: string;
+  companyId!: string;
   firstName?: string;
   lastName?: string;
-  email: string[];
-  phone: string[];
+  email!: string[];
+  phone!: string[];
   linkedIn?: string;
   alias?: string;
-  role: ContactRole;
+  role!: ContactRole;
   title?: string;
   alternativeCompanyName?: string;
   notes?: string;
-  lastUpdated: string;
-  lastVersion: number;
+  lastUpdated!: string;
+  lastVersion!: number;
 
   constructor(item: ContactRecord) {
-    this.id = item.id;
-    this.companyId = item.companyId;
-    this.firstName = item.firstName;
-    this.lastName = item.lastName;
-    this.email = item.email ?? [];
-    this.phone = item.phone ?? [];
-    this.linkedIn = item.linkedIn;
-    this.alias = item.alias;
-    this.role = item.role ?? "none";
-    this.title = item.title;
-    this.alternativeCompanyName = item.alternativeCompanyName;
-    this.notes = item.notes;
-
-    this.lastUpdated = item.lastUpdated;
-    this.lastVersion = item.lastVersion;
+    expandRecord(item, this);
   }
 
   get path() {
@@ -131,30 +159,12 @@ export class Contact {
   static createFormModel(modelSource: ContactRecord | string) {
     const source =
       typeof modelSource === "string"
-        ? {
-            id: uuid.v4(),
-            companyId: modelSource,
-            lastUpdated: new Date().toISOString(),
-            lastVersion: 0,
-          }
+        ? expandRecord({ id: uuid.v4(), companyId: modelSource })
         : modelSource;
 
-    const ret: ContactRecord & FormModel<ContactRecord> = {
-      id: source.id,
-      companyId: source.companyId,
-      firstName: source.firstName,
-      lastName: source.lastName,
-      email: source.email,
-      phone: source.phone,
-      linkedIn: source.linkedIn,
-      alias: source.alias,
-      role: source.role,
-      title: source.title,
-      alternativeCompanyName: source.alternativeCompanyName,
-      notes: source.notes,
-      lastUpdated: source.lastUpdated,
-      lastVersion: source.lastVersion,
-
+    const ret: FormModel<ContactRecord> = expandRecord<
+      FormModel<ContactRecord>
+    >(source, {
       validate: () => {
         const errors: string[] = [];
 
@@ -172,23 +182,39 @@ export class Contact {
 
       commit: () => {
         if (source) {
-          source.id = ret.id;
-          source.firstName = ret.firstName;
-          source.lastName = ret.lastName;
-          source.email = ret.email;
-          source.phone = ret.phone;
-          source.linkedIn = ret.linkedIn;
-          source.alias = ret.alias;
-          source.role = ret.role;
-          source.title = ret.title;
-          source.alternativeCompanyName = ret.alternativeCompanyName;
-          source.notes = ret.notes;
+          expandRecord(ret, source);
         }
         contactsClient.update({ [ret.id]: ret });
         return ret;
       },
-    };
+    });
 
     return Vue.observable(ret);
   }
+}
+
+function expandRecord<T extends ContactRecord>(
+  record: Partial<ContactRecord> & { id: string; companyId: string },
+  target?: Partial<T>
+): T {
+  if (target == undefined) {
+    target = record as unknown as T;
+  }
+
+  target.id = record.id;
+  target.companyId = record.companyId;
+  target.firstName = record.firstName;
+  target.lastName = record.lastName;
+  target.email = record.email ?? [];
+  target.phone = record.phone ?? [];
+  target.linkedIn = record.linkedIn;
+  target.alias = record.alias;
+  target.role = record.role ?? "none";
+  target.title = record.title;
+  target.alternativeCompanyName = record.alternativeCompanyName;
+  target.notes = record.notes;
+  target.lastUpdated = record.lastUpdated ?? new Date().toISOString();
+  target.lastVersion = record.lastVersion ?? 1;
+
+  return target as unknown as T;
 }

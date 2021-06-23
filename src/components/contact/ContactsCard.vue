@@ -8,6 +8,11 @@
       >
       <button class="button" @click="addNew">add new</button>
     </div>
+    <SmartEntryTile
+      @close="entryClose"
+      @submit="entrySubmit"
+      v-if="entryVisible"
+    />
     <div v-if="contacts.length === 0">no contacts</div>
     <contact-tile
       v-else
@@ -22,13 +27,15 @@
 
 <script lang="ts">
 import { Company } from "@/store/companies";
-import { Contact } from "@/store/contacts";
+import { Contact, ContactsModule } from "@/store/contacts";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PathLink from "../../vue-tt/PathLink.vue";
 import ContactTile from "@/components/contact/ContactTile.vue";
+import SmartEntryTile from "@/components/SmartEntryTile.vue";
+import store from "@/store";
 
 @Component({
-  components: { PathLink, ContactTile },
+  components: { PathLink, ContactTile, SmartEntryTile },
 })
 export default class ContactsCard extends Vue {
   @Prop() value!: Company;
@@ -49,9 +56,19 @@ export default class ContactsCard extends Vue {
   }
 
   addNew() {
-    if (this.value) {
-      this.$router.push(this.value.newContactsPath);
-    }
+    // if (this.value) {
+    //   this.$router.push(this.value.newContactsPath);
+    // }
+    this.entryVisible = true;
+  }
+
+  entryVisible = false;
+  entryClose() {
+    this.entryVisible = false;
+  }
+  entrySubmit(value: string) {
+    store.dispatch("contacts/createNew", { companyId: this.value.id, value });
+    this.entryVisible = false;
   }
 }
 </script>

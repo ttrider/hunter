@@ -4,10 +4,15 @@
       <div v-for="e in errors" :key="e">{{ e }}</div>
     </div>
     <div class="flex-spacer"></div>
-    <button class="button" @click="onSave" :disabled="errors.length !== 0">
+    <button
+      class="button"
+      type="submit"
+      @click="onSave"
+      :disabled="errors.length !== 0"
+    >
       Save
     </button>
-    <button class="button" @click="onClose">Cancel</button>
+    <button class="button" type="reset" @click="onClose">Cancel</button>
   </div>
 </template>
 
