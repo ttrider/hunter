@@ -17,11 +17,11 @@
   <link rel="icon" type="image/png" sizes="32x32" href="<%= BASE_URL %>img/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="24x24" href="<%= BASE_URL %>img/icons/favicon-24x24.png">
   <link rel="icon" type="image/png" sizes="16x16" href="<%= BASE_URL %>img/icons/favicon-16x16.png">
-  <link rel="shortcut icon" href="<%= BASE_URL %>favicon.ico"/>
+  <link rel="shortcut icon" href="<%= BASE_URL %>favicon.ico" />
   <link rel="manifest" href="<%= BASE_URL %>manifest.json">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico"> 
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>JobHunter</title>
-  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
+  
   <meta name="google-signin-client_id"
     content="138993422227-h19aliqjhes1rmqcvnkkufsaiq7r9gv5.apps.googleusercontent.com"> -->
 
@@ -109,7 +109,14 @@
   <a href="#" onclick="signOut();">Sign out</a> -->
   <div id="app"></div>
   <!-- built files will be auto injected -->
+
   <script>
+
+    function script_loaded() {
+      console.info("loaded");
+      console.info(window.gapi);
+    }
+
     // function onSignIn(googleUser) {
     //   var profile = googleUser.getBasicProfile();
     //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -151,6 +158,7 @@ if (authResult['status']['signed_in']) {
     Regions.US_EAST_1 // Region
 );*/
   </script>
+  <script src="https://apis.google.com/js/platform.js" async defer onload="script_loaded"></script>
 </body>
 
 </html>
